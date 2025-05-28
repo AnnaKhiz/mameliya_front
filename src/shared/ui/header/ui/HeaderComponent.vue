@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LogoMain from '@/shared/ui/logo';
+import { LogoMain } from '@/shared/ui/logo';
 import { AppButton } from '@/shared/ui/button'
 </script>
 
