@@ -17,6 +17,10 @@ export default {
         'gray-light': '#9d938c',
         'gray-lighter': 'rgba(2193,213,208,0.23)',
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif']
+      },
     },
   },
   plugins: [flowbite],
