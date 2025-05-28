@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex-1 h-full">main</div>
+<div>header</div>
 </template>
 
 <style scoped>
