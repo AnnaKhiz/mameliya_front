@@ -1,11 +1,16 @@
 <script setup lang="ts">
-
+import { LogoImage, LogoText } from '@/shared/ui/logo'
+import SocialPanel from '@/shared/ui/social/ui/SocialPanel.vue';
+import ContactsFooter from '@/shared/ui/contacts'
 </script>
 
 <template>
-<div >footer</div>
+  <footer class="flex items-start justify-between p-5">
+    <div>
+      <LogoText />
+      <SocialPanel />
+    </div>
+    <LogoImage />
+    <ContactsFooter />
+  </footer>
 </template>
-
-<style scoped>
-
-</style>

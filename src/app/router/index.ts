@@ -8,6 +8,11 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/pages/home'),
     },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('@/pages/about'),
+    },
   ],
 })
 
