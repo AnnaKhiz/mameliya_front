@@ -22,6 +22,10 @@ export default {
         montserrat: ['Montserrat', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif']
       },
+      screens: {
+        'xs': '375px',
+        '3xl': '1920px',
+      },
     },
   },
   plugins: [flowbite],
