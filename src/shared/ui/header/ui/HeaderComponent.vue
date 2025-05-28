@@ -2,14 +2,18 @@
 import { LogoMain } from '@/shared/ui/logo';
 import { AppButton } from '@/shared/ui/button';
 import { useRouter } from 'vue-router';
-import BurgerButton from '@/shared/ui/burger-button';
+import { BurgerButton, BurgerContainer } from '@/features/burger'
+import { ref } from 'vue'
 
 const router = useRouter();
 
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
-
+const isClicked = ref<boolean>(false);
+const handleToggleBurger = (event: boolean) => {
+  isClicked.value = event;
+}
 </script>
 
 <template>
@@ -19,7 +23,9 @@ const goToAboutPage = () => {
       <AppButton label="About" @click.prevent="goToAboutPage"/>
       <AppButton label="Sign in" />
     </div>
-    <BurgerButton />
+    <BurgerButton @update-burger="handleToggleBurger" />
   </header>
+  <BurgerContainer v-if="isClicked" :is-clicked="isClicked" />
 </template>
+
 

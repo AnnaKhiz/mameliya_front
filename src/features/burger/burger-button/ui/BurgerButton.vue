@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
+import { ref} from 'vue';
+const emits = defineEmits(['updateBurger']);
 const isClicked = ref<boolean>(false);
 const handleBurgerButtonChange = () => {
   isClicked.value = !isClicked.value;
+  emits('updateBurger', isClicked.value);
 }
 </script>
 
@@ -16,8 +17,8 @@ const handleBurgerButtonChange = () => {
       class="h-1 w-full bg-brown-dark rounded"
     />
     <span
-      class="h-1 w-full bg-brown-dark transition-[width] duration-700 ease-in-out rounded"
-      :class="{ 'w-[50%]' : isClicked }"
+      class="h-1 bg-brown-dark transition-[width] duration-700 ease-in-out rounded"
+      :class="`${ isClicked ? 'w-[50%]' : 'w-full'}`"
     />
     <span class="h-1 w-full bg-brown-dark rounded"/>
   </div>
