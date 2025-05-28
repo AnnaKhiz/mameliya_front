@@ -1,5 +1,11 @@
 {
   "files": [],
+	"compilerOptions": {
+		"strict": true,
+		"noEmit": true,
+		"noImplicitAny": true,
+		"skipLibCheck": true
+	},
   "references": [
     {
       "path": "./tsconfig.node.json"

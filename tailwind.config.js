@@ -5,6 +5,7 @@ export default {
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
+  safelist: ['-left-full'],
   theme: {
     extend: {
       colors: {
@@ -21,6 +22,10 @@ export default {
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif']
+      },
+      screens: {
+        'xs': '375px',
+        '3xl': '1920px',
       },
     },
   },
