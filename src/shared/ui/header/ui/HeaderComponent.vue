@@ -2,8 +2,9 @@
 import { LogoMain } from '@/shared/ui/logo';
 import { AppButton } from '@/shared/ui/button';
 import { useRouter } from 'vue-router';
-import { BurgerButton, BurgerContainer } from '@/features/burger'
-import { ref } from 'vue'
+import { BurgerButton, BurgerContent } from '@/features/burger';
+import { ref } from 'vue';
+import ModalComponent from '@/shared/ui/modal';
 
 const router = useRouter();
 
@@ -17,15 +18,21 @@ const handleToggleBurger = (event: boolean) => {
 </script>
 
 <template>
-  <header class="sm:flex justify-between items-center xs:p-5 xs:block xs:relative">
-    <LogoMain class="xs:m-auto xs:w-fit sm:m-0"  />
+  <header class="sm:flex justify-between items-center xs:p-5 xs:block xs:relative bg-gray-lighter">
+    <LogoMain  />
     <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
       <AppButton label="About" @click.prevent="goToAboutPage"/>
       <AppButton label="Sign in" />
     </div>
-    <BurgerButton @update-burger="handleToggleBurger" />
+    <BurgerButton class="sm:hidden" @update-burger="handleToggleBurger" />
   </header>
-  <BurgerContainer v-if="isClicked" :is-clicked="isClicked" />
+
+  <!--  Modal Dialog -->
+  <ModalComponent :is-clicked="isClicked" >
+    <template #content>
+      <BurgerContent />
+    </template>
+  </ModalComponent>
 </template>
 
 

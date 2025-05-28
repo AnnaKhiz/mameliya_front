@@ -24,7 +24,7 @@ export default {
         roboto: ['Roboto', 'sans-serif']
       },
       screens: {
-        'xs': '375px',
+        'xs': '300px',
         '3xl': '1920px',
       },
     },

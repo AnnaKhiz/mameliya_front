@@ -5,9 +5,9 @@ import HeaderComponent from '@/shared/ui/header'
 </script>
 
 <template>
-  <header-component class="bg-gray-lighter" />
+  <header-component />
   <router-view class="p-5"/>
-  <footer-component class="bg-gray-lighter"/>
+  <footer-component />
 </template>
 
 
