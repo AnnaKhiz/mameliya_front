@@ -4,7 +4,7 @@ import logoText from '@/shared/assets/images/logo_text.png';
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 cursor-pointer">
     <img
       :src="logoImage"
       alt="logo image"
