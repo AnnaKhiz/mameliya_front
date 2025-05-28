@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
+import FooterComponent from '@/shared/ui/footer'
+import HeaderComponent from '@/shared/ui/header'
 </script>
 
 <template>
-  <RouterView />
+  <header-component class="bg-gray-lighter" />
+  <router-view class="p-5"/>
+  <footer-component class="p-5"/>
 </template>
+
 

@@ -8,10 +8,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        'green-dark': 'rgba(42, 65, 48, 1)',
-        'green-medium': 'rgba(42, 65, 48, 0.5)',
-        'green-light': 'rgba(219, 248, 193, 1)',
-        'form-bg': 'rgba(225, 241, 210, 1)',
+        'green-dark': '#90d159',
+        'green-medium': '#99cd6a',
+        'green-light': '#b6e094',
+        'brown-dark': '#523629',
+        'brown-medium': '#735c52',
+        'brown-light': '#bdb6b0',
+        'gray-light': '#9d938c',
+        'gray-lighter': 'rgba(2193,213,208,0.23)',
+      },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif']
       },
     },
   },
