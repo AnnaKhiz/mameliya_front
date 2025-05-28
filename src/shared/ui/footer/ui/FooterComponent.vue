@@ -5,12 +5,12 @@ import ContactsFooter from '@/shared/ui/contacts'
 </script>
 
 <template>
-  <footer class="flex items-start justify-between p-5 bg-gray-lighter">
-    <div>
+  <footer class="sm:flex items-start justify-between p-5 bg-gray-lighter xs:block">
+    <div class="xs:m-auto xs:w-fit sm:m-0 xs:mb-5">
       <LogoText />
       <SocialPanel />
     </div>
-    <LogoImage />
-    <ContactsFooter />
+    <LogoImage class="xs:m-auto xs:w-fit sm:m-0 xs:mb-5" />
+    <ContactsFooter class="xs:m-auto xs:w-fit sm:m-0" />
   </footer>
 </template>

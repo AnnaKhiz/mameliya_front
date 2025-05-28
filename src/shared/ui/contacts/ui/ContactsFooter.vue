@@ -3,8 +3,8 @@
 </script>
 
 <template>
-  <div class="flex flex-col gap-1 text-brown-dark">
-    <p class="font-semibold uppercase mb-1">Contacts</p>
+  <div class="flex flex-col gap-1 text-brown-dark ">
+    <p class="font-semibold uppercase mb-1 xs:m-auto xs:w-fit sm:m-0">Contacts</p>
     <div>
       <span class="font-semibold">Email: </span>
       <a href="mailto:email@gmail.com" class="hover:text-brown-light transition duration-500">
