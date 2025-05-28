@@ -4,7 +4,6 @@ type Props = {
   label: string;
 }
 const props = defineProps<Props>();
-
 </script>
 
 <template>
