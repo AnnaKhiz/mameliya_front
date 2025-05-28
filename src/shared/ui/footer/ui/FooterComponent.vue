@@ -5,7 +5,7 @@ import ContactsFooter from '@/shared/ui/contacts'
 </script>
 
 <template>
-  <footer class="flex items-start justify-between p-5">
+  <footer class="flex items-start justify-between p-5 bg-gray-lighter">
     <div>
       <LogoText />
       <SocialPanel />
