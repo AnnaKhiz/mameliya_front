@@ -41,7 +41,7 @@ const sliderList = ref([
 </script>
 
 <template>
-  <main class="flex justify-center items-center bg-gradient flex-1 self-stretch pb-4">
+  <main class="flex justify-center items-center bg-gradient flex-1 self-stretch">
     <Swiper
       :slides-per-view="1"
       :loop="true"
@@ -61,7 +61,7 @@ const sliderList = ref([
             <p class="whitespace-pre-line xl:text-lg xs:text-base" >{{ item.description }}</p>
           </div>
 
-          <div class="lg:w-[60%] h-full overflow-hidden" >
+          <div class="lg:w-[70%] h-full overflow-hidden" >
             <img :src="`../../src/shared/assets/images/${item.img}`" alt="slider image" class="w-full object-cover lg:aspect-video"/>
           </div>
         </div>
