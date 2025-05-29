@@ -14,11 +14,11 @@ const burgerMenuList = ref([
 </script>
 
 <template>
-  <div class="absolute inset-y-0 w-[50%] bg-brown-dark px-3 py-5" >
+  <div class="absolute inset-x-0 h-[50%] bottom-0 w-full bg-brown-dark px-3 py-8 z-10" >
     <p
       v-for="item in burgerMenuList"
       :key="item.value"
-      class="p-2.5 text-center bg-brown-light mb-2 cursor-pointer hover:bg-brown-medium transition duration-500 rounded hover:text-white"
+      class="p-4 text-center bg-brown-light mb-4 cursor-pointer hover:bg-brown-medium transition duration-500 rounded hover:text-white"
     >
       {{ item.text }}</p>
   </div>

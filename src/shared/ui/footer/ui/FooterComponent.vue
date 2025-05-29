@@ -5,7 +5,7 @@ import ContactsFooter from '@/shared/ui/contacts'
 </script>
 
 <template>
-  <footer class="sm:flex items-start justify-between p-5  xs:block bg-gradient">
+  <footer class="sm:flex items-start justify-between p-5 xs:block bg-gradient">
     <div class="xs:m-auto xs:w-fit sm:m-0 xs:mb-5">
       <LogoText />
       <SocialPanel />

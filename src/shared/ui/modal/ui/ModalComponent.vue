@@ -1,8 +1,21 @@
 <script setup lang="ts">
+import { watch } from 'vue';
+
 type Props = {
   isClicked: boolean;
 }
 const props = defineProps<Props>();
+
+watch(
+  () => props.isClicked,
+  (newVal) => {
+    if (newVal) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+);
 </script>
 
 <template>
@@ -15,7 +28,7 @@ const props = defineProps<Props>();
   </teleport>
 </template>
 
-<style scoped>
+<style >
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s linear;
