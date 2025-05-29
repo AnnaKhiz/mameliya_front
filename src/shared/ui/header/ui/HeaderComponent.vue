@@ -4,8 +4,10 @@ import { AppButton } from '@/shared/ui/button';
 import { useRouter } from 'vue-router';
 import { BurgerButton, BurgerContent } from '@/features/burger';
 import ModalComponent from '@/shared/ui/modal';
+import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
+import { storeToRefs } from 'pinia';
 const router = useRouter();
-
+const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
@@ -23,7 +25,7 @@ const goToAboutPage = () => {
   </header>
 
   <!--  Modal Dialog -->
-  <ModalComponent  >
+  <ModalComponent :is-show="isBurgerOpen" >
     <template #content>
       <BurgerContent />
     </template>

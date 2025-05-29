@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
-import { storeToRefs } from 'pinia';
-const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
+type Props = {
+  isShow: boolean;
+}
+const props = defineProps<Props>()
 
 </script>
 
 <template>
   <teleport to="body">
     <Transition name="fade" >
-      <div v-if="isBurgerOpen">
+      <div v-if="props.isShow">
         <slot name="content" />
       </div>
     </Transition>
@@ -18,7 +19,7 @@ const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
 <style >
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s linear;
+  transition: opacity 0.5s ease-in-out;
 }
 .fade-enter-from,
 .fade-leave-to {
