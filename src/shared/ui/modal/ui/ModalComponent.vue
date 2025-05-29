@@ -1,21 +1,21 @@
 <script setup lang="ts">
-type Props = {
-  isClicked: boolean;
-}
-const props = defineProps<Props>();
+import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
+import { storeToRefs } from 'pinia';
+const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
+
 </script>
 
 <template>
   <teleport to="body">
     <Transition name="fade" >
-      <div v-if="props.isClicked">
+      <div v-if="isBurgerOpen">
         <slot name="content" />
       </div>
     </Transition>
   </teleport>
 </template>
 
-<style scoped>
+<style >
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s linear;

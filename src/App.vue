@@ -6,7 +6,7 @@ import HeaderComponent from '@/shared/ui/header'
 
 <template>
   <header-component />
-  <router-view class="p-5"/>
+  <router-view/>
   <footer-component />
 </template>
 
