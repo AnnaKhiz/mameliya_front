@@ -4,10 +4,15 @@ import { AppButton } from '@/shared/ui/button';
 import { useRouter } from 'vue-router';
 import { BurgerButton, BurgerContent } from '@/features/burger';
 import ModalComponent from '@/shared/ui/modal';
+import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
+import { storeToRefs } from 'pinia';
 const router = useRouter();
-
+const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
 const goToAboutPage = () => {
   router.push({ name: 'about'});
+}
+const goToLoginPage = () => {
+  router.push({ name: 'auth'});
 }
 
 </script>
@@ -17,17 +22,18 @@ const goToAboutPage = () => {
     <LogoMain  />
     <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
       <AppButton label="О нас" @click.prevent="goToAboutPage"/>
-      <AppButton label="Войти" />
+      <AppButton label="Войти" @click.prevent="goToLoginPage"/>
     </div>
     <BurgerButton class="sm:hidden" />
   </header>
 
-  <!--  Modal Dialog -->
-  <ModalComponent  >
+  <!--  Modal Burger Dialog -->
+  <ModalComponent :is-show="isBurgerOpen" >
     <template #content>
       <BurgerContent />
     </template>
   </ModalComponent>
+
 </template>
 
 <style scoped>
