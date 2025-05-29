@@ -16,17 +16,13 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: () => import('@/pages/login'),
+      redirect: { name: 'login'},
+      component: () => import('@/pages/login/ui/AuthLayout.vue'),
       children: [
         {
           path: 'login',
           name: 'login',
-          component: () => import('@/pages/login'),
-        },
-        {
-          path: 'signup',
-          name: 'signup',
-          component: () => import('@/pages/signup'),
+          component: () => import('@/pages/login/ui/LoginPage.vue'),
         },
         {
           path: 'register',

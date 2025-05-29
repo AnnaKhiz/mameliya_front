@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="bg-gradient flex-1 self-stretch px-5 py-10">
+  <main class="bg-gradient-main flex-1 self-stretch px-5 py-10">
     <h2 class="text-brown-dark font-extrabold text-2xl mb-5">О Mameliya</h2>
     <section class="flex flex-col gap-4">
       <p>
@@ -39,7 +39,5 @@
 </template>
 
 <style scoped>
-.bg-gradient {
-  background: linear-gradient(4deg, rgb(245 218 145) 10%, rgb(241 239 192 / 68%) 70%);
-}
+
 </style>

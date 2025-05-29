@@ -1,3 +1,3 @@
 import LoginPage from "@/pages/login/ui/LoginPage.vue";
-
-export default LoginPage;
+import AuthLayout from "@/pages/login/ui/AuthLayout.vue";
+export { AuthLayout, LoginPage } ;
