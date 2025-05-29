@@ -13,6 +13,7 @@ export default {
         'green-medium': '#99cd6a',
         'green-light': '#b6e094',
         'green-light-opacity-5': 'rgba(182,224,148,0.5)',
+        'green-bg': 'rgba(233,230,176,0.44)',
         'brown-dark': '#523629',
         'brown-medium': '#735c52',
         'brown-light': '#bdb6b0',
@@ -25,6 +26,7 @@ export default {
       },
       screens: {
         'xs': '300px',
+        '2lg': '1000px',
         '3xl': '1920px',
       },
     },
