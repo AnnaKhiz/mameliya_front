@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <button
-    class="px-6 py-2 bg-green-light-opacity-5 hover:bg-green-light transition duration-500 uppercase text-brown-dark font-roboto rounded"
+    class="px-6 py-2 bg-brown-dark hover:bg-brown-light transition duration-500 uppercase text-white hover:text-brown-dark font-roboto rounded"
   >
     {{ props.label }}
   </button>

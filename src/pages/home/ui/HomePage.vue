@@ -55,13 +55,13 @@ const sliderList = ref([
         @click="sliderCurrent = item.value"
         class="flex justify-center items-center h-full"
       >
-        <div class="flex lg:flex-row justify-between items-center h-full xs:flex-col xs:items-stretch" >
+        <div class="flex lg:flex-row justify-between md:items-center h-full xs:flex-col xs:items-stretch" >
           <div class="p-5 xl:pl-10 lg:w-[40%] xl:h-full xs:pl-5 xs:w-full xs:text-center xs:min-h-[350px] lg:text-left">
             <p class="mb-5 font-semibold xl:text-xl xs:text-base">{{ item.text }}</p>
             <p class="whitespace-pre-line xl:text-lg xs:text-base" >{{ item.description }}</p>
           </div>
 
-          <div class="2xl:w-[50%] lg:w-[60%] h-full overflow-hidden" >
+          <div class="lg:w-[60%] h-full overflow-hidden" >
             <img :src="`../../src/shared/assets/images/${item.img}`" alt="slider image" class="w-full object-cover lg:aspect-video"/>
           </div>
         </div>
