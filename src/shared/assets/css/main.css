@@ -21,3 +21,7 @@ body, html {
   height: 100%;
   max-height: 100vh;
 }
+
+.bg-gradient-main {
+  background: linear-gradient(4deg, rgb(245 218 145) 10%, rgb(241 239 192 / 68%) 70%);
+}

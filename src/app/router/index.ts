@@ -13,6 +13,28 @@ const router = createRouter({
       name: 'about',
       component: () => import('@/pages/about'),
     },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import('@/pages/login'),
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('@/pages/login'),
+        },
+        {
+          path: 'signup',
+          name: 'signup',
+          component: () => import('@/pages/signup'),
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('@/pages/register'),
+        },
+      ]
+    }
   ],
 })
 
