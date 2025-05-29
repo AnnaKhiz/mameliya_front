@@ -16,8 +16,8 @@ const goToAboutPage = () => {
   <header class="sm:flex justify-between items-center xs:p-5 xs:block xs:relative bg-gradient">
     <LogoMain  />
     <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
-      <AppButton label="About" @click.prevent="goToAboutPage"/>
-      <AppButton label="Sign in" />
+      <AppButton label="О нас" @click.prevent="goToAboutPage"/>
+      <AppButton label="Войти" />
     </div>
     <BurgerButton class="sm:hidden" />
   </header>
