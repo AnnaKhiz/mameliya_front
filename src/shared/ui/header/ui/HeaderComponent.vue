@@ -3,18 +3,13 @@ import { LogoMain } from '@/shared/ui/logo';
 import { AppButton } from '@/shared/ui/button';
 import { useRouter } from 'vue-router';
 import { BurgerButton, BurgerContent } from '@/features/burger';
-import { ref } from 'vue';
 import ModalComponent from '@/shared/ui/modal';
-
 const router = useRouter();
 
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
-const isClicked = ref<boolean>(false);
-const handleToggleBurger = (event: boolean) => {
-  isClicked.value = event;
-}
+
 </script>
 
 <template>
@@ -24,11 +19,11 @@ const handleToggleBurger = (event: boolean) => {
       <AppButton label="About" @click.prevent="goToAboutPage"/>
       <AppButton label="Sign in" />
     </div>
-    <BurgerButton class="sm:hidden" @update-burger="handleToggleBurger" />
+    <BurgerButton class="sm:hidden" />
   </header>
 
   <!--  Modal Dialog -->
-  <ModalComponent :is-clicked="isClicked" >
+  <ModalComponent  >
     <template #content>
       <BurgerContent />
     </template>

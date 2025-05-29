@@ -43,7 +43,7 @@ const sliderList = ref([
 <template>
   <main class="flex justify-center items-center bg-gradient flex-1 self-stretch pb-4">
     <Swiper
-      slides-per-view="1"
+      :slides-per-view="1"
       :loop="true"
       :modules="[Navigation]"
       navigation

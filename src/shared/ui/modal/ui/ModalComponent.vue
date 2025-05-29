@@ -1,27 +1,14 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
+import { storeToRefs } from 'pinia';
+const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
 
-type Props = {
-  isClicked: boolean;
-}
-const props = defineProps<Props>();
-
-watch(
-  () => props.isClicked,
-  (newVal) => {
-    if (newVal) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-  }
-);
 </script>
 
 <template>
   <teleport to="body">
     <Transition name="fade" >
-      <div v-if="props.isClicked">
+      <div v-if="isBurgerOpen">
         <slot name="content" />
       </div>
     </Transition>
