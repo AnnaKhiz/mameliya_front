@@ -1,4 +1,8 @@
 {
+	"general": {
+		"contacts": "Contacts",
+		"phone": "Phone"
+	},
 	"language": {
 		"en": "English",
 		"ru": "Russian"
