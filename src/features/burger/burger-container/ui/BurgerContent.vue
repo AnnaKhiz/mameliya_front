@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
+import { useI18n } from 'vue-i18n';
+import LanguageDropdown from '@/features/dropdown'
+const { t } = useI18n();
 const burgerStore = useBurgerMenuStore();
 const router = useRouter();
 
-const burgerMenuList = ref([
+const burgerMenuList = computed(() => ([
   {
-    text: 'About',
+    text: t('general.about'),
     value: 'about',
   },
   {
-    text: 'Sign in',
+    text: t('general.signin'),
     value: 'signin',
   }
-])
+]))
 const handleMenuClick = (link: string) => {
   router.push({ name: link });
   burgerStore.closeBurger();

@@ -8,7 +8,7 @@ const burgerStore = useBurgerMenuStore();
 
 <template>
   <div
-    class="bg-transparent w-10 flex flex-col gap-2 items-end xs:absolute top-5 right-5"
+    class="bg-transparent w-10 flex flex-col gap-2 items-end "
     @click="burgerStore.isToggleButton"
   >
     <span
