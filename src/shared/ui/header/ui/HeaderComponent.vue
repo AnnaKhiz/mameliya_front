@@ -30,7 +30,11 @@ const goToLoginPage = () => {
       <AppButton :label="t('general.signin')" @click.prevent="goToLoginPage"/>
       <LanguageDropdown />
     </div>
-    <BurgerButton class="sm:hidden" />
+    <div class="sm:hidden xs:absolute top-5 right-5 flex justify-end gap-6 items-center">
+      <LanguageDropdown />
+      <BurgerButton  />
+    </div>
+
   </header>
 
   <!--  Modal Burger Dialog -->
