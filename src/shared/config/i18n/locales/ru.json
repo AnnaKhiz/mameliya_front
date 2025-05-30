@@ -3,7 +3,8 @@
 		"contacts": "Контакты",
 		"phone": "Телефон",
 		"about": "О нас",
-		"signin": "Войти"
+		"signin": "Войти",
+		"register": "Регистрация"
 	},
 	"language": {
 		"en": "Английский",
@@ -54,5 +55,18 @@
 		"save_your_thoughts": ", чтобы хранить свои мысли, воспоминания, мечты и небольшие открытия — всё, что важно именно тебе.",
 		"you_are_not_alone": "Mameliya — это напоминание, что ты не одна.\n Ты важна. Ты заслуживаешь заботы — не только о других, но и о себе.",
 		"with_love": "С любовью,\nКоманда Mameliya"
+	},
+	"auth": {
+		"signup_title": "Войти в личный кабинет:",
+		"register_title": "Регистрация:",
+		"enter_email": "Введите email:",
+		"enter_password": "Введите пароль:",
+		"enter_confirm_password": "Введите подтверждение пароля:",
+		"not_registered": "Еще не зарегистрированы?",
+		"already_registered": "Уже зарегистрированы?",
+		"click": "Нажмите",
+		"email_placeholder": "Введите email...",
+		"password_placeholder": "Введите пароль...",
+		"password_confirm_placeholder": "Введите пароль еще раз..."
 	}
 }

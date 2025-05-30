@@ -3,7 +3,8 @@
 		"contacts": "Contacts",
 		"phone": "Phone",
 		"about": "About",
-		"signin": "Sign in"
+		"signin": "Sign in",
+		"register": "Sign up"
 	},
 	"language": {
 		"en": "English",
@@ -54,5 +55,18 @@
 		"save_your_thoughts": "to store your thoughts, memories, dreams, and little discoveries — everything that matters to you.",
 		"you_are_not_alone": "Mameliya is a gentle reminder that you’re not alone.\n You matter. You deserve care — not just for others, but for yourself too.",
 		"with_love": "With love,\nThe Mameliya Team"
+	},
+	"auth": {
+		"signup_title": "Sign in to user page:",
+		"register_title": "Sign up:",
+		"enter_email": "Enter email:",
+		"enter_password": "Enter password:",
+		"enter_confirm_password": "Enter password confirm:",
+		"not_registered": "Not registered yet?",
+		"already_registered": "Already have an account?",
+		"click": "Click",
+		"email_placeholder": "Enter email...",
+		"password_placeholder": "Enter password...",
+		"password_confirm_placeholder": "Enter confirm password..."
 	}
 }
