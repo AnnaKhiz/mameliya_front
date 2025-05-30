@@ -12,6 +12,7 @@ const toggleDropdown = () => {
 
 const changeLanguage = (value: 'ru' | 'en') => {
   i18n.global.locale.value = value;
+  localStorage.setItem('locale', value);
   isDropdown.value = false;
 }
 </script>
