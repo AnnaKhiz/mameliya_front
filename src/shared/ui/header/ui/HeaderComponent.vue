@@ -6,8 +6,11 @@ import { BurgerButton, BurgerContent } from '@/features/burger';
 import ModalComponent from '@/shared/ui/modal';
 import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
 import { storeToRefs } from 'pinia';
+import LanguageDropdown from "@/features/dropdown";
+
 const router = useRouter();
 const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
+
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
@@ -23,6 +26,7 @@ const goToLoginPage = () => {
     <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
       <AppButton label="О нас" @click.prevent="goToAboutPage"/>
       <AppButton label="Войти" @click.prevent="goToLoginPage"/>
+      <LanguageDropdown />
     </div>
     <BurgerButton class="sm:hidden" />
   </header>

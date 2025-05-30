@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n()
 
 const sliderCurrent = ref<string>('first');
 const sliderList = ref([
