@@ -1,7 +1,9 @@
 {
 	"general": {
 		"contacts": "Контакты",
-		"phone": "Телефон"
+		"phone": "Телефон",
+		"about": "О нас",
+		"signin": "Войти"
 	},
 	"language": {
 		"en": "Английский",

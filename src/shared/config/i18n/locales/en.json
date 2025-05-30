@@ -1,7 +1,9 @@
 {
 	"general": {
 		"contacts": "Contacts",
-		"phone": "Phone"
+		"phone": "Phone",
+		"about": "About",
+		"signin": "Sign in"
 	},
 	"language": {
 		"en": "English",
