@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import {AppButton} from "@/shared/ui/button";
+import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
+import { ref } from "vue";
+import { AppInputPassword } from "@/shared/ui/form";
+
 const goToRegister = () => {
   router.push({ name: 'register'});
 }
@@ -17,7 +20,7 @@ const goToRegister = () => {
       </div>
       <div >
         <p class="mb-2">Введите пароль:</p>
-        <input class="w-full mb-1 " type="password" />
+        <AppInputPassword />
         <p  class="text-red-600 text-2xs ml-2"></p>
       </div>
 

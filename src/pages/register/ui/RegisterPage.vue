@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import {AppButton} from "@/shared/ui/button";
+import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
+import { AppInputPassword } from "@/shared/ui/form";
 
 const goToLogin = () => {
     router.push({ name: 'login'});
 }
+
 </script>
 
 <template>
@@ -18,12 +20,12 @@ const goToLogin = () => {
             </div>
             <div>
               <p>Введите пароль:</p>
-              <input class="w-full mb-1" type="password" />
+              <AppInputPassword />
               <p  class="text-red-600 text-2xs ml-2" > </p>
             </div>
             <div>
               <p>Введите подтверждение пароля:</p>
-              <input class="w-full mb-1" type="password" />
+              <AppInputPassword />
               <p  class="text-red-600 text-2xs ml-2" > </p>
             </div>
 
