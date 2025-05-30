@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import {AppButton} from "@/shared/ui/button";
 </script>
 
 <template>

@@ -6,8 +6,13 @@ import { BurgerButton, BurgerContent } from '@/features/burger';
 import ModalComponent from '@/shared/ui/modal';
 import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
 import { storeToRefs } from 'pinia';
+import LanguageDropdown from "@/features/dropdown";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 const router = useRouter();
 const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
+
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
@@ -21,8 +26,9 @@ const goToLoginPage = () => {
   <header class="sm:flex justify-between items-center xs:p-5 xs:block xs:relative bg-gradient">
     <LogoMain  />
     <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
-      <AppButton label="О нас" @click.prevent="goToAboutPage"/>
-      <AppButton label="Войти" @click.prevent="goToLoginPage"/>
+      <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>
+      <AppButton :label="t('general.signin')" @click.prevent="goToLoginPage"/>
+      <LanguageDropdown />
     </div>
     <BurgerButton class="sm:hidden" />
   </header>

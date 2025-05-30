@@ -24,6 +24,9 @@ export default {
         montserrat: ['Montserrat', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif']
       },
+      fontSize: {
+        '2xs': '10px',
+      },
       screens: {
         'xs': '300px',
         '2lg': '1000px',

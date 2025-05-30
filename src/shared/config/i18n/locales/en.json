@@ -1,0 +1,72 @@
+{
+	"general": {
+		"contacts": "Contacts",
+		"phone": "Phone",
+		"about": "About",
+		"signin": "Sign in",
+		"register": "Sign up"
+	},
+	"language": {
+		"en": "English",
+		"ru": "Russian"
+	},
+	"home": {
+		"mama": {
+			"title": "Mama — the heart of the family",
+			"description": "You give love, care, and warmth every day.\nAt Mameliya, we believe that to care for others, you must also remember to care for yourself.\n\nHere you'll find:\n\nSimple rituals for rest and recovery\nHandy to-do lists and reminders to keep things under control\nIdeas for small daily joys\nSupport and inspiration from other moms\n\nCreate a space where you're not just a mom — but also a woman with dreams, desires, and the right to take a break."
+		},
+		"family": {
+			"title": "Family — a team where everyone matters",
+			"description": "Here you'll find everything to make family life a little easier and calmer:\n\nA shared family schedule — so everyone’s on the same page\nIdeas for family dinners and meaningful traditions\nTips for holidays, special dates, and everyday joys\nSimple tools to help everyone feel heard\n\nAll to help your family feel like a true team.\n\nA shared routine, ideas for quality time together, and a little bit of everyday magic —\nSo each day reminds you how good it feels to be together."
+		},
+		"children": {
+			"title": "Children — little big wonders",
+			"description": "Here you can save the important moments of growth, mark the first steps, words, and achievements.\n\nEverything about your little one — all in one place:\n\nTrack important milestones and little victories\nFind ideas for games, activities, and magical evenings\nMonitor growth, habits, and well-being\nPreserve warm memories and funny moments\n\nYou’re there every day — and we help make this journey a little easier and cozier."
+		},
+		"mentalHealth": {
+			"title": "Mental Health — Caring for Yourself Within",
+			"description": "A space where you can pause and take a deep breath.\n\nIn this section:\n\nSimple practices to calm and restore\nA journal for your emotions and thoughts — to truly hear yourself\nSupportive notes and reminders of what matters\nA cozy place for inner balance\n\nYou are important. Caring for yourself is not a luxury — it’s a necessity.\n\nLet this be the place where your journey of gentle self-care begins."
+		},
+		"rituals": {
+			"title": "Beauty Rituals — A Loving Time Just for You",
+			"description": "Little moments that help you feel good:\n\nPersonal care — from your hair to your fingertips\nGentle reminders and trackers to keep it consistent\nTips and inspiration without pressure\nA space where beauty means care, not perfection\n\nLet self-care become a comforting ritual, not an obligation.\n\nSometimes, all it takes is listening to your feelings to reconnect with your true self.\nThis is a space for a kind dialogue with yourself and quiet inner shifts."
+		}
+	},
+	"about": {
+		"title": "About Mameliya",
+		"cozy_place": " is a cozy online space lovingly created for moms, their families, and anyone who wants to care for themselves with warmth and attention.",
+		"you_will_find": "Here, you’ll find support, inspiration, and practical ideas to help you in your many roles — as a mom, a partner, a woman, and simply a human being with feelings, dreams, and boundaries.",
+		"what_waiting": "What you’ll find on Mameliya:",
+		"mama_title": "Chapter «Mama»",
+		"mama_description": "— kind words, support, and gentle reminders that your energy matters.",
+		"family_title": "Chapter «Family»",
+		"family_description": "— simple ideas to strengthen connections, enjoy time together, and build meaningful traditions.",
+		"children_title": "Chapter «Children»",
+		"children_description": "— inspiration for play, development, and understanding your child’s unique world.",
+		"mental_health_title": "Chapter «Mental Health»",
+		"mental_health_description": "— tools to help you slow down, reconnect with yourself, and breathe.",
+		"rituals_title": "Chapter «Beauty Rituals»",
+		"rituals_description": " — a reminder that your self-care is important and well-deserved.",
+		"have_someone_to_talk": "You’re never alone. If you need someone to talk to, our ",
+		"helper": "assistant",
+		"listen_help": "is here to listen, support, and help you process your feelings — or simply be there when you need to share.",
+		"write_down": "Keep ",
+		"diary": "a journal",
+		"save_your_thoughts": "to store your thoughts, memories, dreams, and little discoveries — everything that matters to you.",
+		"you_are_not_alone": "Mameliya is a gentle reminder that you’re not alone.\n You matter. You deserve care — not just for others, but for yourself too.",
+		"with_love": "With love,\nThe Mameliya Team"
+	},
+	"auth": {
+		"signup_title": "Sign in to user page:",
+		"register_title": "Sign up:",
+		"enter_email": "Enter email:",
+		"enter_password": "Enter password:",
+		"enter_confirm_password": "Enter password confirm:",
+		"not_registered": "Not registered yet?",
+		"already_registered": "Already have an account?",
+		"click": "Click",
+		"email_placeholder": "Enter email...",
+		"password_placeholder": "Enter password...",
+		"password_confirm_placeholder": "Enter confirm password..."
+	}
+}
