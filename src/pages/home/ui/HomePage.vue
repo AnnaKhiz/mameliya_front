@@ -27,9 +27,9 @@ const sliderList = computed(() => ([
     img: 'children.webp',
   },
   {
-    text: t('home.mentalHealth.title'),
+    text: t('home.mental_health.title'),
     value: 'mental_health',
-    description: t('home.mentalHealth.description'),
+    description: t('home.mental_health.description'),
     img: 'mental_health.webp',
   },
   {
