@@ -8,23 +8,23 @@ const goToLogin = () => {
 </script>
 
 <template>
-    <div class="shadow-2xl rounded-lg p-5 px-10">
+    <div class="shadow-2xl rounded-lg p-5 px-10 min-w-[400px]">
         <h2 class="mb-5 text-center font-semibold text-2xl">Регистрация:</h2>
         <form action="" class="flex flex-col gap-4 mb-10">
             <div>
-                <p>Введите email:</p>
-                <input class="w-full " type="email" />
-                <p class="text-red-600 text-xs" > </p>
+              <p>Введите email:</p>
+              <input class="w-full mb-1" type="email" />
+              <p  class="text-red-600 text-2xs ml-2" > </p>
             </div>
             <div>
-                <p>Введите пароль:</p>
-                <input class="w-full " type="password" />
-                <p  class="text-red-600 text-xs" > </p>
+              <p>Введите пароль:</p>
+              <input class="w-full mb-1" type="password" />
+              <p  class="text-red-600 text-2xs ml-2" > </p>
             </div>
             <div>
-                <p>Введите подтверждение пароля:</p>
-                <input class="w-full " type="password" />
-                <p  class="text-red-600 text-xs" > </p>
+              <p>Введите подтверждение пароля:</p>
+              <input class="w-full mb-1" type="password" />
+              <p  class="text-red-600 text-2xs ml-2" > </p>
             </div>
 
             <AppButton label="Регистрация" class="w-full" />

@@ -8,24 +8,25 @@
   border-color: #e5e7eb;
 }
 body input:is([type='email'], [type='password'], [type='text']) {
-  border: transparent;
-  border-bottom: 1px solid #523629;
-  border-radius: 0px;
-  background-color: transparent;
+  border: 1px solid rgba(244, 249, 212, 0.58);
+  /*background-color: rgba(244, 249, 212, 0.58);*/
+  box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
+  transition: background-color .3s ease-in-out 0s,
+    border-bottom-color .3s ease-in-out 0s,
+    box-shadow .5s ease-in-out 0s;
+  &:hover {
+    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58),
+      inset -1px -1px 5px #523629,
+      inset 1px 1px 5px #523629;
+  }
   &:focus {
-    border-radius: 0;
-    background-color: transparent;
+    border-color: rgba(244, 249, 212, 0.58);
     border-bottom: 1px solid #523629;
+    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   }
   &:active {
-    background-color: transparent;
+    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   }
-}
-
-input:-webkit-autofill {
-  box-shadow: 0 0 0 1000px transparent inset;
-  -webkit-text-fill-color: #000;
-  transition: background-color .5s ease-in-out 0s;
 }
 
 #app {
