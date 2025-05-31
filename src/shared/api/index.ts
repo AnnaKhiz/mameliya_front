@@ -1,4 +1,4 @@
-const apiBaseUrl = import.meta.env.VUE_APP_API_URL;
+const apiBaseUrl = import.meta.env.VITE_APP_API_URL;
 import type { HttpMethodType, PathParams, HeadersType } from "@/shared/api/types.ts";
 const headersDefault: HeadersType = { "Content-Type": "application/json" };
 

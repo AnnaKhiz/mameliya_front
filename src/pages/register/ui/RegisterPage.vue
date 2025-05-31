@@ -2,11 +2,84 @@
 import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
 import { AppInputPassword } from "@/shared/ui/form";
+import * as yup from 'yup';
+import { fetchData } from "@/shared/api";
 import { useI18n } from 'vue-i18n';
+import {ref} from "vue";
 const { t } = useI18n();
 const goToLogin = () => {
     router.push({ name: 'login'});
 }
+type FormField = 'email' | 'password' | 'passwordConfirm';
+
+type ErrorsType = {
+  [K in FormField]?: string;
+}
+type FormRegisterType = {
+  email: string;
+  password: string;
+  passwordConfirm?: string;
+}
+const message = ref<string>('');
+const errors = ref<ErrorsType>({});
+const formData = ref<FormRegisterType>({
+  email: '',
+  password: '',
+  passwordConfirm: '',
+});
+
+const validation = async () => {
+  const schema = yup.object({
+    email: yup.string().email('Неправильный формат email').required('Email обязателен'),
+    password: yup.string().min(6, 'Минимум 6 символов').required('Пароль обязателен'),
+    passwordConfirm: yup.string()
+      .min(6, 'Минимум 6 символов')
+      .required('Подтверждение пароля обязательно')
+      .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+    })
+
+  try {
+    await schema.validate(formData.value, { abortEarly: false });
+    message.value = 'Пожалуйста, подождите';
+  } catch (error: unknown) {
+    if (error instanceof yup.ValidationError) {
+      console.error('Validation error', error);
+
+      error.inner.forEach((validationError) => {
+        const field = validationError.path;
+        if (field && ['email', 'password', 'passwordConfirm'].includes(field)) {
+          errors.value[field as FormField] = validationError.message;
+        }
+      });
+    } else {
+      console.error('Unexpected error', error);
+    }
+  }
+}
+
+const signUpUser = async (body: FormRegisterType) => {
+  try {
+    const result = await fetchData('api/user/login', 'POST', {}, body);
+    console.log('result', result)
+  } catch (error) {
+    console.error('Error [Sign up user]: ', error);
+  }
+}
+
+const submitForm = async () => {
+  errors.value = {};
+  await validation();
+  const {email, password, passwordConfirm} = formData.value;
+
+  if (!email || !password || !passwordConfirm) return;
+
+  await signUpUser({
+    email,
+    password
+  })
+}
+
+
 </script>
 
 <template>
@@ -14,29 +87,48 @@ const goToLogin = () => {
         <h2 class="mb-5 text-center font-semibold text-2xl">
           {{ t('auth.register_title') }}
         </h2>
-        <form action="" class="flex flex-col gap-4 mb-10">
+      <code>{{ formData}}</code>
+      <code>{{ errors}}</code>
+        <form action="" class="flex flex-col gap-4 mb-10" novalidate>
             <div>
               <p>{{ t('auth.enter_email') }}</p>
               <input
                 class="w-full mb-1"
                 type="email"
                 :placeholder="t('auth.email_placeholder')"
+                v-model="formData.email"
               />
-              <p  class="text-red-600 text-2xs ml-2" > </p>
+              <span
+                v-if="errors.email"
+                class="text-red-600 text-2xs ml-2"
+              >
+                {{ errors.email }}
+              </span>
             </div>
             <div>
               <p>{{ t('auth.enter_password') }}</p>
-              <AppInputPassword />
-              <p  class="text-red-600 text-2xs ml-2" > </p>
+              <AppInputPassword :field="'password'" :form="formData"/>
+              <span
+                v-if="errors.password"
+                class="text-red-600 text-2xs ml-2"
+              >
+                {{ errors.password }}
+              </span>
             </div>
             <div>
               <p>{{ t('auth.enter_confirm_password') }}</p>
-              <AppInputPassword is-confirm/>
-              <p  class="text-red-600 text-2xs ml-2" > </p>
+              <AppInputPassword is-confirm :field="'passwordConfirm'" :form="formData"/>
+              <span
+                v-if="errors.passwordConfirm"
+                class="text-red-600 text-2xs ml-2"
+              >
+                {{ errors.passwordConfirm }}
+              </span>
             </div>
 
-            <AppButton :label="t('general.register')" class="w-full" />
+            <AppButton :label="t('general.register')" class="w-full" @click.prevent="submitForm"/>
         </form>
+        <p class="text-green-900 text-sm mb-4">{{ message}}</p>
 
         <div>
             <p>{{ t('auth.already_registered') }}</p>
