@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/16/solid";
-import { ref } from "vue";
+import { ref, toRef } from "vue";
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
+type FormRegisterType = {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+
 type Props = {
   isConfirm?: boolean;
+  form: FormRegisterType;
+  field: keyof FormRegisterType;
 }
 const props = defineProps<Props>();
 const isHidden = ref<boolean>(true);
@@ -13,11 +22,13 @@ const isHidden = ref<boolean>(true);
 const togglePasswordVisibility = () => {
   isHidden.value = !isHidden.value;
 }
+const inputModel = toRef(props.form, props.field);
 </script>
 
 <template>
   <div class="relative">
     <input
+      v-model="inputModel"
       class="w-full mb-1"
       :type="isHidden ? 'password' : 'text'"
       :placeholder="props.isConfirm
