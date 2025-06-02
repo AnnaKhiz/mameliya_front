@@ -3,23 +3,21 @@ import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
 import { AppInputPassword } from "@/shared/ui/form";
 import * as yup from 'yup';
-import { fetchData } from "@/shared/api";
+import { useUserStore } from "@/entities/user";g
 import { useI18n } from 'vue-i18n';
 import {ref} from "vue";
 const { t } = useI18n();
+import type { FormRegisterType, FormRegisterField } from "@/entities/user";
+import { registerValidationSchema } from "@/entities/user";
+const { signUpUser } = useUserStore();
 const goToLogin = () => {
     router.push({ name: 'login'});
 }
-type FormField = 'email' | 'password' | 'passwordConfirm';
 
 type ErrorsType = {
-  [K in FormField]?: string;
+  [K in FormRegisterField]?: string;
 }
-type FormRegisterType = {
-  email: string;
-  password: string;
-  passwordConfirm?: string;
-}
+
 const message = ref<string>('');
 const errors = ref<ErrorsType>({});
 const formData = ref<FormRegisterType>({
@@ -29,17 +27,8 @@ const formData = ref<FormRegisterType>({
 });
 
 const validation = async () => {
-  const schema = yup.object({
-    email: yup.string().email(t('validation.wrong_email_format')).required(t('validation.email_required')),
-    password: yup.string().min(6, t('validation.min_6_symbols')).required(t('validation.password_required')),
-    passwordConfirm: yup.string()
-      .min(6, t('validation.min_6_symbols'))
-      .required( t('validation.password_confirm_required'))
-      .oneOf([yup.ref('password')],  t('validation.different_passwords')),
-    })
-
   try {
-    await schema.validate(formData.value, { abortEarly: false });
+    await registerValidationSchema.validate(formData.value, { abortEarly: false });
     message.value = t('notify.please_wait');
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
@@ -47,7 +36,7 @@ const validation = async () => {
       error.inner.forEach((validationError) => {
         const field = validationError.path;
         if (field && ['email', 'password', 'passwordConfirm'].includes(field)) {
-          errors.value[field as FormField] = validationError.message;
+          errors.value[field as FormRegisterField] = validationError.message;
         }
       });
     } else {
@@ -56,21 +45,10 @@ const validation = async () => {
   }
 }
 
-const signUpUser = async (body: FormRegisterType) => {
-  let result = null;
-  try {
-    result = await fetchData('api/user/login', 'POST', {}, body);
-    console.log('result', result)
-  } catch (error) {
-    console.error('Error [Sign up user]: ', error);
-  }
-  return result;
-}
-
 const submitForm = async () => {
   errors.value = {};
   await validation();
-  const {email, password, passwordConfirm} = formData.value;
+  const { email, password, passwordConfirm } = formData.value;
 
   if (!email || !password || !passwordConfirm) return;
 
@@ -79,21 +57,19 @@ const submitForm = async () => {
     password
   });
 
-  if (result.code === 400) {
+  if (result && result.code === 400) {
     message.value = t('notify.empty_fields');
     return
-  } else if (result.code === 409) {
-    message.value = t('notify.user_with_email_exist');;
+  } else if (result && result.code === 409) {
+    message.value = t('notify.user_with_email_exist');
     return
   }
 
   localStorage.setItem('userAuthenticated', 'true');
-  console.log('id', result.data.userId)
-  message.value = t('notify.register_successful');;
-  await router.push({name: 'user', params: {id: result.data.userId}});
 
+  message.value = t('notify.register_successful');
+  await router.push({ name: 'user', params: { id: result?.data?.userId }});
 }
-
 
 </script>
 
