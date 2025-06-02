@@ -6,6 +6,12 @@
 		"signin": "Sign in",
 		"register": "Sign up"
 	},
+	"messages": {
+		"please_wait": "Please, wait",
+		"empty_fields": "Empty fields",
+		"user_with_email_exist": "User with such email is already exist",
+		"register_successful": "Sign up is successful"
+	},
 	"language": {
 		"en": "English",
 		"ru": "Russian"

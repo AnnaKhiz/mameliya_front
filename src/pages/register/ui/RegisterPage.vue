@@ -30,17 +30,17 @@ const formData = ref<FormRegisterType>({
 
 const validation = async () => {
   const schema = yup.object({
-    email: yup.string().email('Неправильный формат email').required('Email обязателен'),
-    password: yup.string().min(6, 'Минимум 6 символов').required('Пароль обязателен'),
+    email: yup.string().email(t('validation.wrong_email_format')).required(t('validation.email_required')),
+    password: yup.string().min(6, t('validation.min_6_symbols')).required(t('validation.password_required')),
     passwordConfirm: yup.string()
-      .min(6, 'Минимум 6 символов')
-      .required('Подтверждение пароля обязательно')
-      .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+      .min(6, t('validation.min_6_symbols'))
+      .required( t('validation.password_confirm_required'))
+      .oneOf([yup.ref('password')],  t('validation.different_passwords')),
     })
 
   try {
     await schema.validate(formData.value, { abortEarly: false });
-    message.value = t('messages.please_wait');
+    message.value = t('notify.please_wait');
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
       message.value = '';
@@ -80,15 +80,15 @@ const submitForm = async () => {
   });
 
   if (result.code === 400) {
-    message.value = 'Пустые поля';
+    message.value = t('notify.empty_fields');
     return
   } else if (result.code === 409) {
-    message.value = 'Пользователь с таким email уже существует';
+    message.value = t('notify.user_with_email_exist');;
     return
   }
 
   console.log('id', result.data.userId)
-  message.value = 'Регистрация прошла успешно';
+  message.value = t('notify.register_successful');;
   await router.push({name: 'user', params: {id: result.data.userId}});
 
 }

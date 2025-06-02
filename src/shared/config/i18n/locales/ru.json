@@ -6,6 +6,20 @@
 		"signin": "Войти",
 		"register": "Регистрация"
 	},
+	"notify": {
+		"please_wait": "Пожалуйста, подождите",
+		"empty_fields": "Пустые поля",
+		"user_with_email_exist": "Пользователь с таким email уже существует",
+		"register_successful": "Регистрация прошла успешно"
+	},
+	"validation": {
+		"wrong_email_format": "Неправильный формат email",
+		"email_required": "Email обязателен",
+		"min_6_symbols": "Минимум 6 символов",
+		"password_required": "Пароль обязателен",
+		"password_confirm_required": "Подтверждение пароля обязательно",
+		"different_passwords": "Пароли не совпадают"
+	},
 	"language": {
 		"en": "Английский",
 		"ru": "Русский"
