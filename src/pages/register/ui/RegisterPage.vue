@@ -7,7 +7,7 @@ import { useUserStore } from "@/entities/user";g
 import { useI18n } from 'vue-i18n';
 import {ref} from "vue";
 const { t } = useI18n();
-import type { FormRegisterType, FormRegisterField } from "@/entities/user";
+import type { FormFieldsType, FormRegisterField } from "@/entities/user";
 import { registerValidationSchema } from "@/entities/user";
 const { signUpUser } = useUserStore();
 const goToLogin = () => {
@@ -20,7 +20,7 @@ type ErrorsType = {
 
 const message = ref<string>('');
 const errors = ref<ErrorsType>({});
-const formData = ref<FormRegisterType>({
+const formData = ref<FormFieldsType>({
   email: '',
   password: '',
   passwordConfirm: '',
