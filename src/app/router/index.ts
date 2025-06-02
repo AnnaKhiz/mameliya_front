@@ -36,17 +36,36 @@ const router = createRouter({
       name: 'user',
       redirect: { name: 'user-home'},
       props: true,
+      meta: {
+        requiresAuth: true,
+      },
       component: () => import("@/pages/user"),
       children: [
         {
           path: 'home',
           name: 'user-home',
           props: true,
-          component: () => import('@/pages/user/ui/UserPageMain.vue')
+          component: () => import('@/pages/user/ui/UserPageMain.vue'),
+          meta: {
+            requiresAuth: true,
+          },
         }
       ]
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('userAuthenticated');
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if  (isAuthenticated === 'false' && to.path.includes('user')) {
+      return next('/');
+    }
+    return next();
+  } else {
+    next();
+  }
 })
 
 export default router
