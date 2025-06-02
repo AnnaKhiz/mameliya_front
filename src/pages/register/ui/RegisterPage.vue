@@ -40,11 +40,10 @@ const validation = async () => {
 
   try {
     await schema.validate(formData.value, { abortEarly: false });
-    message.value = 'Пожалуйста, подождите';
+    message.value = t('messages.please_wait');
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
-      console.error('Validation error', error);
-
+      message.value = '';
       error.inner.forEach((validationError) => {
         const field = validationError.path;
         if (field && ['email', 'password', 'passwordConfirm'].includes(field)) {
@@ -58,12 +57,14 @@ const validation = async () => {
 }
 
 const signUpUser = async (body: FormRegisterType) => {
+  let result = null;
   try {
-    const result = await fetchData('api/user/login', 'POST', {}, body);
+    result = await fetchData('api/user/login', 'POST', {}, body);
     console.log('result', result)
   } catch (error) {
     console.error('Error [Sign up user]: ', error);
   }
+  return result;
 }
 
 const submitForm = async () => {
@@ -73,10 +74,23 @@ const submitForm = async () => {
 
   if (!email || !password || !passwordConfirm) return;
 
-  await signUpUser({
+  const result = await signUpUser({
     email,
     password
-  })
+  });
+
+  if (result.code === 400) {
+    message.value = 'Пустые поля';
+    return
+  } else if (result.code === 409) {
+    message.value = 'Пользователь с таким email уже существует';
+    return
+  }
+
+  console.log('id', result.data.userId)
+  message.value = 'Регистрация прошла успешно';
+  await router.push({name: 'user', params: {id: result.data.userId}});
+
 }
 
 
@@ -87,8 +101,7 @@ const submitForm = async () => {
         <h2 class="mb-5 text-center font-semibold text-2xl">
           {{ t('auth.register_title') }}
         </h2>
-      <code>{{ formData}}</code>
-      <code>{{ errors}}</code>
+
         <form action="" class="flex flex-col gap-4 mb-10" novalidate>
             <div>
               <p>{{ t('auth.enter_email') }}</p>
