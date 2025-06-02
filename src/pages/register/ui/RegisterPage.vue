@@ -3,82 +3,76 @@ import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
 import { AppInputPassword } from "@/shared/ui/form";
 import * as yup from 'yup';
-import { fetchData } from "@/shared/api";
+import { useUserStore } from "@/entities/user";
 import { useI18n } from 'vue-i18n';
 import {ref} from "vue";
 const { t } = useI18n();
+import type { FormFieldsType, FormRegisterField } from "@/entities/user";
+import { registerValidationSchema } from "@/entities/user";
+const { signUpUser } = useUserStore();
 const goToLogin = () => {
     router.push({ name: 'login'});
 }
-type FormField = 'email' | 'password' | 'passwordConfirm';
 
 type ErrorsType = {
-  [K in FormField]?: string;
+  [K in FormRegisterField]?: string;
 }
-type FormRegisterType = {
-  email: string;
-  password: string;
-  passwordConfirm?: string;
-}
+
 const message = ref<string>('');
 const errors = ref<ErrorsType>({});
-const formData = ref<FormRegisterType>({
+const formData = ref<FormFieldsType>({
   email: '',
   password: '',
   passwordConfirm: '',
 });
 
 const validation = async () => {
-  const schema = yup.object({
-    email: yup.string().email('Неправильный формат email').required('Email обязателен'),
-    password: yup.string().min(6, 'Минимум 6 символов').required('Пароль обязателен'),
-    passwordConfirm: yup.string()
-      .min(6, 'Минимум 6 символов')
-      .required('Подтверждение пароля обязательно')
-      .oneOf([yup.ref('password')], 'Пароли не совпадают'),
-    })
-
   try {
-    await schema.validate(formData.value, { abortEarly: false });
-    message.value = 'Пожалуйста, подождите';
+    await registerValidationSchema.validate(formData.value, { abortEarly: false });
+    message.value = t('notify.please_wait');
+    return true;
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
-      console.error('Validation error', error);
-
+      message.value = '';
       error.inner.forEach((validationError) => {
         const field = validationError.path;
         if (field && ['email', 'password', 'passwordConfirm'].includes(field)) {
-          errors.value[field as FormField] = validationError.message;
+          errors.value[field as FormRegisterField] = validationError.message;
         }
       });
     } else {
       console.error('Unexpected error', error);
     }
-  }
-}
-
-const signUpUser = async (body: FormRegisterType) => {
-  try {
-    const result = await fetchData('api/user/login', 'POST', {}, body);
-    console.log('result', result)
-  } catch (error) {
-    console.error('Error [Sign up user]: ', error);
+    return false;
   }
 }
 
 const submitForm = async () => {
   errors.value = {};
-  await validation();
-  const {email, password, passwordConfirm} = formData.value;
+  const isFormValid = await validation();
+  if (!isFormValid) return;
+  const { email, password } = formData.value;
 
-  if (!email || !password || !passwordConfirm) return;
-
-  await signUpUser({
+  const result = await signUpUser({
     email,
     password
-  })
-}
+  });
 
+  if (result && result.code === 400) {
+    message.value = t('notify.empty_fields');
+    return
+  } else if (result && result.code === 409) {
+    message.value = t('notify.user_with_email_exist');
+    return
+  }
+
+  localStorage.setItem('userAuthenticated', 'true');
+
+  message.value = t('notify.register_successful');
+  setTimeout(async () => {
+    await router.push({ name: 'user-home', params: { id: result?.data?.userId }});
+  }, 1500);
+}
 
 </script>
 
@@ -87,8 +81,7 @@ const submitForm = async () => {
         <h2 class="mb-5 text-center font-semibold text-2xl">
           {{ t('auth.register_title') }}
         </h2>
-      <code>{{ formData}}</code>
-      <code>{{ errors}}</code>
+
         <form action="" class="flex flex-col gap-4 mb-10" novalidate>
             <div>
               <p>{{ t('auth.enter_email') }}</p>

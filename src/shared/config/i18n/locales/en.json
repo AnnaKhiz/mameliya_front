@@ -4,7 +4,23 @@
 		"phone": "Phone",
 		"about": "About",
 		"signin": "Sign in",
-		"register": "Sign up"
+		"register": "Sign up",
+		"logout": "Выйти"
+	},
+	"notify": {
+		"please_wait": "Please, wait",
+		"empty_fields": "Empty fields",
+		"user_with_email_exist": "User with such email is already exist",
+		"register_successful": "Sign up is successful",
+		"wrong_email_or_password": "Wrong email or password"
+	},
+	"validation": {
+		"wrong_email_format": "Wrong email format",
+		"email_required": "Email required",
+		"min_6_symbols": "Minimum 6 symbols",
+		"password_required": "Password required",
+		"password_confirm_required": "Password confirm required",
+		"different_passwords": "Passwords are different"
 	},
 	"language": {
 		"en": "English",

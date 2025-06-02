@@ -30,8 +30,41 @@ const router = createRouter({
           component: () => import('@/pages/register'),
         },
       ]
+    },
+    {
+      path: '/user',
+      name: 'user',
+      props: true,
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import("@/pages/user"),
+      children: [
+        {
+          path: ':id',
+          name: 'user-home',
+          props: true,
+          component: () => import('@/pages/user/ui/UserPageMain.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        }
+      ]
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('userAuthenticated');
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if  (isAuthenticated === 'false' && to.path.includes('user')) {
+      return next('/auth/login');
+    }
+    return next();
+  } else {
+    next();
+  }
 })
 
 export default router
