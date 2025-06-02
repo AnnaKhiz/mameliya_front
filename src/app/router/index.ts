@@ -32,9 +32,8 @@ const router = createRouter({
       ]
     },
     {
-      path: '/user/:id',
+      path: '/user',
       name: 'user',
-      redirect: { name: 'user-home'},
       props: true,
       meta: {
         requiresAuth: true,
@@ -42,7 +41,7 @@ const router = createRouter({
       component: () => import("@/pages/user"),
       children: [
         {
-          path: 'home',
+          path: ':id',
           name: 'user-home',
           props: true,
           component: () => import('@/pages/user/ui/UserPageMain.vue'),
@@ -60,7 +59,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if  (isAuthenticated === 'false' && to.path.includes('user')) {
-      return next('/');
+      return next('/auth/login');
     }
     return next();
   } else {

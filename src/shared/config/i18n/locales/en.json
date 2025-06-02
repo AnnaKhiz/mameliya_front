@@ -4,7 +4,8 @@
 		"phone": "Phone",
 		"about": "About",
 		"signin": "Sign in",
-		"register": "Sign up"
+		"register": "Sign up",
+		"logout": "Выйти"
 	},
 	"notify": {
 		"please_wait": "Please, wait",

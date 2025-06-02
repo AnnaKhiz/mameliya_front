@@ -70,10 +70,7 @@ const submitForm = async () => {
   localStorage.setItem('userAuthenticated', 'true');
   message.value = t('notify.register_successful');
 
-  setTimeout(async () => {
-    await router.push({ name: 'user', params: { id: result?.data?.userId }});
-  }, 1500);
-
+  await router.push({ name: 'user-home', params: { id: result?.data?.userId }});
 }
 
 </script>

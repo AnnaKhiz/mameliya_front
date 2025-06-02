@@ -70,7 +70,7 @@ const submitForm = async () => {
 
   message.value = t('notify.register_successful');
   setTimeout(async () => {
-    await router.push({ name: 'user', params: { id: result?.data?.userId }});
+    await router.push({ name: 'user-home', params: { id: result?.data?.userId }});
   }, 1500);
 }
 
