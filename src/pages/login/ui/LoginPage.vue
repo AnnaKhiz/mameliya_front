@@ -33,6 +33,7 @@ const validation = async () => {
   try {
     await signInValidationSchema.validate(formData.value, { abortEarly: false });
     message.value = t('notify.please_wait');
+    return true;
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
       message.value = '';
@@ -45,34 +46,34 @@ const validation = async () => {
     } else {
       console.error('Unexpected error', error);
     }
+    return false;
   }
 }
 
 const submitForm = async () => {
   errors.value = {};
-  await validation();
+  const isFormValid = await validation();
+
+  if (!isFormValid) return;
   const { email, password } = formData.value;
 
-  if (!email || !password ) return;
+  const result = await signInUser({
+    email,
+    password
+  });
 
-  console.log({ email, password})
-  // const result = await signInUser({
-  //   email,
-  //   password
-  // });
-  //
-  // if (result && result.code === 400) {
-  //   message.value = t('notify.empty_fields');
-  //   return
-  // } else if (result && result.code === 409) {
-  //   message.value = t('notify.user_with_email_exist');
-  //   return
-  // }
-  //
-  // localStorage.setItem('userAuthenticated', 'true');
-  //
-  // message.value = t('notify.register_successful');
-  // await router.push({ name: 'user', params: { id: result?.data?.userId }});
+  if (result && result.code === 400) {
+    message.value = t('notify.wrong_email_or_password');
+    return;
+  }
+
+  localStorage.setItem('userAuthenticated', 'true');
+  message.value = t('notify.register_successful');
+
+  setTimeout(async () => {
+    await router.push({ name: 'user', params: { id: result?.data?.userId }});
+  }, 1500);
+
 }
 
 </script>
@@ -109,6 +110,7 @@ const submitForm = async () => {
 
       <AppButton :label="t('general.signin')" class="w-full" @click.prevent="submitForm"/>
     </form>
+    <p class="text-green-900 text-sm mb-4">{{ message}}</p>
 
     <div>
       <p>{{ t('auth.not_registered') }}</p>

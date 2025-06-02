@@ -3,7 +3,7 @@ import { AppButton } from "@/shared/ui/button";
 import router from "@/app/router";
 import { AppInputPassword } from "@/shared/ui/form";
 import * as yup from 'yup';
-import { useUserStore } from "@/entities/user";g
+import { useUserStore } from "@/entities/user";
 import { useI18n } from 'vue-i18n';
 import {ref} from "vue";
 const { t } = useI18n();
@@ -30,6 +30,7 @@ const validation = async () => {
   try {
     await registerValidationSchema.validate(formData.value, { abortEarly: false });
     message.value = t('notify.please_wait');
+    return true;
   } catch (error: unknown) {
     if (error instanceof yup.ValidationError) {
       message.value = '';
@@ -42,15 +43,15 @@ const validation = async () => {
     } else {
       console.error('Unexpected error', error);
     }
+    return false;
   }
 }
 
 const submitForm = async () => {
   errors.value = {};
-  await validation();
-  const { email, password, passwordConfirm } = formData.value;
-
-  if (!email || !password || !passwordConfirm) return;
+  const isFormValid = await validation();
+  if (!isFormValid) return;
+  const { email, password } = formData.value;
 
   const result = await signUpUser({
     email,
@@ -68,7 +69,9 @@ const submitForm = async () => {
   localStorage.setItem('userAuthenticated', 'true');
 
   message.value = t('notify.register_successful');
-  await router.push({ name: 'user', params: { id: result?.data?.userId }});
+  setTimeout(async () => {
+    await router.push({ name: 'user', params: { id: result?.data?.userId }});
+  }, 1500);
 }
 
 </script>

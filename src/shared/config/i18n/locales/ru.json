@@ -10,7 +10,8 @@
 		"please_wait": "Пожалуйста, подождите",
 		"empty_fields": "Пустые поля",
 		"user_with_email_exist": "Пользователь с таким email уже существует",
-		"register_successful": "Регистрация прошла успешно"
+		"register_successful": "Регистрация прошла успешно",
+		"wrong_email_or_password": "Неправильный email или пароль"
 	},
 	"validation": {
 		"wrong_email_format": "Неправильный формат email",
