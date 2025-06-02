@@ -30,6 +30,21 @@ const router = createRouter({
           component: () => import('@/pages/register'),
         },
       ]
+    },
+    {
+      path: '/user/:id',
+      name: 'user',
+      redirect: { name: 'user-home'},
+      props: true,
+      component: () => import("@/pages/user"),
+      children: [
+        {
+          path: 'home',
+          name: 'user-home',
+          props: true,
+          component: () => import('@/pages/user/ui/UserPageMain.vue')
+        }
+      ]
     }
   ],
 })
