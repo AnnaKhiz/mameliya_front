@@ -121,12 +121,10 @@ router.beforeEach((to: RouteLocationNormalizedGeneric, from: RouteLocationNormal
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if  (!isAuthenticated && to.path.includes('user')) {
-      return next('/auth/login');
+      next('/auth/login');
     }
-    return next();
-  } else {
-    next();
   }
+  next();
 })
 
 function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next: NavigationGuardNext) {
@@ -135,7 +133,6 @@ function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next:
     if (!to.fullPath.includes('user')) {
       to.fullPath = '/user' + newPath;
     }
-    next();
   }
 }
 export default router
