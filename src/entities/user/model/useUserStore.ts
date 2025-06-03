@@ -8,6 +8,10 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<UserDataType | null>(null);
   const isAuthenticated = ref<boolean>(false);
 
+  const updateIsAuthenticated = (value: boolean) => {
+    isAuthenticated.value = value;
+  }
+
   const signUpUser = async (body: FormFieldsType):Promise<any> => {
     let result: ResponseType | null = null;
     try {
@@ -28,7 +32,7 @@ export const useUserStore = defineStore('user', () => {
     let result: ResponseType | null = null;
     try {
       result = await fetchData('api/user/login', 'POST', {}, body);
-
+      console.log(result)
       if (result?.data) {
         user.value = result?.data;
       }
@@ -58,6 +62,7 @@ export const useUserStore = defineStore('user', () => {
     isAuthenticated,
     signUpUser,
     signInUser,
-    logOutUser
+    logOutUser,
+    updateIsAuthenticated
   }
 })
