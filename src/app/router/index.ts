@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory, type NavigationGuardNext,
+  type RouteLocationNormalizedGeneric,
+  type RouteLocationNormalizedLoadedGeneric
+} from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +22,14 @@ const router = createRouter({
       path: '/auth',
       name: 'auth',
       redirect: { name: 'login'},
+      beforeEnter: (to, from,next) => {
+        const isAuthenticated = localStorage.getItem('userAuthenticated') === 'true';
+
+        if  (isAuthenticated) {
+          return next('/user');
+        }
+        next();
+      },
       component: () => import('@/pages/login/ui/AuthLayout.vue'),
       children: [
         {
@@ -54,18 +67,12 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+
+
+router.beforeEach((to: RouteLocationNormalizedGeneric, from: RouteLocationNormalizedLoadedGeneric , next: NavigationGuardNext) => {
   const isAuthenticated = localStorage.getItem('userAuthenticated') === 'true';
 
-  if (isAuthenticated) {
-    const newPath = to.path;
-    if (!to.fullPath.includes('user')) {
-      to.fullPath = '/user' + newPath;
-    }
-
-    console.log('to', to)
-    next();
-  }
+  redirectToUser(isAuthenticated, to, next);
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if  (!isAuthenticated && to.path.includes('user')) {
@@ -77,4 +84,13 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next: NavigationGuardNext) {
+  if (auth) {
+    const newPath = to.path;
+    if (!to.fullPath.includes('user')) {
+      to.fullPath = '/user' + newPath;
+    }
+    next();
+  }
+}
 export default router
