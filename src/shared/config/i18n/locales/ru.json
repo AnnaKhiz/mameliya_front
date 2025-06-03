@@ -84,5 +84,11 @@
 		"email_placeholder": "Введите email...",
 		"password_placeholder": "Введите пароль...",
 		"password_confirm_placeholder": "Введите пароль еще раз..."
+	},
+	"user": {
+		"mood": "Настроение",
+		"events": "События",
+		"analytics": "Аналитика",
+		"user_home": "Кабинет"
 	}
 }

@@ -84,5 +84,11 @@
 		"email_placeholder": "Enter email...",
 		"password_placeholder": "Enter password...",
 		"password_confirm_placeholder": "Enter confirm password..."
+	},
+	"user": {
+		"mood": "Mood",
+		"events": "Events",
+		"analytics": "Analytics",
+		"user_home": "Home"
 	}
 }
