@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
   const signUpUser = async (body: FormFieldsType):Promise<any> => {
     let result: ResponseType | null = null;
     try {
-      result = await fetchData('api/user/register', 'POST', {}, body);
+      result = await fetchData('user/register', 'POST', {}, body);
 
       if (result?.data) {
         user.value = result?.data;
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', () => {
   const signInUser = async (body: FormFieldsType):Promise<any> => {
     let result: ResponseType | null = null;
     try {
-      result = await fetchData('api/user/login', 'POST', {}, body);
+      result = await fetchData('user/login', 'POST', {}, body);
       console.log(result)
       if (result?.data) {
         user.value = result?.data;
@@ -43,16 +43,36 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  const checkUserSession = async (): Promise<any> => {
+    let result: ResponseType | null = null;
+    try {
+      result = await fetchData('user/check-auth');
+
+      if (result) {
+        if (result?.data) {
+          user.value = result.data;
+        }
+
+        isAuthenticated.value = result.result;
+        localStorage.setItem('userAuthenticated', JSON.stringify(result.result));
+      }
+
+    } catch(error) {
+      console.error('Error [Check auth user]: ', error);
+    }
+    return result;
+  }
+
   const logOutUser = async (): Promise<any> => {
     let result: Record<string, boolean> | null = null;
     try {
-      result = await fetchData('api/user/logout');
+      result = await fetchData('user/logout');
       user.value = null;
       isAuthenticated.value = false;
       localStorage.setItem('userAuthenticated', 'false');
 
     } catch(error) {
-      console.error('Error [Sign in user]: ', error);
+      console.error('Error [Log out user]: ', error);
     }
     return result;
   }
@@ -63,6 +83,7 @@ export const useUserStore = defineStore('user', () => {
     signUpUser,
     signInUser,
     logOutUser,
-    updateIsAuthenticated
+    updateIsAuthenticated,
+    checkUserSession
   }
 })
