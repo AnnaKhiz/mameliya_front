@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import { vElementHover } from "@vueuse/components";
+import { useRouter } from "vue-router";
 import { ref } from 'vue';
+import {useUserStore} from "@/entities/user";
+import {storeToRefs} from "pinia";
 const isHovered = ref('');
+const router = useRouter();
+const { user } = storeToRefs(useUserStore());
 
-type HoverValueType = 'mama' | 'family' | 'children' | 'mental_health' | 'rituals';
-const onHover = (value: HoverValueType) => {
+type SectionType = 'mama' | 'family' | 'children' | 'mental-health' | 'rituals';
+const onHover = (value: SectionType) => {
   isHovered.value = value;
 }
 const onBlur = () => {
   isHovered.value = '';
+}
+
+const goToPage = (value: SectionType) => {
+  router.push({ name: `user-${value}`, params: { id: user?.value?.userId}})
 }
 </script>
 
@@ -18,6 +26,7 @@ const onBlur = () => {
     <div
       @mouseover="onHover('mama')"
       @mouseleave="onBlur"
+      @click="goToPage('mama')"
       class="col-span-4 row-span-4 cursor-pointer relative hover:shadow-2xl"
     >
       <img
@@ -39,6 +48,7 @@ const onBlur = () => {
     <div
       @mouseover="onHover('family')"
       @mouseleave="onBlur"
+      @click="goToPage('family')"
       class="col-span-5 row-span-2 cursor-pointer relative hover:shadow-2xl"
     >
       <img
@@ -58,6 +68,7 @@ const onBlur = () => {
     <div
       @mouseover="onHover('children')"
       @mouseleave="onBlur"
+      @click="goToPage('children')"
       class="col-span-3 row-span-2 cursor-pointer relative hover:shadow-2xl">
       <img
         :src="`../../src/shared/assets/images/children.webp`"
@@ -74,8 +85,9 @@ const onBlur = () => {
       </Transition>
     </div>
     <div
-      @mouseover="onHover('mental_health')"
+      @mouseover="onHover('mental-health')"
       @mouseleave="onBlur"
+      @click="goToPage('mental-health')"
       class="col-span-3 row-span-2 cursor-pointer relative hover:shadow-2xl">
       <img
         :src="`../../src/shared/assets/images/mental_health.webp`"
@@ -84,7 +96,7 @@ const onBlur = () => {
       />
       <Transition duration="700">
         <h2
-          v-if="isHovered === 'mental_health'"
+          v-if="isHovered === 'mental-health'"
           class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4  font-bold text-3xl text-white w-fit"
         >
           Mental health
@@ -94,6 +106,7 @@ const onBlur = () => {
     <div
       @mouseover="onHover('rituals')"
       @mouseleave="onBlur"
+      @click="goToPage('rituals')"
       class="col-span-5 row-span-2 cursor-pointer relative hover:shadow-2xl">
       <img
         :src="`../../src/shared/assets/images/rituals.webp`"
