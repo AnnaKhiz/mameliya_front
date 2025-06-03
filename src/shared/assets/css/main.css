@@ -46,3 +46,14 @@ body, html {
 .bg-gradient-main {
   background: linear-gradient(4deg, rgb(245 218 145) 10%, rgb(241 239 192 / 68%) 70%);
 }
+
+/* Transition main */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}

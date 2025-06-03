@@ -9,6 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        'green-mood': '#758561',
         'green-dark': '#90d159',
         'green-medium': '#99cd6a',
         'green-light': '#b6e094',

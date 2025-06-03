@@ -61,6 +61,51 @@ const router = createRouter({
           meta: {
             requiresAuth: true,
           },
+        },
+        {
+          path: ':id/mama',
+          name: 'user-mama',
+          props: true,
+          component: () => import('@/pages/mama'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: ':id/family',
+          name: 'user-family',
+          props: true,
+          component: () => import('@/pages/family'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: ':id/children',
+          name: 'user-children',
+          props: true,
+          component: () => import('@/pages/children'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: ':id/mental-health',
+          name: 'user-mental-health',
+          props: true,
+          component: () => import('@/pages/mental-health'),
+          meta: {
+            requiresAuth: true,
+          }
+        },
+        {
+          path: ':id/rituals',
+          name: 'user-rituals',
+          props: true,
+          component: () => import('@/pages/rituals'),
+          meta: {
+            requiresAuth: true,
+          }
         }
       ]
     }
@@ -76,12 +121,10 @@ router.beforeEach((to: RouteLocationNormalizedGeneric, from: RouteLocationNormal
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if  (!isAuthenticated && to.path.includes('user')) {
-      return next('/auth/login');
+      next('/auth/login');
     }
-    return next();
-  } else {
-    next();
   }
+  next();
 })
 
 function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next: NavigationGuardNext) {
@@ -90,7 +133,6 @@ function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next:
     if (!to.fullPath.includes('user')) {
       to.fullPath = '/user' + newPath;
     }
-    next();
   }
 }
 export default router

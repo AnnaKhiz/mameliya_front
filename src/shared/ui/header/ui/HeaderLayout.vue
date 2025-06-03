@@ -4,6 +4,7 @@ import { LogoMain } from "@/shared/ui/logo";
 import {storeToRefs} from "pinia";
 import {useBurgerMenuStore} from "@/shared/model/burgerMenuStore.ts";
 const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
+
 </script>
 
 <template>
