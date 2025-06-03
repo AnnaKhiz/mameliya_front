@@ -23,12 +23,12 @@ const onBlur = () => {
       <img
         :src="`../../src/shared/assets/images/mama.webp`"
         alt="chapter image"
-        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+        class="w-full h-full object-cover rounded-lg hover:brightness-50 transition duration-700"
       />
       <Transition duration="700">
         <h2
           v-if="isHovered === 'mama'"
-          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+          class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 font-bold text-3xl text-white"
         >
           Mama
         </h2>
@@ -44,12 +44,12 @@ const onBlur = () => {
       <img
         :src="`../../src/shared/assets/images/family.webp`"
          alt="chapter image"
-         class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+         class="w-full h-full object-cover rounded-lg hover:brightness-50  transition duration-700"
       />
       <Transition duration="700">
         <h2
           v-if="isHovered === 'family'"
-          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+          class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4  font-bold text-3xl text-white"
         >
           Family
         </h2>
@@ -62,12 +62,12 @@ const onBlur = () => {
       <img
         :src="`../../src/shared/assets/images/children.webp`"
         alt="chapter image"
-        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+        class="w-full h-full object-cover rounded-lg hover:brightness-50 transition duration-700"
       />
       <Transition duration="700">
         <h2
           v-if="isHovered === 'children'"
-          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+          class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4  font-bold text-3xl text-white"
         >
           Children
         </h2>
@@ -80,12 +80,12 @@ const onBlur = () => {
       <img
         :src="`../../src/shared/assets/images/mental_health.webp`"
         alt="chapter image"
-        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+        class="w-full h-full object-cover rounded-lg hover:brightness-50 transition duration-700"
       />
       <Transition duration="700">
         <h2
           v-if="isHovered === 'mental_health'"
-          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+          class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4  font-bold text-3xl text-white w-fit"
         >
           Mental health
         </h2>
@@ -98,12 +98,12 @@ const onBlur = () => {
       <img
         :src="`../../src/shared/assets/images/rituals.webp`"
         alt="chapter image"
-        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+        class="w-full h-full object-cover rounded-lg hover:brightness-50 transition duration-700"
       />
       <Transition duration="700">
         <h2
           v-if="isHovered === 'rituals'"
-          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+          class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4  font-bold text-3xl text-white"
         >
           Rituals
         </h2>
