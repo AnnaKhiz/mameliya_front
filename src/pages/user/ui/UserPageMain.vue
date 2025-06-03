@@ -1,11 +1,126 @@
 <script setup lang="ts">
+import { vElementHover } from "@vueuse/components";
+import { ref } from 'vue';
+const isHovered = ref('');
 
+type HoverValueType = 'mama' | 'family' | 'children' | 'mental_health' | 'rituals';
+const onHover = (value: HoverValueType) => {
+  isHovered.value = value;
+}
+const onBlur = () => {
+  isHovered.value = '';
+}
 </script>
 
 <template>
-<div>user page main</div>
+  <main class="bg-gradient-main flex-1 self-stretch grid grid-cols-12 grid-rows-4 gap-4 p-5 max-h-screen">
+
+    <div
+      @mouseover="onHover('mama')"
+      @mouseleave="onBlur"
+      class="col-span-4 row-span-4 cursor-pointer relative hover:shadow-2xl"
+    >
+      <img
+        :src="`../../src/shared/assets/images/mama.webp`"
+        alt="chapter image"
+        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+      />
+      <Transition duration="700">
+        <h2
+          v-if="isHovered === 'mama'"
+          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+        >
+          Mama
+        </h2>
+      </Transition>
+
+    </div>
+
+    <div
+      @mouseover="onHover('family')"
+      @mouseleave="onBlur"
+      class="col-span-5 row-span-2 cursor-pointer relative hover:shadow-2xl"
+    >
+      <img
+        :src="`../../src/shared/assets/images/family.webp`"
+         alt="chapter image"
+         class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+      />
+      <Transition duration="700">
+        <h2
+          v-if="isHovered === 'family'"
+          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+        >
+          Family
+        </h2>
+      </Transition>
+    </div>
+    <div
+      @mouseover="onHover('children')"
+      @mouseleave="onBlur"
+      class="col-span-3 row-span-2 cursor-pointer relative hover:shadow-2xl">
+      <img
+        :src="`../../src/shared/assets/images/children.webp`"
+        alt="chapter image"
+        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+      />
+      <Transition duration="700">
+        <h2
+          v-if="isHovered === 'children'"
+          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+        >
+          Children
+        </h2>
+      </Transition>
+    </div>
+    <div
+      @mouseover="onHover('mental_health')"
+      @mouseleave="onBlur"
+      class="col-span-3 row-span-2 cursor-pointer relative hover:shadow-2xl">
+      <img
+        :src="`../../src/shared/assets/images/mental_health.webp`"
+        alt="chapter image"
+        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+      />
+      <Transition duration="700">
+        <h2
+          v-if="isHovered === 'mental_health'"
+          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+        >
+          Mental health
+        </h2>
+      </Transition>
+    </div>
+    <div
+      @mouseover="onHover('rituals')"
+      @mouseleave="onBlur"
+      class="col-span-5 row-span-2 cursor-pointer relative hover:shadow-2xl">
+      <img
+        :src="`../../src/shared/assets/images/rituals.webp`"
+        alt="chapter image"
+        class="w-full h-full object-cover rounded-lg hover:opacity-75 transition-opacity duration-700"
+      />
+      <Transition duration="700">
+        <h2
+          v-if="isHovered === 'rituals'"
+          class="absolute inset-x-1/2 inset-y-1/2 font-bold text-3xl text-white"
+        >
+          Rituals
+        </h2>
+      </Transition>
+    </div>
+
+  </main>
 </template>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>

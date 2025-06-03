@@ -8,7 +8,7 @@ const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
 
 <template>
   <header class="sm:flex justify-between items-center xs:p-5 xs:block xs:relative bg-gradient">
-    <LogoMain  />
+    <LogoMain />
     <slot name="content" />
   </header>
 
