@@ -2,7 +2,7 @@
 import { ChevronDownIcon} from "@heroicons/vue/16/solid";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { type SectionType } from "@/entities/sidebar";
+import {type SectionType, SidebarLayout} from "@/entities/sidebar";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/entities/user";
 import {useRouter} from "vue-router";
@@ -228,36 +228,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-5 bg-gradient-main h-full drop-shadow-2xl min-w-[250px] max-h-screen overflow-auto " id="aside">
-    <div
-      v-for="(menu, index) in asideMenuList"
-      :key="menu.id+menu.title"
-      class="shadow-2xl mb-2 rounded-md"
-    >
+  <SidebarLayout>
+    <template #content>
       <div
-        class="flex justify-between items-center bg-brown-medium hover:bg-brown-dark duration-500 p-4 cursor-pointer text-white uppercase transition-all w-[250px]"
-        :class="{ 'bg-[#523629] shadow-2xl' : !menu.listHidden }"
-        @click="goToPage(menu.value, index)"
+        v-for="(menu, index) in asideMenuList"
+        :key="menu.id+menu.title"
+        class="shadow-2xl mb-2 rounded-md w-[250px]"
       >
-        <h2 class="font-semibold">
-          {{ menu?.title || '' }}
-        </h2>
-
-        <ChevronDownIcon class="w-8" :class="{ 'rotate-180 transition-rotate duration-500' : !menu.listHidden }"/>
-      </div>
-
-      <ul v-if="!menu.listHidden" class="p-5 pl-7 w-[250px]">
-        <li
-          v-for="submenu in menu.links"
-          :key="submenu.title"
-          class="cursor-pointer text-brown-dark hover:text-brown-medium mb-1 hover:list-disc hover:font-semibold transition duration-500"
+        <div
+          class="flex justify-between items-center bg-brown-medium hover:bg-brown-dark duration-500 p-4 cursor-pointer text-white uppercase transition-all w-[250px]"
+          :class="{ 'bg-[#523629] shadow-2xl' : !menu.listHidden }"
+          @click="goToPage(menu.value, index)"
         >
-          {{ submenu.title}}
-        </li>
-      </ul>
+          <h2 class="font-semibold">
+            {{ menu?.title || '' }}
+          </h2>
 
-    </div>
-  </div>
+          <ChevronDownIcon class="w-8" :class="{ 'rotate-180 transition-rotate duration-500' : !menu.listHidden }"/>
+        </div>
+
+        <ul v-if="!menu.listHidden" class="p-5 pl-7 w-[250px]">
+          <li
+            v-for="submenu in menu.links"
+            :key="submenu.title"
+            class="cursor-pointer text-brown-dark hover:text-brown-medium mb-1 hover:list-disc hover:font-semibold transition duration-500"
+          >
+            {{ submenu.title}}
+          </li>
+        </ul>
+
+      </div>
+    </template>
+  </SidebarLayout>
 </template>
 
 <style scoped>
