@@ -7,6 +7,54 @@
 		"register": "Регистрация",
 		"logout": "Выйти"
 	},
+	"aside": {
+		"mama": {
+			"title": "Мама",
+			"self_feeling": "Самоощущение",
+			"daily_rituals": "Ежедневные ритуалы",
+			"personal_notes": "Личные заметки",
+			"timer": "5 минут для себя",
+			"beauty_calendar": "Календарь процедур красоты"
+		},
+		"family": {
+			"title": "Семья",
+			"family_events": "Семейные события",
+			"plans": "Еженедельные планы, планы на выходные",
+			"menu": "Еженедельное/ежедневное меню",
+			"chores": "Домашние дела, делегирование",
+			"general_calendar": "Общий календарь"
+		},
+		"children": {
+			"title": "Дети",
+			"daily_routine": "Ежедневная рутина, расписание",
+			"activities": "Кружки и занятия",
+			"health": "Здоровье, лекарства, витамины",
+			"baby_diary": "Дневник малыша",
+			"children_notes": "Заметки"
+		},
+		"daily_routine": {
+			"title": "Ежедневная рутина",
+			"daily_tasks": "Ежедневные задачи",
+			"weekly_tasks": "Еженедельные задачи",
+			"recurring_tasks": "Повторяющиеся задачи",
+			"priority_tasks": "Приоритетные задачи",
+			"deferred_tasks": "Отложенные задачи"
+		},
+		"mental_health": {
+			"title": "Ментальное здоровье",
+			"diary": "Дневник",
+			"meditations": "Медитации",
+			"assistant": "AI ассистент",
+			"favorite_books": "Любимые книги"
+		},
+		"rituals": {
+			"title": "Ритуалы красоты",
+			"massage": "Массаж",
+			"cosmetology": "Косметолог",
+			"manicure": "Уход за ногтями",
+			"schedule_rituals": "График ритуалов"
+		}
+	},
 	"notify": {
 		"please_wait": "Пожалуйста, подождите",
 		"empty_fields": "Пустые поля",

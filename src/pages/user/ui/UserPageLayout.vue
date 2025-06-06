@@ -1,11 +1,5 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <router-view />
+  <router-view class="h-full"/>
 </template>
 
-<style scoped>
 
-</style>

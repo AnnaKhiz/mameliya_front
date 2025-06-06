@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<div>mental health page</div>
+  <div>mental health page</div>
 </template>
 
 <style scoped>

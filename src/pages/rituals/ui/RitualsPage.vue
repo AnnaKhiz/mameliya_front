@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-<div>rituals page</div>
+  <div>rituals page</div>
 </template>
 
 <style scoped>

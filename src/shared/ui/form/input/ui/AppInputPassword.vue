@@ -7,9 +7,8 @@ const { t } = useI18n();
 type FormRegisterType = {
   email: string;
   password: string;
-  passwordConfirm: string;
+  passwordConfirm?: string;
 }
-
 
 type Props = {
   isConfirm?: boolean;
