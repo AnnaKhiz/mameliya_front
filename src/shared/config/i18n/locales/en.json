@@ -7,6 +7,47 @@
 		"register": "Sign up",
 		"logout": "Выйти"
 	},
+	"aside": {
+		"mama": {
+			"title": "Mother",
+			"self_feeling": "Self-feeling",
+			"daily_rituals": "Daily rituals",
+			"personal_notes": "Personal notes",
+			"timer": "5 min for myself",
+			"beauty_calendar": "Beauty procedures calendar"
+		},
+		"family": {
+			"title": "Family",
+			"family_events": "Family events",
+			"plans": "Weekly/weekend plans",
+			"menu": "Weekly/daily menu plans",
+			"chores": "Household chores, distribution of chores",
+			"general_calendar": "General calendar"
+		},
+		"children": {
+			"title": "Children",
+			"daily_routine": "Daily routine, schedule",
+			"activities": "Activities",
+			"health": "Health, medicines, vitamins",
+			"baby_diary": "Baby diary",
+			"children_notes": "Notes"
+		},
+		"daily_routine": {
+			"title": "Daily routine",
+			"daily_tasks": "Daily tasks",
+			"weekly_tasks": "Weekly tasks",
+			"recurring_tasks": "Recurring tasks",
+			"priority_tasks": "Priority tasks",
+			"deferred_tasks": "Deferred tasks"
+		},
+		"mental_health": {
+			"title": "Mental health",
+			"diary": "Diary",
+			"meditations": "Meditations",
+			"assistant": "AI assistant",
+			"favorite_books": "Favorite books"
+		}
+	},
 	"notify": {
 		"please_wait": "Please, wait",
 		"empty_fields": "Empty fields",
