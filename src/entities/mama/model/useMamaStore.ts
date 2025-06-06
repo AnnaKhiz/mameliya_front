@@ -9,6 +9,20 @@ import {
 export const useMamaStore = defineStore('mama', () => {
   const mama = ref<MamaResponseType | null>(null);
 
+  const getMamaInfo = async (): Promise<any> => {
+    let result: ResponseMamaType | null = null;
+    try {
+      result = await fetchData('user/mama/info');
+
+      if (result?.data) {
+        mama.value = result?.data;
+      }
+
+    } catch (error) {
+      console.error('Error [Get mama info]: ', error);
+    }
+    return result;
+  }
   const changeMamaMood = async (body: { mood: MoodStateType }): Promise<any> => {
     let result: ResponseMamaType | null = null;
     try {
@@ -19,13 +33,14 @@ export const useMamaStore = defineStore('mama', () => {
       }
 
     } catch (error) {
-      console.error('Error [Sign up user]: ', error);
+      console.error('Error [Change mood]: ', error);
     }
     return result;
   }
 
   return {
     mama,
-    changeMamaMood
+    changeMamaMood,
+    getMamaInfo
   }
 })
