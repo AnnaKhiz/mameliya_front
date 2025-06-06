@@ -46,6 +46,13 @@
 			"meditations": "Медитации",
 			"assistant": "AI ассистент",
 			"favorite_books": "Любимые книги"
+		},
+		"rituals": {
+			"title": "Ритуалы красоты",
+			"massage": "Массаж",
+			"cosmetology": "Косметолог",
+			"manicure": "Уход за ногтями",
+			"schedule_rituals": "График ритуалов"
 		}
 	},
 	"notify": {

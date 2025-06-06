@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <div>
-    family page
-  </div>
+  <div>family page</div>
 </template>
 
 <style scoped>

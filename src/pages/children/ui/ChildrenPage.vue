@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<div>children page</div>
+  <div>children page</div>
 </template>
 
 <style scoped>

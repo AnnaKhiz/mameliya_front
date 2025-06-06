@@ -5,7 +5,7 @@
 		"about": "About",
 		"signin": "Sign in",
 		"register": "Sign up",
-		"logout": "Выйти"
+		"logout": "Logout"
 	},
 	"aside": {
 		"mama": {
@@ -46,6 +46,13 @@
 			"meditations": "Meditations",
 			"assistant": "AI assistant",
 			"favorite_books": "Favorite books"
+		},
+		"rituals": {
+			"title": "Beauty rituals",
+			"massage": "Massage",
+			"cosmetology": "Cosmetology",
+			"manicure": "Nail care",
+			"schedule_rituals": "Schedule of rituals"
 		}
 	},
 	"notify": {

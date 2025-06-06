@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>mama page</div>
+<div  >daily routine</div>
 </template>
 
 <style scoped>

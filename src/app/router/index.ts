@@ -51,7 +51,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
-      component: () => import("@/pages/user"),
+      component: () => import("@/pages/user/ui/UserPageLayout.vue"),
       children: [
         {
           path: ':id',
@@ -61,52 +61,63 @@ const router = createRouter({
           meta: {
             requiresAuth: true,
           },
+          children: [
+            {
+              path: 'mama',
+              name: 'user-mama',
+              props: true,
+              component: () => import('@/pages/mama'),
+              meta: {
+                requiresAuth: true,
+              },
+            },
+            {
+              path: 'family',
+              name: 'user-family',
+              props: true,
+              component: () => import('@/pages/family'),
+              meta: {
+                requiresAuth: true,
+              },
+            },
+            {
+              path: 'children',
+              name: 'user-children',
+              props: true,
+              component: () => import('@/pages/children'),
+              meta: {
+                requiresAuth: true,
+              },
+            },
+            {
+              path: 'mental-health',
+              name: 'user-mental_health',
+              props: true,
+              component: () => import('@/pages/mental-health'),
+              meta: {
+                requiresAuth: true,
+              }
+            },
+            {
+              path: 'rituals',
+              name: 'user-rituals',
+              props: true,
+              component: () => import('@/pages/rituals'),
+              meta: {
+                requiresAuth: true,
+              }
+            },
+            {
+              path: 'daily-routine',
+              name: 'user-daily_routine',
+              props: true,
+              component: () => import('@/pages/daily-routine'),
+              meta: {
+                requiresAuth: true,
+              }
+            }
+          ]
         },
-        {
-          path: ':id/mama',
-          name: 'user-mama',
-          props: true,
-          component: () => import('@/pages/mama'),
-          meta: {
-            requiresAuth: true,
-          },
-        },
-        {
-          path: ':id/family',
-          name: 'user-family',
-          props: true,
-          component: () => import('@/pages/family'),
-          meta: {
-            requiresAuth: true,
-          },
-        },
-        {
-          path: ':id/children',
-          name: 'user-children',
-          props: true,
-          component: () => import('@/pages/children'),
-          meta: {
-            requiresAuth: true,
-          },
-        },
-        {
-          path: ':id/mental-health',
-          name: 'user-mental-health',
-          props: true,
-          component: () => import('@/pages/mental-health'),
-          meta: {
-            requiresAuth: true,
-          }
-        },
-        {
-          path: ':id/rituals',
-          name: 'user-rituals',
-          props: true,
-          component: () => import('@/pages/rituals'),
-          meta: {
-            requiresAuth: true,
-          }
-        }
       ]
     }
   ],

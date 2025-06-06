@@ -17,7 +17,7 @@ onMounted(async () => {
 <template>
   <MainHeader v-if="!isAuthenticated" />
   <UserHeader v-else />
-  <router-view/>
+  <router-view />
   <footer-component />
 </template>
 
