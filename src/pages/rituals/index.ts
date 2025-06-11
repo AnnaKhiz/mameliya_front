@@ -1,2 +1,3 @@
 import RitualsPage from "@/pages/rituals/ui/RitualsPage.vue";
-export default RitualsPage;
+import RitualsStatistic from "@/pages/rituals/ui/RitualsStatistic.vue";
+export { RitualsPage, RitualsStatistic };
