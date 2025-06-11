@@ -68,7 +68,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="shadow-2xl p-5">
+  <div>
     <h2 class="font-semibold mb-2 text-brown-dark">{{ t('mama.time_for_myself') }}:</h2>
 
     <TimerValuesList

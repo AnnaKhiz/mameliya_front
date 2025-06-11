@@ -102,7 +102,7 @@ const router = createRouter({
               path: 'rituals',
               name: 'user-rituals',
               props: true,
-              component: () => import('@/pages/rituals'),
+              component: () => import('@/pages/rituals/ui/RitualsPage.vue'),
               meta: {
                 requiresAuth: true,
               }

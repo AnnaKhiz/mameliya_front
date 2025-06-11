@@ -6,6 +6,7 @@ import {computed, onMounted, ref} from "vue";
 import {MoodPanel, MoodPanelLayout} from "@/shared/ui/mood-panel";
 import {useI18n} from "vue-i18n";
 import {TimerComponent} from "../../../shared/ui/timer";
+import {RitualsStatistic} from "@/pages/rituals";
 const { t } = useI18n();
 const { mama } = storeToRefs(useMamaStore());
 
@@ -44,7 +45,13 @@ const updateModal = (value: boolean) => {
             <span class="text-brown-dark">{{ mood }}</span>
           </div>
         </div>
-        <TimerComponent />
+        <div class="shadow-2xl p-5">
+          <TimerComponent />
+        </div>
+
+        <div class="shadow-2xl p-5">
+          <RitualsStatistic />
+        </div>
       </div>
     </template>
   </SidebarLayout>
