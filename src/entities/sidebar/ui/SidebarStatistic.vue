@@ -49,9 +49,42 @@ const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
 
+type StorageTimerObjectType = {
+  time: number;
+  isPaused: boolean;
+  pausedValue: string;
+  date: number;
+}
+
+const localStorageTimer = ref<StorageTimerObjectType | null>()
+
 onMounted(() => {
-  timerChecked.value = mama.value?.timer as number;
-  timerValue.value = `${String(timerChecked.value).padStart(2, '0')}: 00`
+  const storageData = localStorage.getItem('mameliya_timer');
+  if (storageData) {
+    localStorageTimer.value = JSON.parse(storageData);
+
+    const currentDate = new Date();
+    const storageDate = new Date(localStorageTimer.value?.date ?? '');
+
+    const timeDifference = currentDate.getTime() - storageDate.getTime();
+    const hoursDifference = timeDifference / (1000 * 60 * 60)
+
+    if (hoursDifference >= 24) {
+      localStorage.removeItem('mameliya_timer')
+    }
+  }
+
+  timerChecked.value = localStorageTimer.value?.time ? localStorageTimer.value?.time : mama.value?.timer as number;
+
+  timerValue.value = localStorageTimer.value?.isPaused ? `${localStorageTimer.value?.pausedValue}` : `${String(timerChecked.value).padStart(2, '0')}: 00`;
+  stoppedTimerValue.value = localStorageTimer.value?.isPaused ? `${localStorageTimer.value?.pausedValue}` : `${String(timerChecked.value).padStart(2, '0')}: 00`;
+
+  if (localStorageTimer.value?.pausedValue) {
+    const [min, sec] = localStorageTimer.value?.pausedValue.split(': ').map(Number);
+    minutes = min;
+    seconds = sec;
+  }
+
 });
 
 const handleChange = (event: Event) => {
@@ -59,22 +92,42 @@ const handleChange = (event: Event) => {
   stoppedTimerValue.value = '';
   timer.value = '';
   seconds = 60;
-  timerChecked.value = +element?.value;
+  timerChecked.value = localStorageTimer.value?.time && localStorageTimer.value?.time == +element?.value ? localStorageTimer.value?.time : +element?.value;
+
+  localStorageTimer.value = {
+    time: timerChecked.value,
+    isPaused: stoppedTimerValue.value != '',
+    pausedValue: stoppedTimerValue.value || '',
+    date: Date.now(),
+  }
+
+  localStorage.setItem('mameliya_timer', JSON.stringify(localStorageTimer.value))
+
   timerValue.value = `${String(timerChecked.value).padStart(2, '0')}: 00`;
 }
 
 const countdown = () => {
-  isTimerPaused.value = !isTimerPaused.value
+  isTimerPaused.value = !isTimerPaused.value;
   minutes = timerChecked.value - 1;
 
   if (!isTimerPaused.value) {
     stoppedTimerValue.value = timer.value;
+
+    localStorageTimer.value = {
+      time: timerChecked.value,
+      isPaused: true,
+      pausedValue: stoppedTimerValue.value || '',
+      date: Date.now(),
+    }
+
+    localStorage.setItem('mameliya_timer', JSON.stringify(localStorageTimer.value))
 
     if (intervalID) {
       clearInterval(intervalID);
     }
     return stoppedTimerValue.value;
   }
+
   timerValue.value = stoppedTimerValue.value ? stoppedTimerValue.value : `${String(timerChecked.value).padStart(2, '0')}: 00`;
 
   if (checkIsTimerFinished.value && isTimerPaused.value) {
