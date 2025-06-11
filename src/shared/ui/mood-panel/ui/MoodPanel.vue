@@ -9,7 +9,7 @@ type Props = {
 }
 
 const props = defineProps<Props>();
-const emits = defineEmits(['updateModalShow'])
+const emits = defineEmits(['updateModalShow']);
 const toggleMood = async (state: MoodStateType) => {
   await changeMamaMood({ mood: state});
   emits('updateModalShow', !props.isMoodPanel)
@@ -17,7 +17,6 @@ const toggleMood = async (state: MoodStateType) => {
 </script>
 
 <template>
-
   <div class="flex items-center justify-center gap-2 absolute -bottom-12 left-0 bg-white p-1 rounded-md shadow-2xl">
     <div class="border border-transparent hover:border-brown-light hover:shadow-inner p-1 rounded-md transition duration-500 ">
       <FaceSmileIcon
@@ -38,7 +37,6 @@ const toggleMood = async (state: MoodStateType) => {
       />
     </div>
   </div>
-
 </template>
 
 <style scoped>

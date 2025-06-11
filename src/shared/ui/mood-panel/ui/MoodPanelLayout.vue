@@ -8,11 +8,9 @@ const isMoodPanel = ref<boolean>(false);
 
 const emits = defineEmits(['updateModalShow'])
 const toggleMoodPanel = () => {
-  console.log('click')
   isMoodPanel.value = !isMoodPanel.value;
-  emits('updateModalShow', isMoodPanel.value)
+  emits('updateModalShow', isMoodPanel.value);
 }
-
 
 </script>
 
@@ -21,9 +19,5 @@ const toggleMoodPanel = () => {
     <MoodIcon v-if="mama?.mood" />
     <slot name="content"/>
   </div>
-
 </template>
 
-<style scoped>
-
-</style>
