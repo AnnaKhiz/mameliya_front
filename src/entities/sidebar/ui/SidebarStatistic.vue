@@ -5,7 +5,7 @@ import {useMamaStore} from "@/entities/mama";
 import {computed, onMounted, ref} from "vue";
 import {MoodPanel, MoodPanelLayout} from "@/shared/ui/mood-panel";
 import {useI18n} from "vue-i18n";
-import {TimerComponent} from "@/features/timer";
+import {TimerComponent} from "../../../shared/ui/timer";
 const { t } = useI18n();
 const { mama } = storeToRefs(useMamaStore());
 
@@ -43,7 +43,6 @@ const updateModal = (value: boolean) => {
             </MoodPanelLayout>
             <span class="text-brown-dark">{{ mood }}</span>
           </div>
-
         </div>
         <TimerComponent />
       </div>
