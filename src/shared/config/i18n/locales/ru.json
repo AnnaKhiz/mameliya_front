@@ -13,7 +13,7 @@
 			"self_feeling": "Самоощущение",
 			"daily_rituals": "Ежедневные ритуалы",
 			"personal_notes": "Личные заметки",
-			"timer": "5 минут для себя",
+			"timer": "Время для себя",
 			"beauty_calendar": "Календарь процедур красоты"
 		},
 		"family": {
@@ -138,5 +138,15 @@
 		"events": "События",
 		"analytics": "Аналитика",
 		"user_home": "Кабинет"
+	},
+	"mama": {
+		"main_statistic": "Основная статистика",
+		"mood_good": "Отличное",
+		"mood_normal": "Нормальное",
+		"mood_bad": "Плохое",
+		"time_for_myself": "Время для себя",
+		"timer_finished": "Время вышло",
+		"start_timer": "Запустить таймер",
+		"set_time": "Установить время"
 	}
 }

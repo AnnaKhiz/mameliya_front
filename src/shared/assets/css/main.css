@@ -7,9 +7,8 @@
   border-style: solid;
   border-color: #e5e7eb;
 }
-body input:is([type='email'], [type='password'], [type='text']) {
+body input:is([type='email'], [type='password'], [type='text']), select {
   border: 1px solid rgba(244, 249, 212, 0.58);
-  /*background-color: rgba(244, 249, 212, 0.58);*/
   box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   transition: background-color .3s ease-in-out 0s,
     border-bottom-color .3s ease-in-out 0s,
@@ -19,13 +18,23 @@ body input:is([type='email'], [type='password'], [type='text']) {
       inset -1px -1px 5px #523629,
       inset 1px 1px 5px #523629;
   }
-  &:focus {
+  &:not(select):focus {
     border-color: rgba(244, 249, 212, 0.58);
     border-bottom: 1px solid #523629;
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   }
   &:active {
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
+  }
+}
+
+body select {
+  &:focus {
+    border-color: rgba(244, 249, 212, 0.58);
+    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
+  }
+  &:disabled:hover {
+    box-shadow: none;
   }
 }
 

@@ -13,7 +13,7 @@
 			"self_feeling": "Self-feeling",
 			"daily_rituals": "Daily rituals",
 			"personal_notes": "Personal notes",
-			"timer": "5 min for myself",
+			"timer": "Time for myself",
 			"beauty_calendar": "Beauty procedures calendar"
 		},
 		"family": {
@@ -138,5 +138,15 @@
 		"events": "Events",
 		"analytics": "Analytics",
 		"user_home": "Home"
+	},
+	"mama": {
+		"main_statistic": "Main statistic",
+		"mood_good": "Great",
+		"mood_normal": "Normal",
+		"mood_bad": "Bad",
+		"time_for_myself": "Time for myself",
+		"timer_finished": "Time is up",
+		"start_timer": "Start timer",
+		"set_time": "Set time"
 	}
 }
