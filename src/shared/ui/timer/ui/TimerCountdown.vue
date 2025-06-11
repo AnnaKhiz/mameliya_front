@@ -108,12 +108,12 @@ watch(() => props.secondsDefault, (val: number) => seconds.value = val, { immedi
       <PlayIcon
         v-if="!isTimerPaused"
         @click="countdown"
-        class="w-6 fill-brown-dark cursor-pointer"
+        class="w-6 fill-brown-dark cursor-pointer hover:animate-pulse"
       />
       <PauseIcon
         v-else
         @click="countdown"
-        class="w-6 fill-brown-dark cursor-pointer"
+        class="w-6 fill-brown-dark cursor-pointer hover:animate-pulse"
       />
     </div>
     <div v-else class="text-brown-dark font-semibold mb-1">
