@@ -1,17 +1,17 @@
 <script setup lang="ts">
 
 import {MoodPanel, MoodPanelLayout} from "@/shared/ui/mood/mood-panel";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {AppButton} from "@/shared/ui/button";
+import {AppTextarea} from "@/shared/ui/form";
 
 const { t } = useI18n();
 const isMoodPanel = ref<boolean>(false);
-
-
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
+
 </script>
 
 <template>
@@ -28,15 +28,7 @@ const updateModal = (value: boolean) => {
       </template>
     </MoodPanelLayout>
     <h2 class="text-brown-dark font-semibold mb-4 text-lmd"> {{ t('mama.add_comment') }}</h2>
-    <div>
-      <textarea
-        class="placeholder:opacity-25 block mb-4"
-        rows="5"
-        cols="50"
-        :placeholder="t('mama.write_comment')"
-      />
-      <AppButton :label="t('general.save')" />
-    </div>
+    <AppTextarea />
   </div>
 </template>
 
