@@ -5,7 +5,8 @@
 		"about": "About",
 		"signin": "Sign in",
 		"register": "Sign up",
-		"logout": "Logout"
+		"logout": "Logout",
+		"save": "Save"
 	},
 	"aside": {
 		"mama": {
@@ -141,13 +142,20 @@
 	},
 	"mama": {
 		"main_statistic": "Main statistic",
-		"mood_good": "Great",
-		"mood_normal": "Normal",
-		"mood_bad": "Bad",
+		"mood_calm": "Calm",
+		"mood_sad": "Sad",
+		"mood_angry": "Angry",
+		"mood_happy": "Happy",
+		"mood_tired": "Tired",
+		"mood_grateful": "Grateful",
 		"time_for_myself": "Time for myself",
 		"timer_finished": "Time is up",
 		"start_timer": "Start timer",
 		"set_time": "Set time",
-		"rituals": "Rituals"
+		"rituals": "Rituals",
+		"click_to_change_mood": "Click on the icon to change mood",
+		"write_comment": "Leave a comment here...",
+		"add_comment": "Describe your mood today",
+		"your_mood_today": "Your mood"
 	}
 }

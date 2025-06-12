@@ -203,8 +203,8 @@ const asideList = computed(():AsideMenuType[] => ([
   },
 ]))
 
-const goToPage = (value: SectionType, index: number) => {
-  toggleMenuList(index);
+const goToPage = (value: SectionType, index: number, subpage = false) => {
+  if (!subpage) toggleMenuList(index);
   router.push({ name: `user-${value}`, params: { id: user?.value?.userId}})
 }
 
@@ -252,6 +252,7 @@ onMounted(() => {
             v-for="submenu in menu.links"
             :key="submenu.title"
             class="cursor-pointer text-brown-dark hover:text-brown-medium mb-1 hover:list-disc hover:font-semibold transition duration-500"
+            @click="goToPage(submenu.value, index, true)"
           >
             {{ submenu.title}}
           </li>
