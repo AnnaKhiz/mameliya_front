@@ -1,4 +1,4 @@
-import type { SectionType } from "@/entities/sidebar";
+import type {MamaSubsectionType, SectionType} from "@/entities/sidebar";
 import type { AsideSubmenuList } from "@/entities/sidebar";
 
 export type AsideMenuType = {

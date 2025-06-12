@@ -2,10 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { fetchData } from "@/shared/api";
 import {
-  type MoodStateType,
   type MamaResponseType,
   type ResponseMamaType
 } from "@/entities/mama";
+import type { MoodStateType } from "@/entities/mood";
+
 export const useMamaStore = defineStore('mama', () => {
   const mama = ref<MamaResponseType | null>(null);
 

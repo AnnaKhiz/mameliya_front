@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MoodIcon from "@/features/mood-icon";
+import MoodIcon from "../../mood-icon";
 import {storeToRefs} from "pinia";
 import {useMamaStore} from "@/entities/mama";
 import {ref} from "vue";

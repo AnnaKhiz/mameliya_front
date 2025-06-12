@@ -1,2 +1,3 @@
 import MamaPage from "@/pages/mama/ui/MamaPage.vue";
-export default MamaPage;
+import SelfFeeling from "@/pages/mama/ui/SelfFeeling.vue";
+export  { MamaPage, SelfFeeling };

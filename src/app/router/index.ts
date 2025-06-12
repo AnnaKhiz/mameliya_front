@@ -66,10 +66,21 @@ const router = createRouter({
               path: 'mama',
               name: 'user-mama',
               props: true,
-              component: () => import('@/pages/mama'),
+              component: () => import('@/pages/mama/ui/MamaPage.vue'),
               meta: {
                 requiresAuth: true,
               },
+              children: [
+                {
+                  path: 'self-feeling',
+                  name: 'user-self_feeling',
+                  props: true,
+                  component: () => import('@/pages/mama/ui/SelfFeeling.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+              ]
             },
             {
               path: 'family',

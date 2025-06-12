@@ -5,7 +5,8 @@
 		"about": "О нас",
 		"signin": "Войти",
 		"register": "Регистрация",
-		"logout": "Выйти"
+		"logout": "Выйти",
+		"save": "Сохранить"
 	},
 	"aside": {
 		"mama": {
@@ -141,13 +142,23 @@
 	},
 	"mama": {
 		"main_statistic": "Основная статистика",
-		"mood_good": "Отличное",
-		"mood_normal": "Нормальное",
-		"mood_bad": "Плохое",
+		"mood_calm": "Спокойна",
+		"mood_sad": "Грущу",
+		"mood_angry": "Раздражена",
+		"mood_happy": "Радостна",
+		"mood_tired": "Устала",
+		"mood_grateful": "Благодарна",
 		"time_for_myself": "Время для себя",
 		"timer_finished": "Время вышло",
 		"start_timer": "Запустить таймер",
 		"set_time": "Установить время",
-		"rituals": "Ритуалы"
+		"rituals": "Ритуалы",
+		"click_to_change_mood": "Нажми на иконку чтобы изменить настроение",
+		"write_comment": "Напишите комментарий...",
+		"add_comment": "Опиши свое настроение сегодня",
+		"your_mood_today": "Твое настроение",
+		"hide_comment_form": "Скрыть форму",
+		"hide_mood_history_list": "Скрыть историю смены настроения",
+		"show_mood_history_list": "Посмотреть историю смены настроения"
 	}
 }

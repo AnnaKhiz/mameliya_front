@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <div>mama page</div>
+  <section class="p-5">
+    <router-view />
+  </section>
 </template>
 
 <style scoped>

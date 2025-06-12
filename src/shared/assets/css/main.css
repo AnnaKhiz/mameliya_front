@@ -1,5 +1,6 @@
 @import "tailwind.css";
 @import "fonts.css";
+@import 'floating-vue/dist/style.css';
 
 * {
   box-sizing: border-box;
@@ -7,7 +8,8 @@
   border-style: solid;
   border-color: #e5e7eb;
 }
-body input:is([type='email'], [type='password'], [type='text']), select {
+body input:is([type='email'], [type='password'], [type='text']),
+select {
   border: 1px solid rgba(244, 249, 212, 0.58);
   box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   transition: background-color .3s ease-in-out 0s,
@@ -28,13 +30,35 @@ body input:is([type='email'], [type='password'], [type='text']), select {
   }
 }
 
-body select {
+body select{
   &:focus {
     border-color: rgba(244, 249, 212, 0.58);
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   }
   &:disabled:hover {
     box-shadow: none;
+  }
+}
+
+body textarea {
+  border-radius: 12px;
+  border: 1px solid rgba(244, 249, 212, 0.58);
+  box-shadow: inset 20px 20px 0 120px rgba(244, 249, 212, 0.58);
+  resize: none;
+  transition: background-color .3s ease-in-out 0s,
+   box-shadow .5s ease-in-out 0s;
+  color: #523629;
+  padding: 10px;
+  &:hover {
+    box-shadow: inset 20px 20px 0 120px rgba(244, 249, 212, 0.58),
+      inset -1px -1px 5px #523629,
+      inset 1px 1px 5px #523629;
+  }
+  &:focus {
+    border-color: rgba(244, 249, 212, 0.58);
+    box-shadow: inset 20px 20px 0 120px rgba(244, 249, 212, 0.38),
+      inset -1px -1px 5px #523629,
+      inset 1px 1px 5px #523629;;
   }
 }
 
