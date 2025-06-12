@@ -7,7 +7,7 @@ import { vTooltip } from "floating-vue";
 import {useI18n} from "vue-i18n";
 
 const { t } = useI18n();
-const { moodList } = storeToRefs(useMoodStore());
+const { moodStatesList } = storeToRefs(useMoodStore());
 const { mama } = storeToRefs(useMamaStore());
 const { getMamaInfo } = useMamaStore();
 
@@ -20,7 +20,7 @@ onMounted(async () => {
   <div>
     <div
       class="text-2xl w-fit"
-      v-for="item in moodList"
+      v-for="item in moodStatesList"
       :key="item.value"
       v-tooltip="t(`mama.mood_${item.value}`)"
     >

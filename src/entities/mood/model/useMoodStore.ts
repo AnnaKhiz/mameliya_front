@@ -9,7 +9,7 @@ import type {
 } from "@/entities/mood";
 import {fetchData} from "@/shared/api";
 export const useMoodStore = defineStore('mood', () => {
-  const moodList = computed(():MoodObject[] => (
+  const moodStatesList = computed(():MoodObject[] => (
     [
       {
         text: i18n.global.t('mama.mood_calm'),
@@ -45,14 +45,29 @@ export const useMoodStore = defineStore('mood', () => {
   ))
 
   const mood = ref<MoodDetailsType | null>(null);
+  const usersMoodList = ref<MoodDetailsType[] | null>(null);
 
+  const getMoodInfoList = async (): Promise<any> => {
+    let result: ResponseMoodDetailsType | null = null;
+    try {
+      result = await fetchData('user/mama/mood/get');
+
+      if (result?.data) {
+        usersMoodList.value = result?.data as MoodDetailsType[];
+      }
+
+    } catch (error) {
+      console.error('Error [Change mood]: ', error);
+    }
+    return result;
+  }
   const addMoodInfo = async (body: MoodDetailsBodyType): Promise<any> => {
     let result: ResponseMoodDetailsType | null = null;
     try {
       result = await fetchData('user/mama/mood/add', 'POST', {}, body);
 
       if (result?.data) {
-        mood.value = result?.data;
+        mood.value = result?.data as MoodDetailsType;
       }
 
     } catch (error) {
@@ -63,7 +78,9 @@ export const useMoodStore = defineStore('mood', () => {
 
   return {
     mood,
-    moodList,
-    addMoodInfo
+    moodStatesList,
+    usersMoodList,
+    addMoodInfo,
+    getMoodInfoList
   }
 })

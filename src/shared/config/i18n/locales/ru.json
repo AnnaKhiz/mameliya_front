@@ -156,6 +156,9 @@
 		"click_to_change_mood": "Нажми на иконку чтобы изменить настроение",
 		"write_comment": "Напишите комментарий...",
 		"add_comment": "Опиши свое настроение сегодня",
-		"your_mood_today": "Твое настроение"
+		"your_mood_today": "Твое настроение",
+		"hide_comment_form": "Скрыть форму",
+		"hide_mood_history_list": "Скрыть историю смены настроения",
+		"show_mood_history_list": "Посмотреть историю смены настроения"
 	}
 }

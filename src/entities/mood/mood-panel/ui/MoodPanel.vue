@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { vTooltip } from "floating-vue";
-import {type MoodStateType, useMamaStore } from "@/entities/mama";
-import { useMoodStore } from "@/entities/mood";
+import {useMamaStore } from "@/entities/mama";
+import { useMoodStore, type MoodStateType } from "@/entities/mood";
 import { storeToRefs } from "pinia";
-const { moodList } = storeToRefs(useMoodStore())
+const { moodStatesList } = storeToRefs(useMoodStore())
 const { changeMamaMood } = useMamaStore();
 
 type Props = {
@@ -24,7 +24,7 @@ const toggleMood = async (state: MoodStateType) => {
   <div class="flex items-center justify-center gap-2 absolute -bottom-2 left-10 bg-white p-1 rounded-md shadow-2xl w-fit">
     <div class="flex items-center justify-start gap-2">
       <div
-        v-for="item in moodList"
+        v-for="item in moodStatesList"
         :key="item.value"
         class="border border-transparent hover:border-brown-light hover:shadow-inner p-1 rounded-md transition duration-500 text-2xl"
         v-tooltip="item.text"

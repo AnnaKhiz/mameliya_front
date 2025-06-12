@@ -2,7 +2,7 @@
 import { ChevronDownIcon} from "@heroicons/vue/16/solid";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import {type SectionType, SidebarLayout} from "@/entities/sidebar";
+import {type MamaSubsectionType, type SectionType, SidebarLayout} from "@/entities/sidebar";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/entities/user";
 import {useRouter} from "vue-router";
@@ -11,6 +11,10 @@ import type { AsideMenuType } from "@/entities/sidebar";
 const router = useRouter();
 const { user } = storeToRefs(useUserStore());
 const { t } = useI18n();
+
+type GoToPageParams =
+  | { value: SectionType; index: number }
+  | { value: string; index: number; subpage: boolean };
 
 const asideList = computed(():AsideMenuType[] => ([
   {
@@ -203,9 +207,11 @@ const asideList = computed(():AsideMenuType[] => ([
   },
 ]))
 
-const goToPage = (value: SectionType, index: number, subpage = false) => {
-  if (!subpage) toggleMenuList(index);
-  router.push({ name: `user-${value}`, params: { id: user?.value?.userId}})
+const goToPage = (params: GoToPageParams): void => {
+  if ('subpage' in params ? !params.subpage : true) {
+    toggleMenuList(params.index);
+  }
+  router.push({name: `user-${params.value}`, params: {id: user?.value?.userId}})
 }
 
 const asideMenuList = ref<AsideMenuType[] | null>(null);
@@ -238,7 +244,7 @@ onMounted(() => {
         <div
           class="flex justify-between items-center bg-brown-medium hover:bg-brown-dark duration-500 p-4 cursor-pointer text-white uppercase transition-all w-[250px]"
           :class="{ 'bg-[#523629] shadow-2xl' : !menu.listHidden }"
-          @click="goToPage(menu.value, index)"
+          @click="goToPage({ value: menu.value, index })"
         >
           <h2 class="font-semibold">
             {{ menu?.title || '' }}
@@ -252,7 +258,7 @@ onMounted(() => {
             v-for="submenu in menu.links"
             :key="submenu.title"
             class="cursor-pointer text-brown-dark hover:text-brown-medium mb-1 hover:list-disc hover:font-semibold transition duration-500"
-            @click="goToPage(submenu.value, index, true)"
+            @click="goToPage({ value: submenu.value, index, subpage: true })"
           >
             {{ submenu.title}}
           </li>

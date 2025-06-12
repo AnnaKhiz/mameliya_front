@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { AppButton } from "@/shared/ui/button";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -24,7 +23,7 @@ const currentLength = computed(() => {
         :maxlength="maxLength"
       />
     <div class="mb-4 text-right text-sm text-brown-dark opacity-65" >
-      {{ commentText?.length }} /
+      {{ commentText?.length || 0 }} /
       <span :style="`color: ${currentLength === 0 ? 'red' : '#523629'}`">
 				  {{ maxLength }}
 			  </span>
