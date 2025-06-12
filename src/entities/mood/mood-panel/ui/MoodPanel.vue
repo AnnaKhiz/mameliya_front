@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { vTooltip } from "floating-vue";
 import {type MoodStateType, useMamaStore } from "@/entities/mama";
-import { useMoodStore } from "@/shared/ui/mood";
+import { useMoodStore } from "@/entities/mood";
 import { storeToRefs } from "pinia";
 const { moodList } = storeToRefs(useMoodStore())
 const { changeMamaMood } = useMamaStore();

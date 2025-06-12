@@ -5,8 +5,12 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const maxLength = 300;
-const commentText = ref<string>('');
-const currentLength = computed(() => (maxLength - commentText.value.length));
+const commentText = defineModel<string>();
+
+const currentLength = computed(() => {
+  const text = commentText.value ?? '';
+  return maxLength - text.length;
+});
 </script>
 
 <template>
@@ -20,12 +24,12 @@ const currentLength = computed(() => (maxLength - commentText.value.length));
         :maxlength="maxLength"
       />
     <div class="mb-4 text-right text-sm text-brown-dark opacity-65" >
-      {{ commentText.length }} /
+      {{ commentText?.length }} /
       <span :style="`color: ${currentLength === 0 ? 'red' : '#523629'}`">
 				  {{ maxLength }}
 			  </span>
     </div>
-    <AppButton :label="t('general.save')" />
+
   </div>
 </template>
 

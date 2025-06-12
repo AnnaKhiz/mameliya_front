@@ -1,7 +1,13 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
-import type { MoodObject } from "@/shared/ui/mood";
+import { computed, ref } from "vue";
+import type { MoodObject } from "@/entities/mood";
 import { i18n } from "@/shared/config/i18n";
+import type {
+  MoodDetailsType,
+  MoodDetailsBodyType,
+  ResponseMoodDetailsType
+} from "@/entities/mood";
+import {fetchData} from "@/shared/api";
 export const useMoodStore = defineStore('mood', () => {
   const moodList = computed(():MoodObject[] => (
     [
@@ -37,7 +43,27 @@ export const useMoodStore = defineStore('mood', () => {
       },
     ]
   ))
+
+  const mood = ref<MoodDetailsType | null>(null);
+
+  const addMoodInfo = async (body: MoodDetailsBodyType): Promise<any> => {
+    let result: ResponseMoodDetailsType | null = null;
+    try {
+      result = await fetchData('user/mama/mood/add', 'POST', {}, body);
+
+      if (result?.data) {
+        mood.value = result?.data;
+      }
+
+    } catch (error) {
+      console.error('Error [Change mood]: ', error);
+    }
+    return result;
+  }
+
   return {
-    moodList
+    mood,
+    moodList,
+    addMoodInfo
   }
 })

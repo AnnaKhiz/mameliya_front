@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted} from "vue";
 import { useMamaStore } from "@/entities/mama";
-import { useMoodStore } from "@/shared/ui/mood";
+import { useMoodStore } from "@/entities/mood";
 import {storeToRefs} from "pinia";
 import { vTooltip } from "floating-vue";
 import {useI18n} from "vue-i18n";

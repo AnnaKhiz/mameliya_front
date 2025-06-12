@@ -3,7 +3,7 @@ import {SidebarLayout} from "@/entities/sidebar";
 import {storeToRefs} from "pinia";
 import {useMamaStore} from "@/entities/mama";
 import {computed, onMounted, ref} from "vue";
-import {MoodPanel, MoodPanelLayout} from "../../../shared/ui/mood/mood-panel";
+import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
 import {useI18n} from "vue-i18n";
 import {TimerComponent} from "../../../shared/ui/timer";
 import {RitualsStatistic} from "@/pages/rituals";

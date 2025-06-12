@@ -7,7 +7,7 @@ import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
 import {useI18n} from "vue-i18n";
 import {useRouter} from "vue-router";
 import { useUserStore } from "@/entities/user";
-import MoodPanel from "../../mood/mood-icon";
+import MoodPanel from "@/entities/mood/mood-icon";
 const { logOutUser } = useUserStore();
 
 const { t } = useI18n();
