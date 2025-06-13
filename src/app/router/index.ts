@@ -65,6 +65,7 @@ const router = createRouter({
             {
               path: 'mama',
               name: 'user-mama',
+              redirect: { name: 'user-self_feeling'},
               props: true,
               component: () => import('@/pages/mama/ui/MamaPage.vue'),
               meta: {
