@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <section class="p-5">
-    <router-view />
-  </section>
+  <router-view />
 </template>
 
 <style scoped>
