@@ -81,6 +81,15 @@ const router = createRouter({
                     requiresAuth: true,
                   },
                 },
+                {
+                  path: 'timer',
+                  name: 'user-timer',
+                  props: true,
+                  component: () => import('@/pages/mama/ui/TimeForMyself.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
               ]
             },
             {

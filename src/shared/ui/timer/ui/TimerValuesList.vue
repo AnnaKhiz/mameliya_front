@@ -18,7 +18,7 @@ const timerList = computed(() => {
 
   do {
     finalList.push({
-      text: `${i} min`,
+      text: `${i} ${t('general.min')}`,
       value: i
     });
     i = i + 5;

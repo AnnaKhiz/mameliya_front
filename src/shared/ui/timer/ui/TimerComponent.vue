@@ -10,6 +10,7 @@ import {
 } from "@/shared/ui/timer";
 const { t } = useI18n();
 const { mama } = storeToRefs(useMamaStore());
+import { parseLocalStorage } from "@/shared/lib/parseLocalStorage.ts";
 
 const isTimerPaused = ref<boolean>(false);
 const timerValue = ref<string>('');
@@ -35,25 +36,10 @@ const handleChange = (value: number) => {
 
   timerValue.value = `${String(timerChecked.value).padStart(2, '0')}: 00`;
 }
-const parseLocalStorage = () => {
-  const storageData = localStorage.getItem('mameliya_timer');
-  if (storageData) {
-    localStorageTimer.value = JSON.parse(storageData);
-
-    const currentDate = new Date();
-    const storageDate = new Date(localStorageTimer.value?.date ?? '');
-
-    const timeDifference = currentDate.getTime() - storageDate.getTime();
-    const hoursDifference = timeDifference / (1000 * 60 * 60)
-
-    if (hoursDifference >= 24) {
-      localStorage.removeItem('mameliya_timer')
-    }
-  }
-}
 
 onMounted(() => {
-  parseLocalStorage();
+  const { localStorageTimerValue } = parseLocalStorage();
+  localStorageTimer.value = localStorageTimerValue;
   timerChecked.value = localStorageTimer.value?.time ? localStorageTimer.value?.time : mama.value?.timer as number;
 
   timerValue.value = localStorageTimer.value?.isPaused ? `${localStorageTimer.value?.pausedValue}` : `${String(timerChecked.value).padStart(2, '0')}: 00`;
