@@ -6,7 +6,8 @@
 		"signin": "Sign in",
 		"register": "Sign up",
 		"logout": "Logout",
-		"save": "Save"
+		"save": "Save",
+		"successfully_sent": "Successfully sent"
 	},
 	"aside": {
 		"mama": {
@@ -159,6 +160,8 @@
 		"your_mood_today": "Your mood",
 		"hide_comment_form": "Hide form",
 		"hide_mood_history_list": "Hide mood history list",
-		"show_mood_history_list": "Show mood history list"
+		"show_mood_history_list": "Show mood history list",
+		"empty_field": "Leave a comment",
+		"error_sending_mood_info": "Error in sending data"
 	}
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {useI18n} from "vue-i18n";
 import { AppTextarea } from "@/shared/ui/form";
 import {AppButton} from "@/shared/ui/button";
@@ -13,7 +13,6 @@ import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
 const { mama } = storeToRefs(useMamaStore())
 
-const { usersMoodList } = storeToRefs(useMoodStore())
 const { addMoodInfo, getMoodInfoList } = useMoodStore()
 
 const { t } = useI18n();
@@ -25,13 +24,28 @@ const updateModal = (value: boolean) => {
 const commentText = ref<string>();
 const isMoodStoryHidden = ref<boolean>(true);
 const isCommentHidden = ref<boolean>(true);
+const isReset = computed(():boolean => !!commentText?.value?.trim());
+const message = ref<string>('');
 
 const saveMoodInfo = async () => {
   const body = ref<MoodDetailsBodyType>({
     mood: mama.value?.mood || '',
     comment: commentText.value || ''
   })
-  await addMoodInfo(body.value);
+
+  const result = await addMoodInfo(body.value);
+
+  if (result.code !== 200) {
+    message.value = t('mama.error_sending_mood_info');
+  }
+
+  if (result.code === 200) {
+    commentText.value = '';
+    setTimeout(() => {
+      message.value = '';
+    }, 1000)
+    message.value = t('general.successfully_sent');
+  }
 }
 
 onMounted(async () => {
@@ -70,8 +84,12 @@ const toggleCommentVisibility = () => {
       </h2>
 
       <div v-if="!isCommentHidden" class="mb-6">
-        <AppTextarea v-model="commentText"/>
-        <AppButton :label="t('general.save')" @click.prevent="saveMoodInfo"/>
+        <AppTextarea
+          v-model="commentText"
+          :is-reset="isReset"
+          :message="message"
+        />
+        <AppButton :disabled="!isReset" :label="t('general.save')" @click.prevent="saveMoodInfo"/>
       </div>
     </div>
 

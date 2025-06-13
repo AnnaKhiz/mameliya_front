@@ -68,6 +68,7 @@ export const useMoodStore = defineStore('mood', () => {
 
       if (result?.data) {
         mood.value = result?.data as MoodDetailsType;
+        usersMoodList.value = result?.data as MoodDetailsType[];
       }
 
     } catch (error) {

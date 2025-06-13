@@ -6,7 +6,8 @@
 		"signin": "Войти",
 		"register": "Регистрация",
 		"logout": "Выйти",
-		"save": "Сохранить"
+		"save": "Сохранить",
+		"successfully_sent": "Успешно отправлено"
 	},
 	"aside": {
 		"mama": {
@@ -159,6 +160,8 @@
 		"your_mood_today": "Твое настроение",
 		"hide_comment_form": "Скрыть форму",
 		"hide_mood_history_list": "Скрыть историю смены настроения",
-		"show_mood_history_list": "Посмотреть историю смены настроения"
+		"show_mood_history_list": "Посмотреть историю смены настроения",
+		"empty_field": "Введите комментарий",
+		"error_sending_mood_info": "Ошибка отправки данных"
 	}
 }
