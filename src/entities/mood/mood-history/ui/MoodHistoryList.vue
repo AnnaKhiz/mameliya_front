@@ -13,6 +13,7 @@ const sortedUsersMoodList = computed(():MoodDetailsType[] => (usersMoodList.valu
   <div
     v-for="item in sortedUsersMoodList"
     :key="item.id"
+    class="mb-2"
   >
     <MoodHistoryItem :item="item" />
   </div>

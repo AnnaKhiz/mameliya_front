@@ -6,7 +6,9 @@
 		"signin": "Sign in",
 		"register": "Sign up",
 		"logout": "Logout",
-		"save": "Save"
+		"save": "Save",
+		"successfully_sent": "Successfully sent",
+		"min": "min"
 	},
 	"aside": {
 		"mama": {
@@ -156,9 +158,20 @@
 		"click_to_change_mood": "Click on the icon to change mood",
 		"write_comment": "Leave a comment here...",
 		"add_comment": "Describe your mood today",
-		"your_mood_today": "Your mood",
+		"your_mood_today": "Your self-feeling",
 		"hide_comment_form": "Hide form",
 		"hide_mood_history_list": "Hide mood history list",
-		"show_mood_history_list": "Show mood history list"
+		"show_mood_history_list": "Show mood history list",
+		"empty_field": "Leave a comment",
+		"error_sending_mood_info": "Error in sending data",
+		"stop_and_listen": "Here you can pause for a moment and listen to yourself.",
+		"select_your_mood": "Select your mood, jot down a few thoughts about how you feel, and keep this moment saved.",
+		"appear_mood_history": "This creates your personal mood history — a warm space you can return to, read through, and see how your days, thoughts, and feelings have changed over time.",
+		"say_your_mood": "Sometimes, simply naming your state can bring relief. Over time, you’ll start to better understand your inner cycles, notice when self-care is especially important, and cherish the moments of warmth and joy.",
+		"time_for_myself_5_min": "Sometimes just a few minutes are enough to feel better. In this section, you can set aside time just for yourself: start a 5-minute timer or choose your own duration — up to 60 minutes.",
+		"time_for_myself_pause": "If needed, you can pause the timer once a day and continue later when it’s convenient for you. At the end of the day, the timer resets — and you can give yourself this little moment of care again.",
+		"time_for_myself_reason": "Time for yourself is more than just minutes of rest. It’s an important reminder that you are not only a mom, not only a wife, not only someone who cares for others.",
+		"time_for_myself_woman": "You are a woman who also needs care, attention, and a warm space to recharge. Even a short pause helps you regain strength, listen to yourself, and fill up with inner warmth to share it again with your loved ones.",
+		"timer_left": "Time left"
 	}
 }

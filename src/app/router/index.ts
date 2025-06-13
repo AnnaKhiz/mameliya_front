@@ -65,6 +65,7 @@ const router = createRouter({
             {
               path: 'mama',
               name: 'user-mama',
+              redirect: { name: 'user-self_feeling'},
               props: true,
               component: () => import('@/pages/mama/ui/MamaPage.vue'),
               meta: {
@@ -76,6 +77,15 @@ const router = createRouter({
                   name: 'user-self_feeling',
                   props: true,
                   component: () => import('@/pages/mama/ui/SelfFeeling.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'timer',
+                  name: 'user-timer',
+                  props: true,
+                  component: () => import('@/pages/mama/ui/TimeForMyself.vue'),
                   meta: {
                     requiresAuth: true,
                   },
