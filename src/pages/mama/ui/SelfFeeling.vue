@@ -102,11 +102,11 @@ const toggleCommentVisibility = () => {
           <AppButton :disabled="!isReset" :label="t('general.save')" @click.prevent="saveMoodInfo"/>
         </div>
       </div>
-      <div >
+      <div>
         <h2 @click="toggleMoodStory" class="cursor-pointer text-brown-dark text-md font-semibold hover:animate-pulse hover:underline mb-4">
           {{ !isMoodStoryHidden ? t('mama.hide_mood_history_list') : t('mama.show_mood_history_list')}}
         </h2>
-        <div class="max-h-64 overflow-auto w-full" id="history">
+        <div class="max-h-64 overflow-auto w-full pb-7 pr-4" id="history">
           <MoodHistoryList v-if="!isMoodStoryHidden" />
         </div>
       </div>
