@@ -77,6 +77,19 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  const googleCalendarEvents = async (): Promise<any> => {
+    let result: Record<string, boolean> | null = null;
+    try {
+      result = await fetchData('user/google/events');
+      console.log(result)
+
+
+    } catch(error) {
+      console.error('Error [calendar events]: ', error);
+    }
+    return result;
+  }
+
   return {
     user,
     isAuthenticated,
@@ -84,6 +97,7 @@ export const useUserStore = defineStore('user', () => {
     signInUser,
     logOutUser,
     updateIsAuthenticated,
-    checkUserSession
+    checkUserSession,
+    googleCalendarEvents
   }
 })

@@ -90,6 +90,24 @@ const router = createRouter({
                     requiresAuth: true,
                   },
                 },
+                {
+                  path: 'beauty_calendar',
+                  name: 'user-beauty_calendar',
+                  props: true,
+                  component: () => import('@/pages/mama/ui/CalendarBeauty.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'daily_rituals',
+                  name: 'user-daily_rituals',
+                  props: true,
+                  component: () => import('@/pages/mama/ui/DailyRituals.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
               ]
             },
             {
