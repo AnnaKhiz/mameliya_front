@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { CalendarDaysIcon, FaceSmileIcon, ChartPieIcon, FaceFrownIcon } from "@heroicons/vue/16/solid";
+import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
+import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
 import {BurgerButton} from "@/features/burger";
 import {AppButton} from "@/shared/ui/button";
 import LanguageDropdown from "@/features/dropdown";
@@ -7,12 +8,19 @@ import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
 import {useI18n} from "vue-i18n";
 import {useRouter} from "vue-router";
 import { useUserStore } from "@/entities/user";
-import MoodPanel from "@/entities/mood/mood-icon";
 const { logOutUser } = useUserStore();
+import {storeToRefs} from "pinia";
+import { useMamaStore} from "@/entities/mama";
+import {ref} from "vue";
+const { mama } = storeToRefs(useMamaStore())
 
 const { t } = useI18n();
 const router = useRouter();
 
+const isMoodPanel = ref<boolean>(false);
+const updateModal = (value: boolean) => {
+  isMoodPanel.value = value;
+}
 const goToAboutPage = () => {
   router.push({ name: 'about'});
 }
@@ -25,8 +33,22 @@ const handleLogOut = async () => {
 <template>
   <HeaderLayout>
     <template #content>
-      <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden ">
-        <MoodPanel />
+      <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden">
+        <MoodPanelLayout
+          v-if="mama?.mood"
+          @update-modal-show="updateModal"
+          class="relative cursor-pointer w-fit hover:bg-blend-soft-light">
+          <template #content>
+            <Transition>
+              <MoodPanel
+                v-if="isMoodPanel"
+                :is-mood-panel="isMoodPanel"
+                :position="'-bottom-2 right-10'"
+                @update-modal-show="updateModal"
+              />
+            </Transition>
+          </template>
+        </MoodPanelLayout>
         <CalendarDaysIcon class="fill-brown-dark w-7 cursor-pointer" />
         <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer" />
         <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { vTooltip } from "floating-vue";
 import {useMamaStore } from "@/entities/mama";
 import { useMoodStore, type MoodStateType } from "@/entities/mood";
@@ -9,9 +8,9 @@ const { changeMamaMood } = useMamaStore();
 
 type Props = {
   isMoodPanel: boolean;
+  position?: string;
 }
 
-const isTooltip = ref<boolean>(false)
 const props = defineProps<Props>();
 const emits = defineEmits(['updateModalShow']);
 const toggleMood = async (state: MoodStateType) => {
@@ -21,7 +20,9 @@ const toggleMood = async (state: MoodStateType) => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center gap-2 absolute -bottom-2 left-10 bg-white p-1 rounded-md shadow-2xl w-fit">
+  <div
+    class="flex items-center justify-center gap-2 absolute bg-white p-1 rounded-md shadow-2xl w-fit"
+    :class="position ? `${props.position}` : '-bottom-2 left-10'">
     <div class="flex items-center justify-start gap-2">
       <div
         v-for="item in moodStatesList"
