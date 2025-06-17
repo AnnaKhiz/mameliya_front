@@ -65,6 +65,7 @@ const toggleCommentVisibility = () => {
   <div class="flex flex-col justify-between items-start h-full overflow-hidden p-5">
     <div class="w-full">
       <div>
+        <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('aside.mama.self_feeling') }}:</h2>
         <h2 @click="toggleCommentVisibility" class="cursor-pointer text-brown-dark text-md font-semibold hover:animate-pulse hover:underline mb-4">
           {{ !isCommentHidden ? t('mama.add_comment') : t('mama.hide_comment_form') }}
         </h2>

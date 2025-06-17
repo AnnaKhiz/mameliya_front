@@ -31,20 +31,15 @@ const asideList = computed(():AsideMenuType[] => ([
       {
         id: 2,
         title: t('aside.mama.daily_rituals'),
-        value: 'rituals',
+        value: 'daily_rituals',
       },
       {
         id: 3,
-        title: t('aside.mama.personal_notes'),
-        value: 'personal_notes',
-      },
-      {
-        id: 4,
         title: t('aside.mama.timer'),
         value: 'timer',
       },
       {
-        id: 5,
+        id: 4,
         title:  t('aside.mama.beauty_calendar'),
         value: 'beauty_calendar',
       },
