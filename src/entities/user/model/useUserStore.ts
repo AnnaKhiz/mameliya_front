@@ -7,6 +7,7 @@ import type {FormFieldsType, UserDataType, ResponseType} from "@/entities/user";
 export const useUserStore = defineStore('user', () => {
   const user = ref<UserDataType | null>(null);
   const isAuthenticated = ref<boolean>(false);
+  const userCalendarEvents = ref<Record<string, any> | null>(null);
 
   const updateIsAuthenticated = (value: boolean) => {
     isAuthenticated.value = value;
@@ -78,12 +79,10 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const googleCalendarEvents = async (): Promise<any> => {
-    let result: Record<string, boolean> | null = null;
+    let result: Record<string, any> | null = null;
     try {
       result = await fetchData('user/google/events');
-      console.log(result)
-
-
+      userCalendarEvents.value = result?.data?.events;
     } catch(error) {
       console.error('Error [calendar events]: ', error);
     }
@@ -93,6 +92,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     user,
     isAuthenticated,
+    userCalendarEvents,
     signUpUser,
     signInUser,
     logOutUser,

@@ -22,7 +22,7 @@ const currentLength = computed(() => {
   <div class="w-fit">
       <textarea
         v-model="commentText"
-        class="placeholder:opacity-25 block mb-2 p-4"
+        class="placeholder:opacity-25 block mb-2 p-4 w-full"
         rows="5"
         cols="50"
         :placeholder="t('mama.write_comment')"
