@@ -26,7 +26,16 @@ select {
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
   }
   &:active {
-    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.58);
+    box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.36);
+  }
+  &.dark-mode, &:hover, &:active {
+    box-shadow: none;
+    border-bottom: 1px solid #523629;
+    &:focus {
+      border-color: rgba(244, 249, 212, 0.58);
+      border-bottom: 1px solid #523629;
+      box-shadow: none;
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type Props = {
   isShow: boolean;
+  full?: boolean;
 }
 const props = defineProps<Props>()
 
@@ -9,7 +10,10 @@ const props = defineProps<Props>()
 <template>
   <teleport to="body">
     <Transition name="fade" >
-      <div v-if="props.isShow">
+      <div
+        v-if="props.isShow"
+        :class="full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : ''"
+      >
         <slot name="content" />
       </div>
     </Transition>
