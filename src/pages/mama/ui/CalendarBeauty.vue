@@ -108,7 +108,7 @@ const createEvent = ({ event }) => {
 </script>
 
 <template>
-  <div class="flex flex-col justify-start items-start h-full overflow-hidden p-5 bg-gradient-main">
+  <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main">
     <div class="w-full">
       <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
       <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6">
@@ -141,30 +141,32 @@ const createEvent = ({ event }) => {
   <ModalComponent :is-show="isDialogOpen" full>
     <template #content>
       <div class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
-        <h2 class="self-center">Event data</h2>
+        <h2 class="self-center">{{ t('mama.event.modal_title') }}</h2>
         <form action="" class="flex flex-col items-start justify-start gap-4 w-full">
           <div class="w-full">
-            <h2>Event title</h2>
+            <h2 class="mb-2">{{ t('mama.event.modal_event_name') }}</h2>
             <input
               v-model="formEventData.title"
               type="text"
               class="w-full dark-mode placeholder:opacity-25"
-              placeholder="Enter event title..."
+              :placeholder="t('mama.event.enter_event_name')"
             />
           </div>
           <div class="w-full">
-            <h2>Event description</h2>
+            <h2 class="mb-2">{{ t('mama.event.modal_event_description') }}</h2>
             <AppTextarea
               v-model="formEventData.description"
               is-reset=""
               message=""
               class="w-full"
+              dark-mode
+              placeholder-text="mama.event.enter_event_description"
             />
           </div>
         </form>
         <div class="flex justify-start items-center gap-4">
-          <AppButton label="close" @click="isDialogOpen = false" />
-          <AppButton label="save" @click="" />
+          <AppButton :label="t('general.close')" @click="isDialogOpen = false" />
+          <AppButton :label="t('general.save')" @click="" />
         </div>
 
       </div>

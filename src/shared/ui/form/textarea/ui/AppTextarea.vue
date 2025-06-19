@@ -5,6 +5,8 @@ import { useI18n } from "vue-i18n";
 type Props = {
   isReset: boolean;
   message: string;
+  darkMode?: boolean;
+  placeholderText?: string;
 }
 const props = defineProps<Props>();
 const { t } = useI18n();
@@ -23,9 +25,10 @@ const currentLength = computed(() => {
       <textarea
         v-model="commentText"
         class="placeholder:opacity-25 block mb-2 p-4 w-full"
+        :class="darkMode ? 'dark-mode' : ''"
         rows="5"
         cols="50"
-        :placeholder="t('mama.write_comment')"
+        :placeholder="props.placeholderText ? t(`${props.placeholderText}`) : t('mama.write_comment')"
         :maxlength="maxLength"
       />
     <div class="flex justify-between items-center mb-4">

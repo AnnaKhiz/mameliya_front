@@ -7,6 +7,7 @@
 		"register": "Sign up",
 		"logout": "Logout",
 		"save": "Save",
+		"close": "Close",
 		"successfully_sent": "Successfully sent",
 		"min": "min"
 	},
@@ -178,6 +179,13 @@
 		"beauty_calendar_about": "This section is created to help you take care of yourself with ease every day.",
 		"beauty_calendar_what_inside": "Here you can keep track of your planned beauty rituals, stay on top of your self-care, and simply enjoy the feeling that everything is under control.",
 		"beauty_calendar_remind": "The calendar is a gentle reminder that you deserve attention, rest, and care — and it helps you find time for all that. It's simple, clear, and truly yours.",
-		"connect_google_calendar": "Connect Google Calendar"
+		"connect_google_calendar": "Connect Google Calendar",
+		"event": {
+			"modal_title": "Event description",
+			"modal_event_name": "Name",
+			"modal_event_description": "Description",
+			"enter_event_name": "Enter event name...",
+			"enter_event_description": "Enter event description..."
+		}
 	}
 }

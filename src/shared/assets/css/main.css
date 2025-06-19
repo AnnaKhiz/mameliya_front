@@ -28,12 +28,16 @@ select {
   &:active {
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.36);
   }
-  &.dark-mode, &:hover, &:active {
+  &.dark-mode {
     box-shadow: none;
-    border-bottom: 1px solid #523629;
+    border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
+    &:hover, &:active {
+      box-shadow: none;
+      border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
+    }
     &:focus {
-      border-color: rgba(244, 249, 212, 0.58);
-      border-bottom: 1px solid #523629;
+      border-color: rgba(204, 208, 181, 0.51);;
+      border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
       box-shadow: none;
     }
   }
@@ -68,6 +72,19 @@ body textarea {
     box-shadow: inset 20px 20px 0 120px rgba(244, 249, 212, 0.38),
       inset -1px -1px 5px #523629,
       inset 1px 1px 5px #523629;;
+  }
+  &.dark-mode {
+    box-shadow: none;
+    border: 1px solid rgba(204, 208, 181, 0.51);
+    border-radius: 0;
+    &:hover, &:active {
+      box-shadow: none;
+      border: 1px solid rgba(204, 208, 181, 0.51);
+    }
+    &:focus {
+      border: 1px solid rgba(204, 208, 181, 0.51);
+      box-shadow: none;
+    }
   }
 }
 
