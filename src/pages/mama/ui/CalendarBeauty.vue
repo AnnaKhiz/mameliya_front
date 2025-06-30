@@ -227,11 +227,11 @@ const deleteEvent = (id: string) => {
     <template #content>
       <div v-if="currentEvent" class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
         <h2 class="self-center">{{ t('mama.event.modal_title') }}</h2>
-        <div >
-          <p>Title: {{ currentEvent.title }}</p>
-          <p>Description: {{ currentEvent.description || currentEvent.contentFull }}</p>
-          <p>Date start: {{ currentEvent.start }}</p>
-          <p>Date end: {{ currentEvent.end }}</p>
+        <div>
+          <p>{{ t('mama.event.title') }}: {{ currentEvent.title }}</p>
+          <p>{{ t('mama.event.description') }}: {{ currentEvent.description || currentEvent.contentFull }}</p>
+          <p>{{ t('mama.event.date_start') }}: {{ currentEvent.start }}</p>
+          <p>{{ t('mama.event.date_end') }}: {{ currentEvent.end }}</p>
         </div>
         <div class="flex justify-start items-center gap-4">
           <AppButton :label="t('general.close')" @click="isDetails = false" />
@@ -239,7 +239,7 @@ const deleteEvent = (id: string) => {
         </div>
       </div>
       <div v-else >
-        No info about event
+        {{ t('mama.event.no_details_event')}}
       </div>
     </template>
   </ModalComponent>
