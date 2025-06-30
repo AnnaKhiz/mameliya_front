@@ -3,7 +3,7 @@ import {useI18n} from "vue-i18n";
 import {onMounted, watch, computed, ref} from "vue";
 import { useUserStore } from "@/entities/user";
 import {AppButton} from "@/shared/ui/button";
-const { googleCalendarEvents, user } = useUserStore();
+const { googleCalendarEvents, user, addNewEventToCalendar } = useUserStore();
 const { userCalendarEvents } = storeToRefs((useUserStore()));
 import { useRoute } from 'vue-router'
 const route = useRoute();
@@ -14,15 +14,8 @@ import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import {AppTextarea} from "@/shared/ui/form";
 import { v4 as uuidv4 } from 'uuid';
+import type { CalendarEventType } from "@/entities/user";
 
-type CalendarEventType = {
-  start: Date | string;
-  end?: Date | string;
-  title?: string;
-  content?: string;
-  color?: string;
-  [key: string]: any;
-}
 const connectGoogleCalendar = () => {
   window.location.href = 'http://localhost:3000/user/google/check';
 }
@@ -37,26 +30,7 @@ const formEventData = ref<FormEventType>({
   title: '',
   description: ''
 });
-const parseDateToString = (value: string): string => {
-  if (!value) return ''
 
-  let start = null;
-  try {
-    start = new Date(value);
-  } catch (error) {
-    console.log('Error creating Date object', error)
-  }
-
-  const hours = start?.getHours().toString().padStart(2, '0') || '';
-  const minutes = start?.getMinutes().toString().padStart(2, '0') || '';
-  const year = start?.getFullYear() || '';
-  const month = start?.getMonth().toString().padStart(2, '0') || '';
-  const day = start?.getDay().toString().padStart(2, '0') || '';
-
-  if ([year, month, day].some(e => e === '00')) return '';
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
 const getGoogleCalendarEvents = async () => {
   await googleCalendarEvents();
 
@@ -65,8 +39,8 @@ const getGoogleCalendarEvents = async () => {
   calendarEventsList.value = userCalendarEvents?.value?.map((e: Record<string, any>) => {
 
     return {
-      start: parseDateToString(e.start.dateTime || e.start.date),
-      end: parseDateToString(e.end.dateTime || e.end.date),
+      start: new Date(e.start.dateTime || e.start.date),
+      end: new Date(e.end.dateTime || e.end.date),
       title: e.summary || 'No title',
       content: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red" class="size-4">\n' +
         '  <path d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />\n' +
@@ -74,7 +48,8 @@ const getGoogleCalendarEvents = async () => {
       contentFull: e.description || '',
       backgroundColor: 'pink',
       color: '#523629',
-      id: e.id
+      id: e.id,
+      isAllDay: false
     }
   }).filter((elem: Record<string, any>) => elem.start && elem.end)
 
@@ -106,10 +81,10 @@ const createEvent = ( { event, resolve }: PendingValueType) => {
 }
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null)
 const message = ref<string>('');
-const saveEventDescription = () => {
+const saveEventDescription = async () => {
   const { title, description } = formEventData.value;
 
-  if (title.trim() && description.trim() && pendingEvent.value?.event.start) {
+  if (title.trim() && description.trim() && pendingEvent.value?.event.start ) {
 
     const finalizedEvent = {
       ...pendingEvent.value.event,
@@ -119,6 +94,24 @@ const saveEventDescription = () => {
     };
 
     pendingEvent.value?.resolve(finalizedEvent);
+
+    const result = await addNewEventToCalendar(finalizedEvent);
+
+    if (!result.result) return;
+
+    calendarEventsList.value?.push({
+      start: new Date(result.data.start.dateTime),
+      end: new Date(result.data.end.dateTime),
+      title: result.data.summary || 'No title',
+      content: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red" class="size-4">\n' +
+        '  <path d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z" />\n' +
+        '</svg>\n',
+      contentFull: result.data.description || '',
+      backgroundColor: 'pink',
+      color: '#523629',
+      id: result.data.id,
+      isAllDay: false
+    });
 
     console.log(calendarEventsList?.value)
     closeModal();
@@ -179,12 +172,15 @@ const deleteEvent = (id: string) => {
         ref="vuecalRef"
         class="w-full"
         time-at-cursor
+        time
         events-on-month-view
+        view-default="week"
+        :disable-views="[]"
         :editable-events="{ create: true, resize: false,  drag: true, delete: true }"
         :min-event-width="0"
         v-model:events="calendarEventsList"
         @event-create="createEvent"
-         @event-click="showDetails"
+        @event-click="showDetails"
 
       />
     </div>

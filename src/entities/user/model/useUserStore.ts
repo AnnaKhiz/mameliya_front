@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 import {fetchData} from "@/shared/api";
-import type {FormFieldsType, UserDataType, ResponseType} from "@/entities/user";
+import type {FormFieldsType, UserDataType, ResponseType, CalendarEventType} from "@/entities/user";
 
 
 export const useUserStore = defineStore('user', () => {
@@ -89,6 +89,19 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  const addNewEventToCalendar = async (body: CalendarEventType): Promise<any> => {
+    let result: Record<string, any> | null = null;
+    try {
+      result = await fetchData('user/google/event/add', 'POST', {}, body);
+      console.log('[ADD EVENT] result', result)
+      userCalendarEvents.value?.push(result?.data)
+    } catch(error) {
+      console.error('Error [calendar add event]: ', error);
+    }
+    return result;
+  }
+
+
   return {
     user,
     isAuthenticated,
@@ -98,6 +111,7 @@ export const useUserStore = defineStore('user', () => {
     logOutUser,
     updateIsAuthenticated,
     checkUserSession,
-    googleCalendarEvents
+    googleCalendarEvents,
+    addNewEventToCalendar
   }
 })
