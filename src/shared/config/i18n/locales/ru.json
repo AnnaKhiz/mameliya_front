@@ -8,6 +8,7 @@
 		"logout": "Выйти",
 		"save": "Сохранить",
 		"close": "Закрыть",
+		"delete": "Удалить",
 		"successfully_sent": "Успешно отправлено",
 		"min": "мин"
 	},
@@ -185,7 +186,12 @@
 			"modal_event_name": "Название",
 			"modal_event_description": "Описание",
 			"enter_event_name": "Введите название события...",
-			"enter_event_description": "Введите описание события..."
+			"enter_event_description": "Введите описание события...",
+			"no_details_event": "Нет информации о событии",
+			"title": "Название",
+			"description": "Описание",
+			"date_start": "Дата и время начала",
+			"date_end": "Дата и время окончания"
 		}
 	}
 }

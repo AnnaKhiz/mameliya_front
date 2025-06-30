@@ -7,6 +7,7 @@
 		"register": "Sign up",
 		"logout": "Logout",
 		"save": "Save",
+		"delete": "Delete",
 		"close": "Close",
 		"successfully_sent": "Successfully sent",
 		"min": "min"
@@ -185,7 +186,12 @@
 			"modal_event_name": "Name",
 			"modal_event_description": "Description",
 			"enter_event_name": "Enter event name...",
-			"enter_event_description": "Enter event description..."
+			"enter_event_description": "Enter event description...",
+			"no_details_event": "No details about event",
+			"title": "Title",
+			"description": "Description",
+			"date_start": "Start date and time",
+			"date_end": "End date and time"
 		}
 	}
 }
