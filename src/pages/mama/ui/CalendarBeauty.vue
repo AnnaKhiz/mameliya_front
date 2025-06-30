@@ -142,13 +142,38 @@ const isDetails = ref<boolean>(false);
 const currentEvent = ref<CalendarEventType | null>(null);
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   isDetails.value = true;
-  currentEvent.value = event;
+  currentEvent.value = {
+    ...event,
+    start: parseDateToString(event.start as string),
+    end: parseDateToString(event.end as string)
+  };
   console.log('details', event)
 }
 
 const deleteEvent = (id: string) => {
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   isDetails.value = false;
+}
+
+const parseDateToString = (value: string): string => {
+  if (!value) return ''
+
+  let start = null;
+  try {
+    start = new Date(value);
+  } catch (error) {
+    console.log('Error creating Date object', error)
+  }
+
+  const hours = start?.getHours().toString().padStart(2, '0') || '';
+  const minutes = start?.getMinutes().toString().padStart(2, '0') || '';
+  const year = start?.getFullYear() || '';
+  const month = start?.getMonth().toString().padStart(2, '0') || '';
+  const day = start?.getDay().toString().padStart(2, '0') || '';
+
+  if ([year, month, day].some(e => e === '00')) return '';
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 </script>
 
@@ -225,13 +250,25 @@ const deleteEvent = (id: string) => {
   <!--  dialog show details -->
   <ModalComponent :is-show="isDetails" full>
     <template #content>
-      <div v-if="currentEvent" class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
-        <h2 class="self-center">{{ t('mama.event.modal_title') }}</h2>
-        <div>
-          <p>{{ t('mama.event.title') }}: {{ currentEvent.title }}</p>
-          <p>{{ t('mama.event.description') }}: {{ currentEvent.description || currentEvent.contentFull }}</p>
-          <p>{{ t('mama.event.date_start') }}: {{ currentEvent.start }}</p>
-          <p>{{ t('mama.event.date_end') }}: {{ currentEvent.end }}</p>
+      <div v-if="currentEvent" class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
+        <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
+        <div class="mb-2">
+          <p>
+            <span class="font-bold">{{ t('mama.event.title') }}</span>:
+            {{ currentEvent.title }}
+          </p>
+          <p>
+            <span class="font-bold">{{ t('mama.event.description') }}</span>:
+            {{ currentEvent.description || currentEvent.contentFull }}
+          </p>
+          <p>
+            <span class="font-bold">{{ t('mama.event.date_start') }}</span>:
+            {{ currentEvent.start }}
+          </p>
+          <p>
+            <span class="font-bold">{{ t('mama.event.date_end') }}</span>:
+            {{ currentEvent.end }}
+          </p>
         </div>
         <div class="flex justify-start items-center gap-4">
           <AppButton :label="t('general.close')" @click="isDetails = false" />
