@@ -78,25 +78,38 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
-  const googleCalendarEvents = async (): Promise<any> => {
+  const googleCalendarEvents = async (type: string): Promise<any> => {
     let result: Record<string, any> | null = null;
     try {
-      result = await fetchData('user/google/events');
+      result = await fetchData('user/google/events/:type', 'GET', { type });
       userCalendarEvents.value = result?.data?.events;
     } catch(error) {
-      console.error('Error [calendar events]: ', error);
+      console.error('Error [CAL EVENTS]: ', error);
     }
     return result;
   }
 
-  const addNewEventToCalendar = async (body: CalendarEventType): Promise<any> => {
+  const addNewEventToCalendar = async ( { body, type } : { body: CalendarEventType, type: string }): Promise<any> => {
     let result: Record<string, any> | null = null;
     try {
-      result = await fetchData('user/google/event/add', 'POST', {}, body);
+      result = await fetchData('user/google/event/add/:type', 'POST', { type }, body);
       console.log('[ADD EVENT] result', result)
       userCalendarEvents.value?.push(result?.data)
     } catch(error) {
-      console.error('Error [calendar add event]: ', error);
+      console.error('Error [ADD EVENT TO CAL]: ', error);
+    }
+    return result;
+  }
+
+  const removeGoogleCalendarEvent = async (
+    { type, eventId }: { type: string, eventId: string }
+  ): Promise<any> => {
+    let result: Record<string, any> | null = null;
+    try {
+      result = await fetchData('user/google/event/remove/:type/:eventId', 'DELETE', { type, eventId });
+      console.log('[remove response]', result)
+    } catch(error) {
+      console.error('Error [DELETE EVENT FROM CAL]: ', error);
     }
     return result;
   }
@@ -112,6 +125,7 @@ export const useUserStore = defineStore('user', () => {
     updateIsAuthenticated,
     checkUserSession,
     googleCalendarEvents,
-    addNewEventToCalendar
+    addNewEventToCalendar,
+    removeGoogleCalendarEvent
   }
 })

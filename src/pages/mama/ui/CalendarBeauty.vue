@@ -3,7 +3,7 @@ import {useI18n} from "vue-i18n";
 import {onMounted, watch, computed, ref} from "vue";
 import { useUserStore } from "@/entities/user";
 import {AppButton} from "@/shared/ui/button";
-const { googleCalendarEvents, user, addNewEventToCalendar } = useUserStore();
+const { googleCalendarEvents, user, addNewEventToCalendar, removeGoogleCalendarEvent } = useUserStore();
 const { userCalendarEvents } = storeToRefs((useUserStore()));
 import { useRoute } from 'vue-router'
 const route = useRoute();
@@ -32,7 +32,7 @@ const formEventData = ref<FormEventType>({
 });
 
 const getGoogleCalendarEvents = async () => {
-  await googleCalendarEvents();
+  await googleCalendarEvents('beauty');
 
   console.log('result', userCalendarEvents.value);
 
@@ -95,7 +95,10 @@ const saveEventDescription = async () => {
 
     pendingEvent.value?.resolve(finalizedEvent);
 
-    const result = await addNewEventToCalendar(finalizedEvent);
+    const result = await addNewEventToCalendar({
+      body: finalizedEvent,
+      type: 'beauty'
+    });
 
     if (!result.result) return;
 
@@ -150,7 +153,9 @@ const showDetails = ({ event }: { event: CalendarEventType}) => {
   console.log('details', event)
 }
 
-const deleteEvent = (id: string) => {
+const deleteEvent = async (id: string) => {
+  const result = await removeGoogleCalendarEvent({ type: 'beauty', eventId: id});
+  console.log('result del from component', result)
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   isDetails.value = false;
 }
