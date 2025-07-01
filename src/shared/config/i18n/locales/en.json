@@ -9,6 +9,8 @@
 		"save": "Save",
 		"delete": "Delete",
 		"close": "Close",
+		"edit": "Edit",
+		"please_wait": "Please wait",
 		"successfully_sent": "Successfully sent",
 		"min": "min"
 	},

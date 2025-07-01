@@ -11,7 +11,6 @@ const props = defineProps<Props>()
   <teleport to="body">
     <Transition name="fade" >
       <div
-        v-if="props.isShow"
         :class="full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : ''"
       >
         <slot name="content" />
