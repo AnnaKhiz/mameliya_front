@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<UserDataType | null>(null);
   const isAuthenticated = ref<boolean>(false);
   const userCalendarEvents = ref<Record<string, any> | null>(null);
+  const isLoading = ref<boolean>(false);
 
   const updateIsAuthenticated = (value: boolean) => {
     isAuthenticated.value = value;
@@ -15,9 +16,10 @@ export const useUserStore = defineStore('user', () => {
 
   const signUpUser = async (body: FormFieldsType):Promise<any> => {
     let result: ResponseType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/register', 'POST', {}, body);
-
+      isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
       }
@@ -31,9 +33,11 @@ export const useUserStore = defineStore('user', () => {
 
   const signInUser = async (body: FormFieldsType):Promise<any> => {
     let result: ResponseType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/login', 'POST', {}, body);
       console.log(result)
+      isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
       }
@@ -46,9 +50,10 @@ export const useUserStore = defineStore('user', () => {
 
   const checkUserSession = async (): Promise<any> => {
     let result: ResponseType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/check-auth');
-
+      isLoading.value = false;
       if (result) {
         if (result?.data) {
           user.value = result.data;
@@ -66,8 +71,10 @@ export const useUserStore = defineStore('user', () => {
 
   const logOutUser = async (): Promise<any> => {
     let result: Record<string, boolean> | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/logout');
+      isLoading.value = false;
       user.value = null;
       isAuthenticated.value = false;
       localStorage.setItem('userAuthenticated', 'false');
@@ -80,8 +87,10 @@ export const useUserStore = defineStore('user', () => {
 
   const googleCalendarEvents = async (type: string): Promise<any> => {
     let result: Record<string, any> | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/google/events/:type', 'GET', { type });
+      isLoading.value = false;
       userCalendarEvents.value = result?.data?.events;
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);
@@ -91,9 +100,11 @@ export const useUserStore = defineStore('user', () => {
 
   const addNewEventToCalendar = async ( { body, type } : { body: CalendarEventType, type: string }): Promise<any> => {
     let result: Record<string, any> | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/google/event/add/:type', 'POST', { type }, body);
       console.log('[ADD EVENT] result', result)
+      isLoading.value = false;
       userCalendarEvents.value?.push(result?.data)
     } catch(error) {
       console.error('Error [ADD EVENT TO CAL]: ', error);
@@ -105,9 +116,11 @@ export const useUserStore = defineStore('user', () => {
     { type, eventId }: { type: string, eventId: string }
   ): Promise<any> => {
     let result: Record<string, any> | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/google/event/remove/:type/:eventId', 'DELETE', { type, eventId });
       console.log('[remove response]', result)
+      isLoading.value = false;
     } catch(error) {
       console.error('Error [DELETE EVENT FROM CAL]: ', error);
     }
@@ -119,6 +132,7 @@ export const useUserStore = defineStore('user', () => {
     user,
     isAuthenticated,
     userCalendarEvents,
+    isLoading,
     signUpUser,
     signInUser,
     logOutUser,

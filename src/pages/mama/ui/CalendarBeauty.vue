@@ -4,7 +4,7 @@ import {onMounted, watch, computed, ref} from "vue";
 import { useUserStore } from "@/entities/user";
 import {AppButton} from "@/shared/ui/button";
 const { googleCalendarEvents, user, addNewEventToCalendar, removeGoogleCalendarEvent } = useUserStore();
-const { userCalendarEvents } = storeToRefs((useUserStore()));
+const { userCalendarEvents, isLoading } = storeToRefs((useUserStore()));
 import { useRoute } from 'vue-router'
 const route = useRoute();
 const { t } = useI18n();
@@ -15,6 +15,8 @@ import ModalComponent from "@/shared/ui/modal";
 import {AppTextarea} from "@/shared/ui/form";
 import { v4 as uuidv4 } from 'uuid';
 import type { CalendarEventType } from "@/entities/user";
+import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
+import LoaderComponent from "@/features/loader";
 
 const connectGoogleCalendar = () => {
   window.location.href = 'http://localhost:3000/user/google/check';
@@ -160,31 +162,12 @@ const deleteEvent = async (id: string) => {
   isDetails.value = false;
 }
 
-const parseDateToString = (value: string): string => {
-  if (!value) return ''
 
-  let start = null;
-  try {
-    start = new Date(value);
-  } catch (error) {
-    console.log('Error creating Date object', error)
-  }
-
-  const hours = start?.getHours().toString().padStart(2, '0') || '';
-  const minutes = start?.getMinutes().toString().padStart(2, '0') || '';
-  const year = start?.getFullYear() || '';
-  const month = start?.getMonth().toString().padStart(2, '0') || '';
-  const day = start?.getDay().toString().padStart(2, '0') || '';
-
-  if ([year, month, day].some(e => e === '00')) return '';
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
 </script>
 
 <template>
-  <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main">
-    <div class="w-full">
+  <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative">
+    <div v-if="!isLoading"  class="w-full">
       <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
       <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6">
         <p>{{ t('mama.beauty_calendar_about') }}</p>
@@ -214,11 +197,12 @@ const parseDateToString = (value: string): string => {
 
       />
     </div>
-    <code>{{ formEventData}}</code>
+    <LoaderComponent v-else />
   </div>
 
+
   <!--  dialog add event -->
-  <ModalComponent :is-show="isDialogOpen" full>
+  <ModalComponent v-if="!isLoading" :is-show="isDialogOpen" full>
     <template #content>
       <div class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
         <h2 class="self-center">{{ t('mama.event.modal_title') }}</h2>
@@ -253,7 +237,7 @@ const parseDateToString = (value: string): string => {
   </ModalComponent>
 
   <!--  dialog show details -->
-  <ModalComponent :is-show="isDetails" full>
+  <ModalComponent v-if="!isLoading" :is-show="isDetails" full>
     <template #content>
       <div v-if="currentEvent" class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
         <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
