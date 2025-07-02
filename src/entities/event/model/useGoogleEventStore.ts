@@ -1,13 +1,15 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import type {CalendarEventType} from "@/entities/user";
+import type { CalendarEventType } from "@/entities/event";
 import {fetchData} from "@/shared/api";
 
 export const useGoogleEventStore = defineStore('googleEvents', () => {
   const userCalendarEvents = ref<CalendarEventType[] | null>(null);
   const isLoading = ref<boolean>(false);
 
-
+  const connectGoogleCalendar = () => {
+    window.location.href = 'http://localhost:3000/user/google/check';
+  }
   const googleCalendarEvents = async (type: string): Promise<any> => {
     let result: Record<string, any> | null = null;
     isLoading.value = true;
@@ -64,8 +66,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     return Array.isArray(data);
   }
   const createParsedEvent = (event: Record<string, any>) => {
-    console.log('event before parsing', event)
-
     return {
       start: new Date(event.start?.dateTime || event.start?.date),
       end: new Date(event.end?.dateTime || event.end?.date),
@@ -96,6 +96,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     googleCalendarEvents,
     addNewEventToCalendar,
     removeGoogleCalendarEvent,
-    parseUserCalendarEvents
+    parseUserCalendarEvents,
+    connectGoogleCalendar
   }
 })

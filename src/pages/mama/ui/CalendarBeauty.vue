@@ -2,57 +2,43 @@
 import {useI18n} from "vue-i18n";
 import {onMounted, watch, ref} from "vue";
 import { useUserStore } from "@/entities/user";
-import { useGoogleEventStore } from "@/entities/event";
 import { AppButton } from "@/shared/ui/button";
+import {
+  type CalendarEventType,
+  type FormEventType,
+  type PendingValueType,
+  AddEditEventForm,
+  useGoogleEventStore
+} from "@/entities/event";
 const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
-const { googleCalendarEvents, removeGoogleCalendarEvent, parseUserCalendarEvents } = useGoogleEventStore();
+const {
+  googleCalendarEvents,
+  removeGoogleCalendarEvent,
+  parseUserCalendarEvents,
+  connectGoogleCalendar
+} = useGoogleEventStore();
 const { user } = useUserStore();
-import { useRoute } from 'vue-router'
-const route = useRoute();
 const { t } = useI18n();
 // @ts-ignore
 import { VueCal } from 'vue-cal';
 import 'vue-cal/style'
 import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
-import type { CalendarEventType } from "@/entities/user";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
-import { AddEditEventForm } from "@/entities/event";
 
 const events = ref<CalendarEventType[] | null>();
-const connectGoogleCalendar = () => {
-  window.location.href = 'http://localhost:3000/user/google/check';
-}
-type FormEventType = {
-  title: string;
-  description: string;
-}
-
+const pendingEvent = ref<PendingValueType | null>(null);
+const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null)
+const message = ref<string>('');
 const isDialogOpen = ref<boolean>(false);
+const isDetails = ref<boolean>(false);
+const currentEvent = ref<CalendarEventType | null>(null);
 const formEventData = ref<FormEventType>({
   title: '',
   description: ''
 });
 
-
-watch(() => route, (value) => {
-  console.log(value)
-}, { deep: true })
-
-onMounted( async () => {
-  if (user?.google_refresh) {
-    await googleCalendarEvents('beauty');
-    if (!userCalendarEvents.value) return;
-    events.value = parseUserCalendarEvents(userCalendarEvents.value) as CalendarEventType[];
-  }
-})
-
-type PendingValueType = {
-  event: CalendarEventType;
-  resolve: ( event: CalendarEventType ) => {}
-}
-const pendingEvent = ref<PendingValueType | null>(null);
 const createEvent = ( { event, resolve }: PendingValueType) => {
   openDialog()
   if (event.start) {
@@ -60,28 +46,23 @@ const createEvent = ( { event, resolve }: PendingValueType) => {
   }
   message.value = '';
 }
-const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null)
-const message = ref<string>('');
+
 const openDialog = () => {
   isDialogOpen.value = true;
 }
 
-const isDetails = ref<boolean>(false);
-const currentEvent = ref<CalendarEventType | null>(null);
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   isDetails.value = true;
-  console.log('current event ++++', event)
+
   currentEvent.value = {
     ...event,
     start: parseDateToString(event.start as string),
     end: parseDateToString(event.end as string)
   };
-  console.log('details', currentEvent.value)
 }
 
 const deleteEvent = async (id: string) => {
   const result = await removeGoogleCalendarEvent({ type: 'beauty', eventId: id});
-  console.log('result del from component', result)
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   isDetails.value = false;
 }
@@ -103,13 +84,19 @@ const resetForm = ():void => {
   }
 }
 
+onMounted( async () => {
+  if (user?.google_refresh) {
+    await googleCalendarEvents('beauty');
+    if (!userCalendarEvents.value) return;
+    events.value = parseUserCalendarEvents(userCalendarEvents.value) as CalendarEventType[];
+  }
+})
+
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
     events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
-    // console.log(events.value)
   }
 }, { deep: true})
-
 
 </script>
 
