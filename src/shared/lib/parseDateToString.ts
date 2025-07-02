@@ -1,6 +1,4 @@
-export const parseDateToString = (value: string): string => {
-  if (!value) return ''
-
+export const parseDateToString = (value: string | Date): string => {
   let start = null;
   try {
     start = new Date(value);
@@ -15,6 +13,5 @@ export const parseDateToString = (value: string): string => {
   const day = start?.getDay().toString().padStart(2, '0') || '';
 
   if ([year, month, day].some(e => e === '00')) return '';
-
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }

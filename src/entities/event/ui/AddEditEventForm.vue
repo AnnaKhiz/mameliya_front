@@ -3,24 +3,19 @@ import { AppTextarea } from "@/shared/ui/form";
 import { useI18n } from "vue-i18n";
 import { ref, type Ref} from "vue";
 import {AppButton} from "@/shared/ui/button";
-import {type CalendarEventType, useUserStore} from "@/entities/user";
+import {
+  type CalendarEventType,
+  type FormEventType,
+  type PendingValueType,
+  useGoogleEventStore
+} from "@/entities/event";
 
 const { t } = useI18n();
-const { addNewEventToCalendar } = useUserStore();
-
-type PendingValueType = {
-  event: CalendarEventType;
-  resolve: ( event: CalendarEventType ) => {}
-}
+const { addNewEventToCalendar } = useGoogleEventStore();
 
 type Props = {
   pendingEvent: PendingValueType | null,
   resetForm: () => void,
-}
-
-type FormEventType = {
-  title: string;
-  description: string;
 }
 
 const props = defineProps<Props>();
