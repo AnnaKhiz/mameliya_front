@@ -2,9 +2,11 @@
 import {useI18n} from "vue-i18n";
 import {onMounted, watch, ref} from "vue";
 import { useUserStore } from "@/entities/user";
-import {AppButton} from "@/shared/ui/button";
-const { googleCalendarEvents, user, removeGoogleCalendarEvent, parseUserCalendarEvents } = useUserStore();
-const { userCalendarEvents, isLoading } = storeToRefs((useUserStore()));
+import { useGoogleEventStore } from "@/entities/event";
+import { AppButton } from "@/shared/ui/button";
+const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
+const { googleCalendarEvents, removeGoogleCalendarEvent, parseUserCalendarEvents } = useGoogleEventStore();
+const { user } = useUserStore();
 import { useRoute } from 'vue-router'
 const route = useRoute();
 const { t } = useI18n();
@@ -103,6 +105,7 @@ const resetForm = ():void => {
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
     events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
+    console.log(events.value)
   }
 }, { deep: true})
 
@@ -158,6 +161,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
     <!--  dialog show details -->
     <ModalComponent v-if="!isLoading && isDetails"  full>
       <template #default>
+
         <div v-if="currentEvent" class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
           <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
           <div class="mb-4">
@@ -167,7 +171,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
             </p>
             <p>
               <span class="font-bold">{{ t('mama.event.description') }}</span>:
-              {{ currentEvent.description || currentEvent.contentFull }}
+              {{ currentEvent.contentFull || currentEvent.description }}
             </p>
             <p>
               <span class="font-bold">{{ t('mama.event.date_start') }}</span>:
