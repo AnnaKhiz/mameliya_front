@@ -70,12 +70,13 @@ const isDetails = ref<boolean>(false);
 const currentEvent = ref<CalendarEventType | null>(null);
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   isDetails.value = true;
+  console.log('current event ++++', event)
   currentEvent.value = {
     ...event,
     start: parseDateToString(event.start as string),
     end: parseDateToString(event.end as string)
   };
-  console.log('details', event)
+  console.log('details', currentEvent.value)
 }
 
 const deleteEvent = async (id: string) => {
@@ -105,7 +106,7 @@ const resetForm = ():void => {
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
     events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
-    console.log(events.value)
+    // console.log(events.value)
   }
 }, { deep: true})
 
@@ -171,7 +172,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
             </p>
             <p>
               <span class="font-bold">{{ t('mama.event.description') }}</span>:
-              {{ currentEvent.contentFull || currentEvent.description }}
+              {{ currentEvent.contentFull  }}
             </p>
             <p>
               <span class="font-bold">{{ t('mama.event.date_start') }}</span>:
