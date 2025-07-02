@@ -1,10 +1,9 @@
 <script setup lang="ts">
+
 type Props = {
-  isShow: boolean;
   full?: boolean;
 }
-const props = defineProps<Props>()
-
+defineProps<Props>();
 </script>
 
 <template>
@@ -13,7 +12,7 @@ const props = defineProps<Props>()
       <div
         :class="full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : ''"
       >
-        <slot name="content" />
+        <slot />
       </div>
     </Transition>
   </teleport>
