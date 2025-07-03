@@ -193,7 +193,8 @@
 			"title": "Title",
 			"description": "Description",
 			"date_start": "Start date and time",
-			"date_end": "End date and time"
+			"date_end": "End date and time",
+			"no_checked_date": "Data is empty"
 		}
 	}
 }
