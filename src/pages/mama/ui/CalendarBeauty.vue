@@ -22,7 +22,7 @@ const { user } = useUserStore();
 const { t } = useI18n();
 // @ts-ignore
 import { VueCal } from 'vue-cal';
-import 'vue-cal/style'
+import 'vue-cal/style';
 import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
@@ -36,7 +36,10 @@ const message = ref<string>('');
 const currentEvent = ref<CalendarEventType | null>(null);
 const formEventData = ref<FormEventType>({
   title: '',
-  description: ''
+  description: '',
+  date: '',
+  start: '',
+  end: ''
 });
 
 const createEvent = ( { event, resolve }: PendingValueType) => {
@@ -71,8 +74,11 @@ const editEvent = async (event: CalendarEventType) => {
 
   console.log(event)
   formEventData.value = {
-    title: event.title,
-    description: event.contentFull
+    title: event.title || '',
+    description: event.contentFull,
+    date: event.start.toString().split(' ')[0],
+    start: event.start.toString().split(' ')[1],
+    end: event.end?.toString().split(' ')[1] || ''
   }
 }
 
@@ -85,7 +91,10 @@ const resetForm = ():void => {
   pendingEvent.value = null;
   formEventData.value = {
     title: '',
-    description: ''
+    description: '',
+    date: '',
+    start: '',
+    end: ''
   }
 }
 
@@ -109,7 +118,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
   <section>
     <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative">
       <div v-if="!isLoading"  class="w-full">
-        <code>{{ formEventData}}</code>
+
         <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
         <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6">
           <p>{{ t('mama.beauty_calendar_about') }}</p>
@@ -140,6 +149,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
         />
       </div>
       <LoaderComponent v-else />
+      <code>{{ formEventData}}</code>
     </div>
     <!--  dialog add event -->
     <ModalComponent v-if="!isLoading && dialog === 'add' || dialog === 'edit'" full>

@@ -1,5 +1,5 @@
 import { i18n } from '@/shared/config/i18n';
-export const parseDateToString = (value: string | Date): string => {
+export const parseDateToString = (value: string | Date, onlyDate = false): string => {
   if (!value) return i18n.global.t('mama.event.no_checked_date');
 
   let start: Date | null = null;
@@ -17,6 +17,10 @@ export const parseDateToString = (value: string | Date): string => {
   const day: string = start?.getDate().toString().padStart(2, '0') || '';
 
   if ([year, month, day].some(e => e === '00')) return '';
+
+  if (onlyDate) {
+    return `${year}-${month}-${day}`;
+  }
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }

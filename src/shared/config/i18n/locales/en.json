@@ -194,7 +194,13 @@
 			"description": "Description",
 			"date_start": "Start date and time",
 			"date_end": "End date and time",
-			"no_checked_date": "Data is empty"
+			"no_checked_date": "Data is empty",
+			"add_event": "Add event",
+			"save_changes": "Save changes",
+			"event_date": "Event date",
+			"time_start": "Event start",
+			"time_end": "Event end",
+			"empty_fields": "Can not save empty fields"
 		}
 	}
 }
