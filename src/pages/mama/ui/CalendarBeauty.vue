@@ -71,7 +71,7 @@ const deleteEvent = async (id: string) => {
 }
 const editEvent = async (event: CalendarEventType) => {
   dialog.value = 'edit';
-
+  currentEvent.value = event;
   console.log(event)
   formEventData.value = {
     title: event.title || '',
@@ -103,6 +103,7 @@ onMounted( async () => {
     await googleCalendarEvents('beauty');
     if (!userCalendarEvents.value) return;
     events.value = parseUserCalendarEvents(userCalendarEvents.value) as CalendarEventType[];
+    console.log(events.value)
   }
 })
 
@@ -149,16 +150,16 @@ watch(() => userCalendarEvents.value, (newValue) => {
         />
       </div>
       <LoaderComponent v-else />
-      <code>{{ formEventData}}</code>
     </div>
     <!--  dialog add event -->
-    <ModalComponent v-if="!isLoading && dialog === 'add' || dialog === 'edit'" full>
+    <ModalComponent v-if="!isLoading && (dialog === 'add' || dialog === 'edit')" full>
       <template #default>
         <AddEditEventForm
           v-model="formEventData"
           :pending-event="pendingEvent"
           :reset-form="resetForm"
           :dialog="dialog"
+          :current-event="currentEvent"
         />
       </template>
     </ModalComponent>
@@ -187,7 +188,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
               {{ currentEvent.end }}
             </p>
           </div>
-          <div class="flex justify-between items-center gap-2 w-full">
+          <div class="flex justify-start items-center gap-2 w-full">
             <AppButton :label="t('general.close')" @click="dialog = 'none'" />
             <AppButton :label="t('general.delete')" @click="deleteEvent(currentEvent.id)" />
             <AppButton :label="t('general.edit')" @click="editEvent(currentEvent)" />

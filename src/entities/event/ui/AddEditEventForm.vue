@@ -4,7 +4,8 @@ import { useI18n } from "vue-i18n";
 import {computed, ref, type Ref} from "vue";
 import {AppButton} from "@/shared/ui/button";
 import {
-  type CalendarEventType, type DialogEventsType,
+  type CalendarEventType,
+  type DialogEventsType,
   type FormEventType,
   type PendingValueType,
   useGoogleEventStore
@@ -15,10 +16,11 @@ import 'vue-cal/style';
 import {parseDateToString} from "@/shared/lib/parseDateToString.ts";
 
 const { t } = useI18n();
-const { addNewEventToCalendar } = useGoogleEventStore();
+const { addNewEventToCalendar, updateGoogleEvent } = useGoogleEventStore();
 
 type Props = {
   pendingEvent: PendingValueType | null,
+  currentEvent: CalendarEventType,
   dialog: DialogEventsType,
   resetForm: () => void,
 }
@@ -39,7 +41,7 @@ const saveEventDescription = async () => {
     ...props.pendingEvent?.event,
     start: props.pendingEvent?.event.start || '',
     title: formEventData.value?.title,
-    contentFull: formEventData.value?.description,
+    description: formEventData.value?.description,
   };
 
   props.pendingEvent?.resolve(finalizedEvent);
@@ -57,7 +59,35 @@ const saveEventDescription = async () => {
 }
 
 const saveEventChanges = async () => {
-  console.log('click save changes')
+  console.log('click save changes');
+  const { title, description } = formEventData.value as FormEventType;
+
+  if (!title.trim() && !description.trim() ) {
+    message.value = t('mama.event.empty_fields');
+    return;
+  }
+
+  const updatedEvent: CalendarEventType = {
+    ...formEventData.value,
+    start: `${formEventData.value.date} ${formEventData.value.start}`,
+    end: `${formEventData.value.date} ${formEventData.value.end}`
+  };
+
+  delete updatedEvent.date
+  console.log('updatedEvent', updatedEvent)
+
+  const result = await updateGoogleEvent({
+    body: updatedEvent,
+    type: 'beauty',
+    eventId: props.currentEvent.id
+  })
+
+  if (!result.result) {
+    message.value = 'Updates not saved';
+  }
+
+  props.resetForm();
+
 }
 
 const hoursList = computed(() => {
@@ -90,9 +120,9 @@ const setNewDate = (event: Record<string, any>) => {
 </script>
 
 <template>
-  <div class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start ">
+  <div class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
     <h2 class="self-center">{{ t('mama.event.modal_title') }}</h2>
-    <form action="" class="flex flex-col items-start justify-start  w-full">
+    <form action="" class="flex flex-col items-start justify-start gap-4 w-full">
       <div class="w-full">
         <h2 class="mb-2">{{ t('mama.event.modal_event_name') }}</h2>
         <input
@@ -113,7 +143,7 @@ const setNewDate = (event: Record<string, any>) => {
           placeholder-text="mama.event.enter_event_description"
         />
       </div>
-      <div v-if="dialog === 'edit'" class="flex justify-start items-start gap-5 w-full text-brown-dark font-semibold text-md">
+      <div v-if="dialog === 'edit'" class="flex justify-start items-start gap-5 w-full text-brown-dark font-semibold text-md mb-5">
         <div>
           <h2 class="mb-2">{{ t('mama.event.event_date') }}</h2>
           <Vue-cal date-picker :selected-date="formEventData.date" @cell-click="setNewDate"/>
