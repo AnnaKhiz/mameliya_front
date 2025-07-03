@@ -30,14 +30,27 @@ select {
   }
   &.dark-mode {
     box-shadow: none;
-    border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
+    border-bottom: 1px solid rgba(204, 208, 181, 0.51);
     &:hover, &:active {
       box-shadow: none;
-      border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
+      border-bottom: 1px solid rgba(204, 208, 181, 0.51);
     }
     &:focus {
       border-color: rgba(204, 208, 181, 0.51);;
-      border-bottom: 1px solid rgba(204, 208, 181, 0.51);;
+      border-bottom: 1px solid rgba(204, 208, 181, 0.51);
+      box-shadow: none;
+    }
+  }
+  &.light-mode {
+    box-shadow: none;
+    border-bottom: 1px solid #523629;
+    &:hover, &:active {
+      box-shadow: none;
+      border-bottom: 1px solid #523629;
+    }
+    &:focus {
+      border-color: #523629;
+      border-bottom: 1px solid #523629;
       box-shadow: none;
     }
   }

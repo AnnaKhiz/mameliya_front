@@ -3,6 +3,7 @@ import { useGoogleEventStore } from "@/entities/event/model/useGoogleEventStore.
 import type { CalendarEventType } from "@/entities/event/types/CalendarEventType.ts";
 import type { FormEventType } from "@/entities/event/types/FormEventType.ts";
 import type { PendingValueType } from "@/entities/event/types/PendingValueType.ts";
+import type { DialogEventsType } from "@/entities/event/types/DialogEventsType.ts";
 
 export {
   AddEditEventForm,
@@ -12,5 +13,6 @@ export {
 export type {
   CalendarEventType,
   FormEventType,
-  PendingValueType
+  PendingValueType,
+  DialogEventsType
 }

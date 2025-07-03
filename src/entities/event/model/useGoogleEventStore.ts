@@ -17,6 +17,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
       result = await fetchData('user/google/events/:type', 'GET', { type });
       isLoading.value = false;
       userCalendarEvents.value = result?.data?.events;
+      console.log('EVENT LIST: ', userCalendarEvents.value)
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);
     }
@@ -38,6 +39,21 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     return result;
   }
 
+  const updateGoogleEvent = async(
+    { type, eventId, body }: { type: string, eventId: string, body: CalendarEventType }
+  ): Promise<any> => {
+    let result: CalendarEventType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/google/event/update/:type/:eventId', 'PATCH', { type, eventId }, body);
+      isLoading.value = false;
+      updateUserCalendarEvents(result?.data);
+    } catch(error) {
+      console.error('Error [UPDATE EVENT FROM CAL]: ', error);
+    }
+    return result;
+  }
+
   const removeGoogleCalendarEvent = async (
     { type, eventId }: { type: string, eventId: string }
   ): Promise<any> => {
@@ -53,14 +69,23 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     return result;
   }
 
-
-  // additional functions
+// ADDITIONAL FUNCTIONS
   const removeEventFromArray = (eventId: string) => {
     const index: number = userCalendarEvents.value?.findIndex(event => event.id === eventId) ?? -1;
 
     if (index === -1) return userCalendarEvents.value;
 
     userCalendarEvents.value?.splice(index, 1);
+  }
+
+  const updateUserCalendarEvents = (data: CalendarEventType) => {
+    const index: number = userCalendarEvents.value?.findIndex(e => e.id === data.id) ?? -1;
+
+    if (index === -1) return userCalendarEvents.value;
+
+    if (userCalendarEvents.value) {
+      userCalendarEvents.value[index] = data;
+    }
   }
   const checkIsArray = (data: CalendarEventType[] | CalendarEventType) => {
     return Array.isArray(data);
@@ -97,6 +122,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     addNewEventToCalendar,
     removeGoogleCalendarEvent,
     parseUserCalendarEvents,
-    connectGoogleCalendar
+    connectGoogleCalendar,
+    updateGoogleEvent
   }
 })
