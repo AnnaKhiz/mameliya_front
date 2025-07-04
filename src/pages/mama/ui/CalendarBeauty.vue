@@ -9,14 +9,15 @@ import {
   type PendingValueType,
   type DialogEventsType,
   AddEditEventForm,
-  useGoogleEventStore
+  useGoogleEventStore, EventDetailsForm, EventInstruction
 } from "@/entities/event";
 const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
 const {
   googleCalendarEvents,
   removeGoogleCalendarEvent,
   parseUserCalendarEvents,
-  connectGoogleCalendar
+  connectGoogleCalendar,
+  updateGoogleEvent
 } = useGoogleEventStore();
 const { user } = useUserStore();
 const { t } = useI18n();
@@ -43,15 +44,19 @@ const formEventData = ref<FormEventType>({
 });
 
 const createEvent = ( { event, resolve }: PendingValueType) => {
-  openDialog()
+  openDialog('add');
   if (event.start) {
     pendingEvent.value = { event, resolve };
   }
   message.value = '';
 }
 
-const openDialog = () => {
-  dialog.value = 'add';
+const openDialog = (value: DialogEventsType) => {
+  dialog.value = value;
+}
+
+const closeDialogs = () => {
+  dialog.value = 'none';
 }
 
 const showDetails = ({ event }: { event: CalendarEventType}) => {
@@ -63,31 +68,24 @@ const showDetails = ({ event }: { event: CalendarEventType}) => {
     end: parseDateToString(event.end as string)
   };
 }
+const dropEvent = async ({ event }: { event: CalendarEventType}) => {
+  const { start, end } = event;
+  const result = await updateGoogleEvent({
+    body: {
+      start,
+      end
+    },
+    type: 'beauty',
+    eventId: event.id
+  })
 
-const deleteEvent = async (id: string) => {
-  const result = await removeGoogleCalendarEvent({ type: 'beauty', eventId: id});
-  vuecalRef.value?.view.deleteEvent({ id }, 3);
-  dialog.value = 'none';
-}
-const editEvent = async (event: CalendarEventType) => {
-  dialog.value = 'edit';
-  currentEvent.value = event;
-  console.log(event)
-  formEventData.value = {
-    title: event.title || '',
-    description: event.contentFull,
-    date: event.start.toString().split(' ')[0],
-    start: event.start.toString().split(' ')[1],
-    end: event.end?.toString().split(' ')[1] || ''
+  if (!result.result) {
+    message.value = 'Updates not saved';
   }
+  resetForm();
 }
-
-const dropEvent = ({ event }: { event: CalendarEventType}) => {
-  console.log(event)
-}
-
 const resetForm = ():void => {
-  dialog.value = 'none';
+  closeDialogs();
   pendingEvent.value = null;
   formEventData.value = {
     title: '',
@@ -97,13 +95,15 @@ const resetForm = ():void => {
     end: ''
   }
 }
+const handleRemoveFromCal = (id: string) => {
+  vuecalRef.value?.view.deleteEvent({ id }, 3);
+}
 
 onMounted( async () => {
   if (user?.google_refresh) {
     await googleCalendarEvents('beauty');
     if (!userCalendarEvents.value) return;
     events.value = parseUserCalendarEvents(userCalendarEvents.value) as CalendarEventType[];
-    console.log(events.value)
   }
 })
 
@@ -117,11 +117,13 @@ watch(() => userCalendarEvents.value, (newValue) => {
 
 <template>
   <section>
-    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative">
+    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative text-brown-dark ">
       <div v-if="!isLoading"  class="w-full">
-
-        <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
-        <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6">
+        <div class="flex justify-between items-start">
+          <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
+          <p class="cursor-pointer font-semibold underline hover:text-brown-medium" @click="openDialog('instruction')">{{ t('mama.how_to_use') }}</p>
+        </div>
+        <div class="flex flex-col justify-between items-start gap-2 mb-6">
           <p>{{ t('mama.beauty_calendar_about') }}</p>
           <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
           <p>{{ t('mama.beauty_calendar_remind') }}</p>
@@ -160,6 +162,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
           :reset-form="resetForm"
           :dialog="dialog"
           :current-event="currentEvent"
+          :close-dialogs="closeDialogs"
         />
       </template>
     </ModalComponent>
@@ -167,40 +170,29 @@ watch(() => userCalendarEvents.value, (newValue) => {
     <!--  dialog show details -->
     <ModalComponent v-if="!isLoading && dialog === 'details'" full>
       <template #default>
-
-        <div v-if="currentEvent" class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
-          <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
-          <div class="mb-4">
-            <p>
-              <span class="font-bold">{{ t('mama.event.title') }}</span>:
-              {{ currentEvent.title }}
-            </p>
-            <p>
-              <span class="font-bold">{{ t('mama.event.description') }}</span>:
-              {{ currentEvent.contentFull  }}
-            </p>
-            <p>
-              <span class="font-bold">{{ t('mama.event.date_start') }}</span>:
-              {{ currentEvent.start }}
-            </p>
-            <p>
-              <span class="font-bold">{{ t('mama.event.date_end') }}</span>:
-              {{ currentEvent.end }}
-            </p>
-          </div>
-          <div class="flex justify-start items-center gap-2 w-full">
-            <AppButton :label="t('general.close')" @click="dialog = 'none'" />
-            <AppButton :label="t('general.delete')" @click="deleteEvent(currentEvent.id)" />
-            <AppButton :label="t('general.edit')" @click="editEvent(currentEvent)" />
-          </div>
-        </div>
+        <EventDetailsForm
+          v-if="currentEvent"
+          :dialog="dialog"
+          :current-event="currentEvent"
+          :close-dialogs="closeDialogs"
+          @remove-from-cal="handleRemoveFromCal"
+          @update:dialog="dialog = $event"
+          @update:current-event="currentEvent = $event"
+          @update:form-event-data="formEventData = $event"
+        />
         <div v-else >
           {{ t('mama.event.no_details_event')}}
         </div>
       </template>
     </ModalComponent>
-  </section>
 
+    <!-- dialog instruction   -->
+    <ModalComponent v-if="dialog === 'instruction'" full>
+      <template #default>
+        <EventInstruction :close-dialogs="closeDialogs" />
+      </template>
+    </ModalComponent>
+  </section>
 </template>
 
 <style scoped>
