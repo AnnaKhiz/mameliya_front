@@ -48,13 +48,12 @@ const formEventData = ref<FormEventType>({
 const createEvent = ( { event, resolve }: PendingValueType) => {
   const start = new Date(event.start);
   const todayDate = new Date();
-console.log(todayDate , start)
+
   if (todayDate > start) {
     dialog.value = 'notify';
     messageNotify.value = t('mama.event.date_can_not_be_smaller');
     return;
   }
-
 
   openDialog('add');
   if (event.start) {
@@ -82,6 +81,20 @@ const showDetails = ({ event }: { event: CalendarEventType}) => {
 }
 const dropEvent = async ({ event }: { event: CalendarEventType}) => {
   const { start, end } = event;
+  console.log(event)
+
+  const startEvent = new Date(start);
+  const todayDate = new Date();
+
+  if (todayDate > startEvent) {
+    dialog.value = 'notify';
+    messageNotify.value = t('mama.event.date_can_not_be_smaller');
+    if (events.value) {
+      events.value = [...events.value?.map((event: CalendarEventType) => ({ ...event }))];
+    }
+    return;
+  }
+
   const result = await updateGoogleEvent({
     body: {
       start,
