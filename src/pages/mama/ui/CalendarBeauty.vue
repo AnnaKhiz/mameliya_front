@@ -16,7 +16,8 @@ const {
   googleCalendarEvents,
   removeGoogleCalendarEvent,
   parseUserCalendarEvents,
-  connectGoogleCalendar
+  connectGoogleCalendar,
+  updateGoogleEvent
 } = useGoogleEventStore();
 const { user } = useUserStore();
 const { t } = useI18n();
@@ -65,14 +66,14 @@ const showDetails = ({ event }: { event: CalendarEventType}) => {
 }
 
 const deleteEvent = async (id: string) => {
-  const result = await removeGoogleCalendarEvent({ type: 'beauty', eventId: id});
+  await removeGoogleCalendarEvent({ type: 'beauty', eventId: id});
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   dialog.value = 'none';
 }
 const editEvent = async (event: CalendarEventType) => {
   dialog.value = 'edit';
   currentEvent.value = event;
-  console.log(event)
+
   formEventData.value = {
     title: event.title || '',
     description: event.contentFull,
@@ -82,8 +83,23 @@ const editEvent = async (event: CalendarEventType) => {
   }
 }
 
-const dropEvent = ({ event }: { event: CalendarEventType}) => {
-  console.log(event)
+const dropEvent = async ({ event }: { event: CalendarEventType}) => {
+  const { start, end } = event;
+
+  const result = await updateGoogleEvent({
+    body: {
+      start,
+      end
+    },
+    type: 'beauty',
+    eventId: event.id
+  })
+
+  if (!result.result) {
+    message.value = 'Updates not saved';
+  }
+
+  resetForm();
 }
 
 const resetForm = ():void => {
