@@ -1,1 +1,1 @@
-export type DialogEventsType = 'add' | 'edit' | 'details' | 'instruction' | 'none';
+export type DialogEventsType = 'add' | 'edit' | 'details' | 'instruction' | 'notify' | 'none';
