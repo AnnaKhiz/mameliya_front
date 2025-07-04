@@ -8,6 +8,7 @@ import type { CalendarEventType } from "@/entities/event/types/CalendarEventType
 import type { FormEventType } from "@/entities/event/types/FormEventType.ts";
 import type { PendingValueType } from "@/entities/event/types/PendingValueType.ts";
 import type { DialogEventsType } from "@/entities/event/types/DialogEventsType.ts";
+import type { TimeListValues } from "@/entities/event/types/TimeListValues.ts";
 
 export {
   AddEditEventForm,
@@ -20,5 +21,6 @@ export type {
   CalendarEventType,
   FormEventType,
   PendingValueType,
-  DialogEventsType
+  DialogEventsType,
+  TimeListValues
 }

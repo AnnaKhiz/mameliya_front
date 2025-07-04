@@ -162,7 +162,6 @@ watch(() => userCalendarEvents.value, (newValue) => {
           :reset-form="resetForm"
           :dialog="dialog"
           :current-event="currentEvent"
-          :close-dialogs="closeDialogs"
         />
       </template>
     </ModalComponent>

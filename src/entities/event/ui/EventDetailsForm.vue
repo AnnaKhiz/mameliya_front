@@ -4,6 +4,9 @@ import type {CalendarEventType, DialogEventsType} from "@/entities/event";
 import { useI18n } from "vue-i18n";
 import { useGoogleEventStore } from "@/entities/event";
 import {XMarkIcon} from "@heroicons/vue/16/solid";
+import { splitDate } from "@/shared/lib/splitDate.ts";
+import {onMounted, ref} from "vue";
+
 const { removeGoogleCalendarEvent } = useGoogleEventStore();
 const { t } = useI18n();
 
@@ -25,16 +28,22 @@ const editEvent = async (event: CalendarEventType) => {
   emits('update:dialog', 'edit');
   emits('update:currentEvent', event);
 
+  const { date, start, end } = splitDate({ eventStart: event.start, eventEnd: event.end || '' });
   const updatedFormData = {
     title: event.title || '',
     description: event.contentFull,
-    date: event.start.toString().split(' ')[0],
-    start: event.start.toString().split(' ')[1],
-    end: event.end?.toString().split(' ')[1] || ''
+    date,
+    start,
+    end
   }
   emits('update:formEventData', updatedFormData);
 }
-
+const isEditable = ref<boolean>(false);
+onMounted(() => {
+  const { date } = splitDate({ eventStart: props.currentEvent.start, eventEnd: props.currentEvent.end || '' });
+  const today = new Date();
+  isEditable.value = new Date(date) < today;
+})
 
 </script>
 
@@ -65,7 +74,7 @@ const editEvent = async (event: CalendarEventType) => {
     <div class="flex justify-start items-center gap-2 w-full">
       <AppButton :label="t('general.close')" @click="props.closeDialogs" />
       <AppButton :label="t('general.delete')" @click="deleteEvent(props.currentEvent.id)" />
-      <AppButton :label="t('general.edit')" @click="editEvent(props.currentEvent)" />
+      <AppButton :label="t('general.edit')" @click="editEvent(props.currentEvent)" :disabled="isEditable" />
     </div>
   </div>
 </template>

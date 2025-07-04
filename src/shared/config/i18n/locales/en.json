@@ -67,7 +67,8 @@
 		"empty_fields": "Empty fields",
 		"user_with_email_exist": "User with such email is already exist",
 		"register_successful": "Sign up is successful",
-		"wrong_email_or_password": "Wrong email or password"
+		"wrong_email_or_password": "Wrong email or password",
+		"updates_not_saved": "Updates not saved"
 	},
 	"validation": {
 		"wrong_email_format": "Wrong email format",
@@ -209,7 +210,8 @@
 			"instruction_4": "To add a new event, select a time range on the calendar—from the event’s start time to its end time. A dialog window will open where you can enter the event title and description. Click the \"Save\" button to confirm.",
 			"instruction_5": "You can view, edit, or delete an event by clicking on it once.",
 			"instruction_6": "To change any information about an event, click on it once, then press the \"Edit\" button. In the window that opens, enter all the necessary details. You can change the \"Title,\" \"Description,\" \"Event Date,\" and \"Start and End Time.\" After making the desired changes, click the \"Save Changes\" button.",
-			"instruction_7": "To delete an event, click on it once and then press the \"Delete\" button."
+			"instruction_7": "To delete an event, click on it once and then press the \"Delete\" button.",
+			"date_can_not_be_smaller": "Event date can not be smaller than current"
 		}
 	}
 }
