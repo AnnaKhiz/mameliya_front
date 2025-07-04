@@ -180,9 +180,11 @@
 		"beauty_calendar": "Beauty rituals calendar",
 		"daily_rituals": "Daily rituals",
 		"beauty_calendar_about": "This section is created to help you take care of yourself with ease every day.",
-		"beauty_calendar_what_inside": "Here you can keep track of your planned beauty rituals, stay on top of your self-care, and simply enjoy the feeling that everything is under control.",
-		"beauty_calendar_remind": "The calendar is a gentle reminder that you deserve attention, rest, and care — and it helps you find time for all that. It's simple, clear, and truly yours.",
+		"beauty_calendar_what_inside": "Here you can keep track of your planned beauty treatments, so you don’t forget important self-care moments.",
+		"beauty_calendar_remind": "TSync your calendar with Google Calendar on your smartphone to always get reminders and never miss a thing.",
 		"connect_google_calendar": "Connect Google Calendar",
+		"instruction": "Instruction",
+		"how_to_use": "How to use the calendar",
 		"event": {
 			"modal_title": "Event description",
 			"modal_event_name": "Name",
@@ -200,7 +202,14 @@
 			"event_date": "Event date",
 			"time_start": "Event start",
 			"time_end": "Event end",
-			"empty_fields": "Can not save empty fields"
+			"empty_fields": "Can not save empty fields",
+			"instruction_1": "To sync your beauty calendar with Google Calendar, click the \"Connect Google Calendar\" button and follow the on-screen instructions.",
+			"instruction_2": "After successfully connecting and syncing with your Google account, a calendar with your beauty treatment schedule will appear on the page.",
+			"instruction_3": "On the calendar, you can choose your preferred view: day, multiple days, week, month, year, or multiple years.",
+			"instruction_4": "To add a new event, select a time range on the calendar—from the event’s start time to its end time. A dialog window will open where you can enter the event title and description. Click the \"Save\" button to confirm.",
+			"instruction_5": "You can view, edit, or delete an event by clicking on it once.",
+			"instruction_6": "To change any information about an event, click on it once, then press the \"Edit\" button. In the window that opens, enter all the necessary details. You can change the \"Title,\" \"Description,\" \"Event Date,\" and \"Start and End Time.\" After making the desired changes, click the \"Save Changes\" button.",
+			"instruction_7": "To delete an event, click on it once and then press the \"Delete\" button."
 		}
 	}
 }

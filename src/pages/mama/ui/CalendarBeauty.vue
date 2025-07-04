@@ -9,7 +9,7 @@ import {
   type PendingValueType,
   type DialogEventsType,
   AddEditEventForm,
-  useGoogleEventStore, EventDetailsForm
+  useGoogleEventStore, EventDetailsForm, EventInstruction
 } from "@/entities/event";
 const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
 const {
@@ -44,15 +44,15 @@ const formEventData = ref<FormEventType>({
 });
 
 const createEvent = ( { event, resolve }: PendingValueType) => {
-  openDialog();
+  openDialog('add');
   if (event.start) {
     pendingEvent.value = { event, resolve };
   }
   message.value = '';
 }
 
-const openDialog = () => {
-  dialog.value = 'add';
+const openDialog = (value: DialogEventsType) => {
+  dialog.value = value;
 }
 
 const closeDialogs = () => {
@@ -117,10 +117,13 @@ watch(() => userCalendarEvents.value, (newValue) => {
 
 <template>
   <section>
-    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative">
+    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative text-brown-dark ">
       <div v-if="!isLoading"  class="w-full">
-        <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
-        <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6">
+        <div class="flex justify-between items-start">
+          <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
+          <p class="cursor-pointer font-semibold underline hover:text-brown-medium" @click="openDialog('instruction')">{{ t('mama.how_to_use') }}</p>
+        </div>
+        <div class="flex flex-col justify-between items-start gap-2 mb-6">
           <p>{{ t('mama.beauty_calendar_about') }}</p>
           <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
           <p>{{ t('mama.beauty_calendar_remind') }}</p>
@@ -159,6 +162,7 @@ watch(() => userCalendarEvents.value, (newValue) => {
           :reset-form="resetForm"
           :dialog="dialog"
           :current-event="currentEvent"
+          :close-dialogs="closeDialogs"
         />
       </template>
     </ModalComponent>
@@ -179,6 +183,13 @@ watch(() => userCalendarEvents.value, (newValue) => {
         <div v-else >
           {{ t('mama.event.no_details_event')}}
         </div>
+      </template>
+    </ModalComponent>
+
+    <!-- dialog instruction   -->
+    <ModalComponent v-if="dialog === 'instruction'" full>
+      <template #default>
+        <EventInstruction :close-dialogs="closeDialogs" />
       </template>
     </ModalComponent>
   </section>

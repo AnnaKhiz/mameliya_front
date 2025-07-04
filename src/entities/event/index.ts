@@ -1,5 +1,6 @@
 import AddEditEventForm from "@/entities/event/ui/AddEditEventForm.vue";
 import EventDetailsForm from "@/entities/event/ui/EventDetailsForm.vue";
+import EventInstruction from "@/entities/event/ui/EventInstruction.vue";
 
 import { useGoogleEventStore } from "@/entities/event/model/useGoogleEventStore.ts";
 
@@ -11,6 +12,7 @@ import type { DialogEventsType } from "@/entities/event/types/DialogEventsType.t
 export {
   AddEditEventForm,
   EventDetailsForm,
+  EventInstruction,
   useGoogleEventStore,
 }
 

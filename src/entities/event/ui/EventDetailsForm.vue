@@ -3,6 +3,7 @@ import { AppButton } from "@/shared/ui/button";
 import type {CalendarEventType, DialogEventsType} from "@/entities/event";
 import { useI18n } from "vue-i18n";
 import { useGoogleEventStore } from "@/entities/event";
+import {XMarkIcon} from "@heroicons/vue/16/solid";
 const { removeGoogleCalendarEvent } = useGoogleEventStore();
 const { t } = useI18n();
 
@@ -39,7 +40,10 @@ const editEvent = async (event: CalendarEventType) => {
 
 <template>
   <div class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
-    <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
+    <div class="flex justify-center items-center w-full">
+      <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
+      <XMarkIcon class="w-9 cursor-pointer justify-self-end" @click="props.closeDialogs" />
+    </div>
     <div class="mb-4">
       <p>
         <span class="font-bold">{{ t('mama.event.title') }}</span>:
