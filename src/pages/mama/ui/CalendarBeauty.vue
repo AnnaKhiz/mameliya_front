@@ -28,12 +28,14 @@ import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
+import {XMarkIcon} from "@heroicons/vue/16/solid";
 
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
 const pendingEvent = ref<PendingValueType | null>(null);
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null);
 const message = ref<string>('');
+const messageNotify = ref<string>('');
 const currentEvent = ref<CalendarEventType | null>(null);
 const formEventData = ref<FormEventType>({
   title: '',
@@ -44,6 +46,15 @@ const formEventData = ref<FormEventType>({
 });
 
 const createEvent = ( { event, resolve }: PendingValueType) => {
+  const start = new Date(event.start);
+  const todayDate = new Date();
+
+  if (todayDate > start) {
+    dialog.value = 'notify';
+    messageNotify.value = t('mama.event.date_can_not_be_smaller');
+    return;
+  }
+
   openDialog('add');
   if (event.start) {
     pendingEvent.value = { event, resolve };
@@ -70,6 +81,20 @@ const showDetails = ({ event }: { event: CalendarEventType}) => {
 }
 const dropEvent = async ({ event }: { event: CalendarEventType}) => {
   const { start, end } = event;
+  console.log(event)
+
+  const startEvent = new Date(start);
+  const todayDate = new Date();
+
+  if (todayDate > startEvent) {
+    dialog.value = 'notify';
+    messageNotify.value = t('mama.event.date_can_not_be_smaller');
+    if (events.value) {
+      events.value = [...events.value?.map((event: CalendarEventType) => ({ ...event }))];
+    }
+    return;
+  }
+
   const result = await updateGoogleEvent({
     body: {
       start,
@@ -154,7 +179,12 @@ watch(() => userCalendarEvents.value, (newValue) => {
       <LoaderComponent v-else />
     </div>
     <!--  dialog add event -->
-    <ModalComponent v-if="!isLoading && (dialog === 'add' || dialog === 'edit')" full>
+    <ModalComponent
+      v-if="!isLoading && (dialog === 'add' || dialog === 'edit')"
+      full
+      :title="t('mama.event.modal_title')"
+      @update:dialog-visibility="dialog = $event"
+    >
       <template #default>
         <AddEditEventForm
           v-model="formEventData"
@@ -167,7 +197,12 @@ watch(() => userCalendarEvents.value, (newValue) => {
     </ModalComponent>
 
     <!--  dialog show details -->
-    <ModalComponent v-if="!isLoading && dialog === 'details'" full>
+    <ModalComponent
+      v-if="!isLoading && dialog === 'details'"
+      full
+      :title="t('mama.event.modal_title')"
+      @update:dialog-visibility="dialog = $event"
+    >
       <template #default>
         <EventDetailsForm
           v-if="currentEvent"
@@ -186,9 +221,27 @@ watch(() => userCalendarEvents.value, (newValue) => {
     </ModalComponent>
 
     <!-- dialog instruction   -->
-    <ModalComponent v-if="dialog === 'instruction'" full>
+    <ModalComponent
+      v-if="dialog === 'instruction'"
+      full
+      :title="t('mama.how_to_use')"
+      :width="'w-4/6'"
+      @update:dialog-visibility="dialog = $event"
+    >
       <template #default>
         <EventInstruction :close-dialogs="closeDialogs" />
+      </template>
+    </ModalComponent>
+
+    <!-- dialog notify  -->
+    <ModalComponent
+      v-if="!isLoading && dialog === 'notify'"
+      full
+      :title="t('general.error')"
+      @update:dialog-visibility="dialog = $event"
+    >
+      <template #default>
+        <p>{{ messageNotify }}</p>
       </template>
     </ModalComponent>
   </section>

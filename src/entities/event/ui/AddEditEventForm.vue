@@ -38,8 +38,9 @@ const messageTextarea = ref<string>('');
 
 const saveEventDescription = async () => {
   const { title, description } = formEventData.value as FormEventType;
+  const start = props.pendingEvent?.event.start || '';
 
-  if (!title.trim() && !description.trim() && !props.pendingEvent?.event.start ) {
+  if (!title.trim() || !description.trim() && !start ) {
     messageTextarea.value = t('mama.event.empty_fields');
     return;
   }
@@ -47,7 +48,7 @@ const saveEventDescription = async () => {
   messageTextarea.value = '';
   const finalizedEvent: CalendarEventType = {
     ...props.pendingEvent?.event,
-    start: props.pendingEvent?.event.start || '',
+    start: start || '',
     title: formEventData.value?.title,
     description: formEventData.value?.description,
   };
@@ -191,11 +192,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-white p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4 text-brown-dark">
-    <div class="flex justify-center items-center w-full">
-      <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
-      <XMarkIcon class="w-9 cursor-pointer justify-self-end" @click="props.resetForm" />
-    </div>
+  <section>
     <form action="" class="flex flex-col items-start justify-start gap-4 w-full">
       <div class="w-full">
         <h2 class="mb-2">{{ t('mama.event.modal_event_name') }}</h2>
@@ -246,7 +243,7 @@ onMounted(() => {
         @click="dialog === 'add' ? saveEventDescription() : saveEventChanges()"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

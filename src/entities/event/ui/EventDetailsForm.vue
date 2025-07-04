@@ -48,11 +48,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-white text-brown-dark p-5 rounded-md w-2/6 h-auto flex flex-col items-start justify-start gap-4">
-    <div class="flex justify-center items-center w-full">
-      <h2 class="self-center font-bold text-xl w-full p-2 text-center">{{ t('mama.event.modal_title') }}</h2>
-      <XMarkIcon class="w-9 cursor-pointer justify-self-end" @click="props.closeDialogs" />
-    </div>
+  <section>
     <div class="mb-4">
       <p>
         <span class="font-bold">{{ t('mama.event.title') }}</span>:
@@ -76,9 +72,6 @@ onMounted(() => {
       <AppButton :label="t('general.delete')" @click="deleteEvent(props.currentEvent.id)" />
       <AppButton :label="t('general.edit')" @click="editEvent(props.currentEvent)" :disabled="isEditable" />
     </div>
-  </div>
+  </section>
 </template>
 
-<style scoped>
-
-</style>
