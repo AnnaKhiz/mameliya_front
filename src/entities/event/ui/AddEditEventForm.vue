@@ -23,26 +23,28 @@ const { addNewEventToCalendar, updateGoogleEvent } = useGoogleEventStore();
 
 type Props = {
   pendingEvent: PendingValueType | null,
-  currentEvent: CalendarEventType,
+  currentEvent: CalendarEventType | null,
   dialog: DialogEventsType,
   resetForm: () => void,
 }
 
 const props = defineProps<Props>();
+
 const formEventData = defineModel<FormEventType>() as Ref<FormEventType>;
 const startDatedList = ref<TimeListValues[] | null>(null);
 const endDatesList = ref<TimeListValues[] | null>(null);
 const messageError = ref<string>('');
+const messageTextarea = ref<string>('');
 
 const saveEventDescription = async () => {
   const { title, description } = formEventData.value as FormEventType;
 
   if (!title.trim() && !description.trim() && !props.pendingEvent?.event.start ) {
-    messageError.value = t('mama.event.empty_fields');
+    messageTextarea.value = t('mama.event.empty_fields');
     return;
   }
 
-  messageError.value = '';
+  messageTextarea.value = '';
   const finalizedEvent: CalendarEventType = {
     ...props.pendingEvent?.event,
     start: props.pendingEvent?.event.start || '',
@@ -58,10 +60,11 @@ const saveEventDescription = async () => {
   });
 
   if (!result.result) {
-    messageError.value = t('notify.updates_not_saved');
+    messageTextarea.value = t('notify.updates_not_saved');
+    return;
   }
 
-  messageError.value = '';
+  messageTextarea.value = '';
   props.resetForm();
 }
 
@@ -69,11 +72,11 @@ const saveEventChanges = async () => {
   const { title, description } = formEventData.value as FormEventType;
 
   if (!title.trim() && !description.trim() ) {
-    messageError.value = t('mama.event.empty_fields');
+    messageTextarea.value = t('mama.event.empty_fields');
     return;
   }
 
-  messageError.value = '';
+  messageTextarea.value = '';
   const updatedEvent: CalendarEventType = {
     ...formEventData.value,
     start: `${formEventData.value.date} ${formEventData.value.start}`,
@@ -85,14 +88,15 @@ const saveEventChanges = async () => {
   const result = await updateGoogleEvent({
     body: updatedEvent,
     type: 'beauty',
-    eventId: props.currentEvent.id
+    eventId: props.currentEvent?.id
   })
 
   if (!result.result) {
-    messageError.value = t('notify.updates_not_saved');
+    messageTextarea.value = t('notify.updates_not_saved');
+    return;
   }
 
-  messageError.value = '';
+  messageTextarea.value = '';
   props.resetForm();
 }
 
@@ -120,24 +124,59 @@ const createTimeValuesList = (hours: number, minutes: number) => {
   return finalList;
 }
 
-const setNewDate = (event: Record<string, any>) => {
-  const currentDay = new Date(props.currentEvent.start);
+function isSameDay(date1: Date, date2: Date): boolean {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
+const normalizeDate = (date: Date): Date =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-  if (event.cell.start < currentDay) {
+const setNewDate = (event: Record<string, any>) => {
+  if (!props.currentEvent) return '';
+  const todayDate = new Date();
+
+  const eventDate = new Date(event.cell.start);
+  eventDate.setHours(todayDate.getHours(), todayDate.getMinutes(), todayDate.getSeconds(), 0);
+
+  const checkedFullDateTime = new Date(eventDate);
+  const currentDay = new Date(props.currentEvent.start);
+  const checkedDateOnly = normalizeDate(checkedFullDateTime);
+  const currentDateOnly = normalizeDate(currentDay);
+
+  if (checkedDateOnly < currentDateOnly) {
     messageError.value = t('mama.event.date_can_not_be_smaller');
     return;
   }
 
-  messageError.value = '';
-  startDatedList.value = createTimeValuesList(0, 0);
-  endDatesList.value = createTimeValuesList(0, 0);
-  formEventData.value.date = parseDateToString(event.cell.start, true);
+  if (checkedDateOnly > currentDateOnly) {
+    messageError.value = '';
+    startDatedList.value = createTimeValuesList(0, 0);
+    endDatesList.value = createTimeValuesList(0, 0);
+    formEventData.value.date = parseDateToString(event.cell.start, true);
+    return
+  }
+
+  if (isSameDay(checkedDateOnly, currentDateOnly)) {
+    messageError.value = '';
+    const {
+      startHours,
+      startMinutes,
+      endHours,
+      endMinutes
+    } = splitDate({ eventStart: props.currentEvent.start , eventEnd: props.currentEvent.end || '' });
+    startDatedList.value = createTimeValuesList(+startHours, +startMinutes);
+    endDatesList.value = createTimeValuesList(+endHours, +endMinutes);
+    return;
+  }
 }
 
 onMounted(() => {
   const isEditMode: boolean = props.dialog === 'edit';
-  const eventStart: string | Date = (isEditMode ? props.currentEvent.start : props.pendingEvent?.event.start) ?? '';
-  const eventEnd: string | Date = (isEditMode ? props.currentEvent.end : props.pendingEvent?.event.end) ?? '';
+  const eventStart: string | Date = (isEditMode ? props.currentEvent?.start : props.pendingEvent?.event.start) ?? '';
+  const eventEnd: string | Date = (isEditMode ? props.currentEvent?.end : props.pendingEvent?.event.end) ?? '';
 
   const {
     startHours,
@@ -171,7 +210,7 @@ onMounted(() => {
         <h2 class="mb-2">{{ t('mama.event.modal_event_description') }}</h2>
         <AppTextarea
           v-model="formEventData.description"
-          :message="messageError"
+          :message="messageTextarea"
           class="w-full"
           :is-reset="false"
           dark-mode
@@ -186,13 +225,13 @@ onMounted(() => {
         <div class="w-full">
           <div class="mb-6">
             <h2 class="mb-2">{{ t('mama.event.time_start') }}</h2>
-            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.start">
+            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.start" :disabled="!!messageError">
               <option v-for="item in startDatedList" :key="item.text" :value="item.value" class="hover:bg-brown-light">{{ item.text }}</option>
             </select>
           </div>
           <div class="w-full">
             <h2 class="mb-2">{{ t('mama.event.time_end') }}</h2>
-            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.end">
+            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.end" :disabled="!!messageError">
               <option v-for="item in endDatesList" :key="item.text" :value="item.value">{{ item.text }}</option>
             </select>
           </div>
