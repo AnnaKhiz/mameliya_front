@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBurgerMenuStore } from '@/shared/model/burgerMenuStore.ts';
 import { useI18n } from 'vue-i18n';
-import LanguageDropdown from '@/features/dropdown'
 const { t } = useI18n();
 const burgerStore = useBurgerMenuStore();
 const router = useRouter();
@@ -15,7 +14,7 @@ const burgerMenuList = computed(() => ([
   },
   {
     text: t('general.signin'),
-    value: 'signin',
+    value: 'auth',
   }
 ]))
 const handleMenuClick = (link: string) => {

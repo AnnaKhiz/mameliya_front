@@ -1,6 +1,6 @@
 import { i18n } from '@/shared/config/i18n';
 export const parseDateToString = (value: string | Date, onlyDate = false): string => {
-  if (!value) return i18n.global.t('mama.event.no_checked_date');
+  if (!value) return i18n.global.t('mama.calendar.no_checked_date');
 
   let start: Date | null = null;
   try {

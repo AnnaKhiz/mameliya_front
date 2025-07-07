@@ -187,7 +187,7 @@
 		"connect_google_calendar": "Connect Google Calendar",
 		"instruction": "Instruction",
 		"how_to_use": "How to use the calendar",
-		"event": {
+		"calendar": {
 			"modal_title": "Event description",
 			"modal_event_name": "Name",
 			"modal_event_description": "Description",
@@ -212,7 +212,8 @@
 			"instruction_5": "You can view, edit, or delete an event by clicking on it once.",
 			"instruction_6": "To change any information about an event, click on it once, then press the \"Edit\" button. In the window that opens, enter all the necessary details. You can change the \"Title,\" \"Description,\" \"Event Date,\" and \"Start and End Time.\" After making the desired changes, click the \"Save Changes\" button.",
 			"instruction_7": "To delete an event, click on it once and then press the \"Delete\" button.",
-			"date_can_not_be_smaller": "Event date can not be smaller than current"
+			"date_can_not_be_smaller": "Event date can not be smaller than current",
+			"general_calendar_title": "General calendar (all events)"
 		}
 	}
 }
