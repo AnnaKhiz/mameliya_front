@@ -1,10 +1,11 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import type { CalendarEventType } from "@/entities/event";
+import type { CalendarEventType } from "@/entities/calendar";
 import {fetchData} from "@/shared/api";
 
 export const useGoogleEventStore = defineStore('googleEvents', () => {
   const userCalendarEvents = ref<CalendarEventType[] | null>(null);
+  const generalUserEvents = ref<CalendarEventType[] | null>(null);
   const isLoading = ref<boolean>(false);
 
   const connectGoogleCalendar = () => {
@@ -16,8 +17,13 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     try {
       result = await fetchData('user/google/events/:type', 'GET', { type });
       isLoading.value = false;
-      userCalendarEvents.value = result?.data?.events;
-      console.log('EVENT LIST: ', userCalendarEvents.value)
+      if (type === 'all') {
+        generalUserEvents.value = result?.data?.events;
+      } else {
+        userCalendarEvents.value = result?.data?.events;
+      }
+
+      console.log('EVENT LIST: ', result?.data?.events)
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);
     }
@@ -117,6 +123,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
 
   return {
     userCalendarEvents,
+    generalUserEvents,
     isLoading,
     googleCalendarEvents,
     addNewEventToCalendar,

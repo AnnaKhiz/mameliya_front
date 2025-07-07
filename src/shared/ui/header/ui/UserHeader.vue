@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
+// @ts-ignore
+import { VueCal } from 'vue-cal';
+import 'vue-cal/style';
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
@@ -13,13 +16,17 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
+import {type CalendarEventType, useGoogleEventStore} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
+import { vTooltip } from "floating-vue";
+const { googleCalendarEvents, parseUserCalendarEvents } = useGoogleEventStore();
+const { generalUserEvents } = storeToRefs(useGoogleEventStore())
 
 const { mama } = storeToRefs(useMamaStore())
 
 const { t } = useI18n();
 const router = useRouter();
-
+const events = ref<CalendarEventType[] | null>();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const updateModal = (value: boolean) => {
@@ -32,6 +39,20 @@ const handleLogOut = async () => {
   await logOutUser();
   await router.push({ name: 'home'});
 }
+
+const openGeneralCalendar = async () => {
+  dialog.value = 'calendar';
+  await googleCalendarEvents('all');
+  if (!generalUserEvents.value) return;
+  events.value = parseUserCalendarEvents(generalUserEvents.value) as CalendarEventType[];
+  console.log('events.value', events.value)
+}
+
+watch(() => generalUserEvents.value, (newValue) => {
+  if (newValue) {
+    events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
+  }
+}, { deep: true})
 </script>
 
 <template>
@@ -53,8 +74,12 @@ const handleLogOut = async () => {
             </Transition>
           </template>
         </MoodPanelLayout>
-        <CalendarDaysIcon class="fill-brown-dark w-7 cursor-pointer" />
-        <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer" @click="dialog = 'calendar'"/>
+        <CalendarDaysIcon
+          class="fill-brown-dark w-7 cursor-pointer outline-none"
+          @click="openGeneralCalendar"
+          v-tooltip="t('mama.calendar.general_calendar_title')"
+        />
+        <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer"/>
         <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>
         <LanguageDropdown />
@@ -68,23 +93,45 @@ const handleLogOut = async () => {
     <template #burger>
       <BurgerContent />
     </template>
-
-
-
-<!--    &lt;!&ndash; dialog notify  &ndash;&gt;-->
-<!--    <ModalComponent-->
-<!--      v-if="dialog === 'calendar'"-->
-<!--      full-->
-<!--      :title="t('general.error')"-->
-<!--      @update:dialog-visibility="dialog = $event"-->
-<!--    >-->
-<!--      <template #default>-->
-<!--        <p>123</p>-->
-<!--      </template>-->
-<!--    </ModalComponent>-->
   </HeaderLayout>
+
+  <!-- dialog notify  -->
+  <ModalComponent
+    v-if="dialog === 'calendar'"
+    full
+    :width="'w-4/6'"
+    :title="t('mama.calendar.general_calendar_title')"
+    @update:dialog-visibility="dialog = $event"
+  >
+    <template #default>
+      <Vue-cal
+        v-if="events?.length"
+        ref="vuecalRef"
+        class="w-full"
+        time-at-cursor
+        time
+        events-on-month-view
+        view-default="week"
+        :disable-views="[]"
+        :editable-events="{ create: true, resize: false,  drag: true, delete: true }"
+        :min-event-width="0"
+        v-model:events="events"
+      />
+      <div v-else>
+        No data yet. Loading
+      </div>
+
+    </template>
+  </ModalComponent>
 </template>
 
 <style scoped>
+.vuecal {
+  --vuecal-primary-color: #523629;
+  --vuecal-event-color: white;
+}
 
+.vuecal__event {
+  background-color: #735c52;
+}
 </style>
