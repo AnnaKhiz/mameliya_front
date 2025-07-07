@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import {ref} from "vue";
+import type { HeaderDialogsType } from "@/shared/ui/header";
 import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
-import {BurgerButton} from "@/features/burger";
+import {BurgerButton, BurgerContent} from "@/features/burger";
 import {AppButton} from "@/shared/ui/button";
 import LanguageDropdown from "@/features/dropdown";
 import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
@@ -11,13 +13,15 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {ref} from "vue";
+import ModalComponent from "@/shared/ui/modal";
+
 const { mama } = storeToRefs(useMamaStore())
 
 const { t } = useI18n();
 const router = useRouter();
 
 const isMoodPanel = ref<boolean>(false);
+const dialog = ref<HeaderDialogsType>('none');
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -50,7 +54,7 @@ const handleLogOut = async () => {
           </template>
         </MoodPanelLayout>
         <CalendarDaysIcon class="fill-brown-dark w-7 cursor-pointer" />
-        <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer" />
+        <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer" @click="dialog = 'calendar'"/>
         <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>
         <LanguageDropdown />
@@ -62,8 +66,22 @@ const handleLogOut = async () => {
     </template>
 
     <template #burger>
-<!--      <BurgerContent />-->
+      <BurgerContent />
     </template>
+
+
+
+<!--    &lt;!&ndash; dialog notify  &ndash;&gt;-->
+<!--    <ModalComponent-->
+<!--      v-if="dialog === 'calendar'"-->
+<!--      full-->
+<!--      :title="t('general.error')"-->
+<!--      @update:dialog-visibility="dialog = $event"-->
+<!--    >-->
+<!--      <template #default>-->
+<!--        <p>123</p>-->
+<!--      </template>-->
+<!--    </ModalComponent>-->
   </HeaderLayout>
 </template>
 
