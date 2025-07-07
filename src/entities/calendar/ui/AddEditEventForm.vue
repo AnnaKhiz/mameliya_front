@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AppTextarea } from "@/shared/ui/form";
 import { useI18n } from "vue-i18n";
-import {computed, onMounted, ref, type Ref} from "vue";
+import {computed, onMounted, ref, type Ref, watch} from "vue";
 import {AppButton} from "@/shared/ui/button";
 import {
   calendar,
@@ -69,18 +69,12 @@ const saveEventDescription = async () => {
 }
 
 const saveEventChanges = async () => {
-  const { title, description } = formEventData.value as FormEventType;
+  const { start, date, end } = formEventData.value as FormEventType;
 
-  if (!title.trim() && !description.trim() ) {
-    messageTextarea.value = t('mama.calendar.empty_fields');
-    return;
-  }
-
-  messageTextarea.value = '';
   const updatedEvent: CalendarEventType = {
     ...formEventData.value,
-    start: `${formEventData.value.date} ${formEventData.value.start}`,
-    end: `${formEventData.value.date} ${formEventData.value.end}`
+    start: `${date} ${start}`,
+    end: `${date} ${end}`
   };
 
   delete updatedEvent.date;
@@ -102,136 +96,65 @@ const saveEventChanges = async () => {
 
 
 const setNewDate = (event: Record<string, any>) => {
-  if (!calendar.currentEvent) return '';
-  //today full date
-  const todayDate = new Date();
+  const dateObject = calendar.handleCheckedDateAndCompare(event);
+  if (!dateObject) return;
 
-  const eventDate = new Date(event.cell.start);
-  eventDate.setHours(todayDate.getHours(), todayDate.getMinutes(), todayDate.getSeconds(), 0);
-  // checked date full
-  const checkedFullDateTime = new Date(eventDate);
-  // day event
-  const currentDay = new Date(calendar.currentEvent.start);
+  const { checkedDateOnly, currentDateOnly, todayDateOnly } = dateObject;
+  const isSameAsEventDay = calendar.isSameDay(currentDateOnly, checkedDateOnly);
+  const isToday = calendar.isSameDay(checkedDateOnly, todayDateOnly);
+  const isPast = checkedDateOnly < todayDateOnly;
+  const isFuture = checkedDateOnly > todayDateOnly;
 
-  // day checked
-  const checkedDateOnly = calendar.normalizeDate(checkedFullDateTime);
-
-  const todayDateOnly = calendar.normalizeDate(todayDate)
-  const currentDateOnly = calendar.normalizeDate(currentDay);
-
-  // const dateObject = calendar.handleCheckedDateAndCompare(event);
-  // if (!dateObject) return;
-  //
-  // const { checkedDateOnly, currentDateOnly } = dateObject;
-
-  // switch(true) {
-  //   case checkedDateOnly < currentDateOnly: {
-  //     return messageError.value = t('mama.calendar.date_can_not_be_smaller');
-  //   }
-  //   case checkedDateOnly > currentDateOnly: {
-  //     messageError.value = '';
-  //     startDatedList.value = calendar.createTimeValuesList(0, 0);
-  //     endDatesList.value = calendar.createTimeValuesList(0, 0);
-  //     formEventData.value.date = parseDateToString(event.cell.start, true);
-  //     return
-  //   }
-  //   case calendar.isSameDay(checkedDateOnly, currentDateOnly): {
-  //     messageError.value = '';
-  //     const {startList, endList} = calendar.generateEventTimeLists(props.dialog === 'edit');
-  //     startDatedList.value = startList;
-  //     endDatesList.value = endList;
-  //     return
-  //   }
-  //   default: {
-  //     return calendar.currentEvent
-  // }
-  // console.log('\ntodayDate', todayDate)
-  // console.log('\ncurrentDay', currentDay)
-  // console.log('checkedDateOnly', checkedDateOnly)
-  // console.log('currentDateOnly', currentDateOnly)
-
-  // if (checkedDateOnly < currentDateOnly && checkedDateOnly < todayDateOnly ) {
-  //   console.log('\ncheckedDateOnly < currentDateOnly ! not < than TODAY', checkedDateOnly, currentDateOnly)
-  //   console.log('checkedDateOnly', checkedDateOnly)
-  //   console.log('currentDateOnly', currentDateOnly)
-  //
-  //   messageError.value = '';
-  //   startDatedList.value = calendar.createTimeValuesList(0, 0);
-  //   endDatesList.value = calendar.createTimeValuesList(0, 0);
-  //   formEventData.value.date = parseDateToString(event.cell.start, true);
-  //   return
-  // }
-
-  if (calendar.isSameDay(currentDateOnly , checkedDateOnly)) {
-    console.log('This is today')
-    messageError.value = '';
-    const { startList, endList } = calendar.generateEventTimeLists(props.dialog === 'edit');
-    // startDatedList.value = startList;
-    endDatesList.value = endList;
-    const now = new Date();
-    startDatedList.value = calendar.createTimeValuesList(now.getHours(), now.getMinutes());
-    // endDatesList.value = calendar.createTimeValuesList(0, 0);
+  const setFormValues = (startH: number, startM: number, endH: number, endM: number) => {
+    startDatedList.value = calendar.createTimeValuesList(startH, startM);
+    endDatesList.value = calendar.createTimeValuesList(endH, endM);
     formEventData.value.date = parseDateToString(event.cell.start, true);
     messageError.value = '';
-    return
+  }
+
+  if (isSameAsEventDay) {
+    if (isToday) {
+      const now = new Date();
+      setFormValues(now.getHours(), now.getMinutes(), now.getHours(), now.getMinutes() + 15);
+    } else {
+      setFormValues(0, 0, 0, 0);
+    }
+
   } else {
-    console.log('This is not today')
-    if (checkedDateOnly < currentDateOnly ) {
+    if (isToday) {
+      const now = new Date();
+      setFormValues(now.getHours(), now.getMinutes(), now.getHours(), now.getMinutes() + 15);
+      return;
+    }
+
+    if (isPast) {
       messageError.value = t('mama.calendar.date_can_not_be_smaller');
       return;
     }
-    if (checkedDateOnly > currentDateOnly) {
-        // console.log('\ncheckedDateOnly > currentDateOnly', checkedDateOnly, currentDateOnly)
-        // console.log('checkedDateOnly', checkedDateOnly)
-        // console.log('currentDateOnly', currentDateOnly)
-        messageError.value = '';
-        startDatedList.value = calendar.createTimeValuesList(0, 0);
-        endDatesList.value = calendar.createTimeValuesList(0, 0);
-        formEventData.value.date = parseDateToString(event.cell.start, true);
-        return
-      }
+
+    if (isFuture) {
+      setFormValues(0, 0, 0, 0);
+      return;
+    }
   }
 
-  // if (checkedDateOnly < currentDateOnly ) {
-  //   console.log('\ncheckedDateOnly < currentDateOnly', checkedDateOnly, currentDateOnly)
-  //   console.log('checkedDateOnly', checkedDateOnly)
-  //   console.log('currentDateOnly', currentDateOnly)
-  //
-  //   messageError.value = t('mama.calendar.date_can_not_be_smaller');
-  //   return;
-  // }
-  //
-  //
-  //
-  // if (checkedDateOnly > currentDateOnly) {
-  //   console.log('\ncheckedDateOnly > currentDateOnly', checkedDateOnly, currentDateOnly)
-  //   console.log('checkedDateOnly', checkedDateOnly)
-  //   console.log('currentDateOnly', currentDateOnly)
-  //   messageError.value = '';
-  //   startDatedList.value = calendar.createTimeValuesList(0, 0);
-  //   endDatesList.value = calendar.createTimeValuesList(0, 0);
-  //   formEventData.value.date = parseDateToString(event.cell.start, true);
-  //   return
-  // }
-  //
-  // if (calendar.isSameDay(checkedDateOnly, currentDateOnly)) {
-  //   console.log('\ncheckedDateOnly = currentDateOnly', checkedDateOnly, currentDateOnly)
-  //   console.log('checkedDateOnly', checkedDateOnly)
-  //   console.log('currentDateOnly', currentDateOnly)
-  //   messageError.value = '';
-  //   const {startList, endList} = calendar.generateEventTimeLists(props.dialog === 'edit');
-  //   startDatedList.value = startList;
-  //   endDatesList.value = endList;
-  // }
 }
 
 onMounted(() => {
   calendar.initStore();
-  const { startList, endList } = calendar.generateEventTimeLists(props.dialog === 'edit');
+  const { startList, endList } = calendar.generateEventTimeLists(true);
   startDatedList.value = startList;
   endDatesList.value = endList;
   pendingEvent.value = calendar.pendingEvent;
 })
+
+watch(() => formEventData.value, (newValue) => {
+  if (!newValue.title || !newValue.description) {
+    messageTextarea.value = t('mama.calendar.empty_fields');
+  } else {
+    messageTextarea.value = '';
+  }
+}, { deep: true })
 
 </script>
 
@@ -253,7 +176,7 @@ onMounted(() => {
           v-model="formEventData.description"
           :message="messageTextarea"
           class="w-full"
-          :is-reset="false"
+          is-reset
           dark-mode
           placeholder-text="mama.calendar.enter_event_description"
         />
@@ -278,13 +201,14 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <p class="text-red-600 text-xs mb-1">{{ messageError }}</p>
+      <p class="text-red-800 text-xs mb-4">{{ messageError }}</p>
     </form>
     <div class="flex justify-start items-center gap-4">
       <AppButton :label="t('general.close')" @click="resetForm" />
       <AppButton
         :label="t(`mama.calendar.${ dialog === 'add' ? 'add_event' : 'save_changes' }`)"
         @click="dialog === 'add' ? saveEventDescription() : saveEventChanges()"
+        :disabled="!!messageError || !formEventData.description || !formEventData.title"
       />
     </div>
   </section>

@@ -93,21 +93,24 @@ class CalendarManager {
     }
     return i18n.global.t('mama.calendar.date_can_not_be_smaller');
   }
-   generateEventTimeLists(isEditMode: boolean): { startList: TimeListValues[], endList: TimeListValues[] } {
-    const eventStart: string | Date = (isEditMode ? this._currentEvent?.start : this._pendingEvent?.event.start) ?? '';
-    const eventEnd: string | Date = (isEditMode ? this._currentEvent?.end : this._pendingEvent?.event.end) ?? '';
+  generateEventTimeLists(full: boolean = false): { startList: TimeListValues[], endList: TimeListValues[] } {
+    let startList: TimeListValues[] | null;
+    let endList: TimeListValues[] | null
 
-    const {
-      startHours,
-      startMinutes,
-      endHours,
-      endMinutes
-    } = this.splitDate({ eventStart , eventEnd });
+    if (full) {
+      startList = this.createTimeValuesList(0, 0);
+      endList = this.createTimeValuesList(0, 0);
+    } else {
+      const now = new Date();
+      const minutesStart = now.getMinutes();
+      const hoursStart = now.getHours();
+      const minutesEnd = (15 + minutesStart) < 60 ? minutesStart + 15 : (minutesStart + 15) - 60;
+      const hoursEnd = (15 + minutesStart) < 60 ? hoursStart : hoursStart + 1;
 
-    const now = new Date();
-    const startList: TimeListValues[] = this.createTimeValuesList(now.getHours(), now.getMinutes());
-    // const endList: TimeListValues[] = this.createTimeValuesList(now.getHours(), now.getMinutes());
-    const endList: TimeListValues[] = this.createTimeValuesList(now.getHours(), now.getMinutes() + 15);
+      startList = this.createTimeValuesList(hoursStart, minutesStart);
+      endList = this.createTimeValuesList(hoursEnd, minutesEnd);
+    }
+
 
     return {
       startList,
@@ -115,7 +118,11 @@ class CalendarManager {
     }
   }
 
-  handleCheckedDateAndCompare(event: Record<string, any>): { checkedDateOnly: Date, currentDateOnly: Date} | null {
+  handleCheckedDateAndCompare(event: Record<string, any>): {
+    checkedDateOnly: Date,
+    currentDateOnly: Date,
+    todayDateOnly: Date,
+  } | null {
     if (!this.currentEvent) return null;
     const todayDate = new Date();
 
@@ -126,8 +133,9 @@ class CalendarManager {
     const currentDay = new Date(this.currentEvent?.start);
     const checkedDateOnly = this.normalizeDate(checkedFullDateTime);
     const currentDateOnly = this.normalizeDate(currentDay);
+    const todayDateOnly = calendar.normalizeDate(todayDate);
 
-    return { checkedDateOnly, currentDateOnly }
+    return { checkedDateOnly, currentDateOnly, todayDateOnly }
   }
   createTimeValuesList(hours: number, minutes: number) {
     const maxHours = 24;
