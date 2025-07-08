@@ -82,7 +82,7 @@ const saveEventChanges = async () => {
   const result = await updateGoogleEvent({
     body: updatedEvent,
     type: 'beauty',
-    eventId: props.currentEvent?.id
+    eventId: calendar.currentEvent?.id
   })
 
   if (!result.result) {
@@ -94,55 +94,22 @@ const saveEventChanges = async () => {
   props.resetForm();
 }
 
+const handleCellClick = (event: Record<string, any>) => {
+  const result = calendar.setNewDate(event);
+  if (!result) return;
 
-const setNewDate = (event: Record<string, any>) => {
-  const dateObject = calendar.handleCheckedDateAndCompare(event);
-  if (!dateObject) return;
-
-  const { checkedDateOnly, currentDateOnly, todayDateOnly } = dateObject;
-  const isSameAsEventDay = calendar.isSameDay(currentDateOnly, checkedDateOnly);
-  const isToday = calendar.isSameDay(checkedDateOnly, todayDateOnly);
-  const isPast = checkedDateOnly < todayDateOnly;
-  const isFuture = checkedDateOnly > todayDateOnly;
-
-  const setFormValues = (startH: number, startM: number, endH: number, endM: number) => {
-    startDatedList.value = calendar.createTimeValuesList(startH, startM);
-    endDatesList.value = calendar.createTimeValuesList(endH, endM);
-    formEventData.value.date = parseDateToString(event.cell.start, true);
-    messageError.value = '';
-  }
-
-  if (isSameAsEventDay) {
-    if (isToday) {
-      const now = new Date();
-      setFormValues(now.getHours(), now.getMinutes(), now.getHours(), now.getMinutes() + 15);
-    } else {
-      setFormValues(0, 0, 0, 0);
-    }
-
-  } else {
-    if (isToday) {
-      const now = new Date();
-      setFormValues(now.getHours(), now.getMinutes(), now.getHours(), now.getMinutes() + 15);
-      return;
-    }
-
-    if (isPast) {
-      messageError.value = t('mama.calendar.date_can_not_be_smaller');
-      return;
-    }
-
-    if (isFuture) {
-      setFormValues(0, 0, 0, 0);
-      return;
-    }
-  }
-
+  console.log(result)
+  startDatedList.value = result?.startList as TimeListValues[];
+  endDatesList.value = result?.endList as TimeListValues[];
+  messageError.value = result?.message;
+  formEventData.value.date = result?.date as string;
 }
+
+const saveDisabled = computed(() => (!!messageError.value || !formEventData.value.description || !formEventData.value.title));
 
 onMounted(() => {
   calendar.initStore();
-  const { startList, endList } = calendar.generateEventTimeLists(true);
+  const { startList, endList } = calendar.generateEventTimeLists(props.dialog === 'edit');
   startDatedList.value = startList;
   endDatesList.value = endList;
   pendingEvent.value = calendar.pendingEvent;
@@ -184,19 +151,40 @@ watch(() => formEventData.value, (newValue) => {
       <div v-if="dialog === 'edit'" class="flex justify-start items-start gap-5 w-full text-brown-dark font-semibold text-md mb-1">
         <div>
           <h2 class="mb-2">{{ t('mama.calendar.event_date') }}</h2>
-          <Vue-cal date-picker :selected-date="formEventData.date" @cell-click="setNewDate"/>
+          <Vue-cal date-picker :selected-date="formEventData.date" @cell-click="handleCellClick"/>
         </div>
         <div class="w-full">
           <div class="mb-6">
             <h2 class="mb-2">{{ t('mama.calendar.time_start') }}</h2>
-            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.start" :disabled="!!messageError">
-              <option v-for="item in startDatedList" :key="item.text" :value="item.value" class="hover:bg-brown-light">{{ item.text }}</option>
+            <select
+              v-model="formEventData.start"
+              :disabled="!!messageError"
+              class="w-full light-mode bg-brown-dark text-white"
+            >
+              <option
+                v-for="item in startDatedList"
+                :key="item.text"
+                :value="item.value"
+                class="hover:bg-brown-light"
+              >
+                {{ item.text }}
+              </option>
             </select>
           </div>
           <div class="w-full">
             <h2 class="mb-2">{{ t('mama.calendar.time_end') }}</h2>
-            <select class="w-full light-mode bg-brown-dark text-white" v-model="formEventData.end" :disabled="!!messageError">
-              <option v-for="item in endDatesList" :key="item.text" :value="item.value">{{ item.text }}</option>
+            <select
+              v-model="formEventData.end"
+              :disabled="!!messageError"
+              class="w-full light-mode bg-brown-dark text-white"
+            >
+              <option
+                v-for="item in endDatesList"
+                :key="item.text"
+                :value="item.value"
+              >
+                {{ item.text }}
+              </option>
             </select>
           </div>
         </div>
@@ -208,7 +196,7 @@ watch(() => formEventData.value, (newValue) => {
       <AppButton
         :label="t(`mama.calendar.${ dialog === 'add' ? 'add_event' : 'save_changes' }`)"
         @click="dialog === 'add' ? saveEventDescription() : saveEventChanges()"
-        :disabled="!!messageError || !formEventData.description || !formEventData.title"
+        :disabled="saveDisabled"
       />
     </div>
   </section>

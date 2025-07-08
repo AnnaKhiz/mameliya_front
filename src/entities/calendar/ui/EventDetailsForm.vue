@@ -11,11 +11,15 @@ const isEditable = ref<boolean>(false);
 
 type Props = {
   dialog: DialogEventsType,
-  closeDialogs: (value: string) => void,
+  closeDialogs: (value: DialogEventsType) => void,
 }
 
 const props = defineProps<Props>();
-const emits = defineEmits(['update:dialog','removeFromCal','update:currentEvent','update:formEventData']);
+const emits = defineEmits([
+  'update:dialog',
+  'removeFromCal',
+  'update:formEventData'
+]);
 
 const handleDeleteEvent = async () => {
   emits('removeFromCal', true);
@@ -25,7 +29,6 @@ const editEvent = async () => {
   const updatedFormData = calendar.updateFormEventData();
   emits('update:formEventData', updatedFormData);
 }
-
 
 onMounted(() => {
   calendar.initStore();
