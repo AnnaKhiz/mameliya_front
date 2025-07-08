@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { AppButton } from "@/shared/ui/button";
+import type {DialogEventsType} from "@/entities/calendar";
 const { t } = useI18n();
 
 type Props = {
-  closeDialogs: (value: string) => void,
+  closeDialogs: (value: DialogEventsType) => void,
 }
 
 const props = defineProps<Props>();

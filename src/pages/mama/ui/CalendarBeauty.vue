@@ -9,7 +9,10 @@ import {
   type PendingValueType,
   type DialogEventsType,
   AddEditEventForm,
-  useGoogleEventStore, EventDetailsForm, EventInstruction, calendar
+  useGoogleEventStore,
+  EventDetailsForm,
+  EventInstruction,
+  calendar
 } from "@/entities/calendar";
 const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
 const {
@@ -185,7 +188,6 @@ watch(dialog, (newValue) => {
       <template #default>
         <AddEditEventForm
           v-model="formEventData"
-
           :reset-form="resetForm"
           :dialog="dialog"
         />
@@ -220,7 +222,7 @@ watch(dialog, (newValue) => {
       full
       :title="t('mama.how_to_use')"
       :width="'w-4/6'"
-      @update:dialog-visibility="dialog = $event"
+      @update:dialog-visibility="changeDialogState"
     >
       <template #default>
         <EventInstruction :close-dialogs="changeDialogState" />

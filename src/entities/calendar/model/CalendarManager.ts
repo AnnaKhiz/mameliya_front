@@ -1,11 +1,12 @@
 import type {
-  CalendarEventType,
+  CalendarEventType, FormEventType,
   PendingValueType,
   TimeListValues
 } from "@/entities/calendar";
 import { i18n } from '@/shared/config/i18n';
 
 import {useGoogleEventStore} from "@/entities/calendar";
+import {parseDateToString} from "@/shared/lib/parseDateToString.ts";
 
 class CalendarManager {
   events: CalendarEventType[] = [];
@@ -111,11 +112,45 @@ class CalendarManager {
       endList = this.createTimeValuesList(hoursEnd, minutesEnd);
     }
 
-
     return {
       startList,
       endList
     }
+  }
+
+  setNewDate(event: Record<string, any>): {
+    startList?: TimeListValues[] | null,
+    endList?: TimeListValues[] | null,
+    message: string,
+    date?: string
+  } | null {
+    const dateObject = this.handleCheckedDateAndCompare(event);
+    if (!dateObject) return null;
+
+    const { checkedDateOnly, currentDateOnly, todayDateOnly } = dateObject;
+    const isSameAsEventDay = this.isSameDay(currentDateOnly, checkedDateOnly);
+    const isToday = this.isSameDay(checkedDateOnly, todayDateOnly);
+    const isPast = checkedDateOnly < todayDateOnly;
+    const isFuture = checkedDateOnly > todayDateOnly;
+    let date: Date | string = parseDateToString(event.cell.start, true);
+
+    if (isPast && !isToday) {
+      return {
+        message: i18n.global.t('mama.calendar.date_can_not_be_smaller'),
+      };
+    }
+
+    if (isSameAsEventDay && isToday) {
+      const { startList, endList } = this.generateEventTimeLists(false);
+      return { startList, endList, message: '', date };
+    }
+
+    if (isSameAsEventDay || isToday || isFuture) {
+      const { startList, endList } = this.generateEventTimeLists(true);
+      return { startList, endList, message: '', date };
+    }
+
+    return { message: '', date };
   }
 
   handleCheckedDateAndCompare(event: Record<string, any>): {
@@ -137,7 +172,7 @@ class CalendarManager {
 
     return { checkedDateOnly, currentDateOnly, todayDateOnly }
   }
-  createTimeValuesList(hours: number, minutes: number) {
+  private createTimeValuesList(hours: number, minutes: number) {
     const maxHours = 24;
     const maxMinutes = 60;
     const finalList = [];
@@ -160,8 +195,7 @@ class CalendarManager {
 
     return finalList;
   }
-
-  splitDate({ eventStart, eventEnd }: { eventStart: string | Date, eventEnd: string | Date}) {
+  private splitDate({ eventStart, eventEnd }: { eventStart: string | Date, eventEnd: string | Date}) {
     const date = eventStart.toString().split(' ')[0];
     const start = eventStart.toString().split(' ')[1];
     const end = eventEnd.toString().split(' ')[1] || '';
@@ -184,18 +218,16 @@ class CalendarManager {
       endMinutes
     }
   }
-
-  normalizeDate(date: Date): Date {
+  private normalizeDate(date: Date): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
-  isSameDay(date1: Date, date2: Date): boolean {
+  private isSameDay(date1: Date, date2: Date): boolean {
     return (
       date1.getFullYear() === date2.getFullYear() &&
       date1.getMonth() === date2.getMonth() &&
       date1.getDate() === date2.getDate()
     );
   }
-
 
 }
 
