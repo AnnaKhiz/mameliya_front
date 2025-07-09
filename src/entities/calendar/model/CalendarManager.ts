@@ -9,7 +9,7 @@ import { i18n } from '@/shared/config/i18n';
 import { useGoogleEventStore } from "@/entities/calendar";
 import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts"
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
-class CalendarManager {
+export class CalendarManager {
   events: CalendarEventType[] = [];
   private _pendingEvent: PendingValueType | null = null;
   private _currentEvent: CalendarEventType | null = null;
@@ -81,10 +81,12 @@ class CalendarManager {
   }
 
   async removeEventRequest(type: string) {
+    console.log('remove request')
     const result = await this.googleStore?.removeGoogleCalendarEvent({
       type,
       eventId: this.currentEvent?.id
     });
+    console.log(result)
     return result?.data;
   }
 
@@ -292,4 +294,4 @@ class CalendarManager {
 
 }
 
-export const calendar = new CalendarManager();
+// export const calendar = new CalendarManager();

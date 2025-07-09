@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {onMounted, watch, ref} from "vue";
+import {onMounted, watch, ref, onBeforeUnmount} from "vue";
 import { useUserStore } from "@/entities/user";
 import { AppButton } from "@/shared/ui/button";
 import {
@@ -12,7 +12,7 @@ import {
   useGoogleEventStore,
   EventDetailsForm,
   EventInstruction,
-  calendar, type CalendarNames
+  CalendarManager, type CalendarNames
 } from "@/entities/calendar";
 
 const { userCalendarEvents, generalUserEvents, isLoading } = storeToRefs(useGoogleEventStore());
@@ -30,7 +30,7 @@ import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
-
+const calendar = ref<CalendarManager>();
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null);
@@ -51,14 +51,14 @@ type Props = {
 
 const props = defineProps<Props>()
 const createEvent = ( { event, resolve }: PendingValueType) => {
-  messageNotify.value = calendar.validateEventDate(event);
+  messageNotify.value = calendar.value.validateEventDate(event);
 
   if (messageNotify.value) {
     dialog.value = 'notify';
     return;
   }
 
-  calendar.handleCreateEvent({  event, resolve });
+  calendar.value.handleCreateEvent({  event, resolve });
   changeDialogState('add');
 }
 const changeDialogState = (value: DialogEventsType) => {
@@ -68,7 +68,7 @@ const changeDialogState = (value: DialogEventsType) => {
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   changeDialogState('details');
 
-  calendar.currentEvent = {
+  calendar.value.currentEvent = {
     ...event,
     start: parseDateToString(event.start as string),
     end: parseDateToString(event.end as string)
@@ -105,7 +105,7 @@ const dropEvent = async ({ event }: { event: CalendarEventType}) => {
 }
 const resetForm = ():void => {
   changeDialogState('none');
-  calendar.pendingEvent = null;
+  calendar.value.pendingEvent = null;
 
   formEventData.value = {
     title: '',
@@ -116,37 +116,39 @@ const resetForm = ():void => {
   }
 }
 const handleRemoveFromCal = async (event: boolean) => {
+  console.log('remove clicked')
   if (!event) return;
 
-  const id = await calendar.removeEventRequest(props.type);
+  const id = await calendar.value.removeEventRequest(props.type);
   if (!id) return;
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   changeDialogState('none');
 }
 
 onMounted( async () => {
+   calendar.value = new CalendarManager();
   if (user?.google_refresh) {
     await googleCalendarEvents(props.type);
     if (!userCalendarEvents.value || !generalUserEvents.value) return;
 
     if (generalUserEvents.value) {
-      events.value = calendar.parseUserCalendarEvents(generalUserEvents.value, props.type) as CalendarEventType[];
+      events.value = calendar.value.parseUserCalendarEvents(generalUserEvents.value, props.type) as CalendarEventType[];
       return;
     }
-    events.value = calendar.parseUserCalendarEvents(userCalendarEvents.value, props.type) as CalendarEventType[];
+    events.value = calendar.value.parseUserCalendarEvents(userCalendarEvents.value, props.type) as CalendarEventType[];
   }
 })
 
 
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
-    events.value = calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
+    events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
 }, { deep: true})
 
 watch(() => generalUserEvents.value, (newValue) => {
   if (newValue) {
-    events.value = calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
+    events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
 }, { deep: true})
 
@@ -154,6 +156,10 @@ watch(dialog, (newValue) => {
   if(newValue === 'none') {
     resetForm();
   }
+})
+
+onBeforeUnmount(() => {
+  events.value = null;
 })
 </script>
 
@@ -197,6 +203,8 @@ watch(dialog, (newValue) => {
         v-model="formEventData"
         :reset-form="resetForm"
         :dialog="dialog"
+        :calendar="calendar"
+        :type="props.type"
       />
     </template>
   </ModalComponent>
@@ -211,8 +219,10 @@ watch(dialog, (newValue) => {
     <template #default>
       <EventDetailsForm
         v-if="calendar.currentEvent"
+        :calendar="calendar"
         :dialog="dialog"
         :close-dialogs="changeDialogState"
+        :type="props.type"
         @remove-from-cal="handleRemoveFromCal"
         @update:dialog="dialog = $event"
         @update:form-event-data="formEventData = $event"

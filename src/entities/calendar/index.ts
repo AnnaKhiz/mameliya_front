@@ -15,7 +15,7 @@ import type { EventStylesListType } from "@/entities/calendar/types/EventStylesL
 import type { CalendarNames } from "@/entities/calendar/types/CalendarNames.ts";
 
 import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts";
-import { calendar } from "@/entities/calendar/model/CalendarManager.ts"
+import { CalendarManager } from "@/entities/calendar/model/CalendarManager.ts"
 
 export {
   CalendarComponent,
@@ -24,7 +24,7 @@ export {
   EventInstruction,
   useGoogleEventStore,
   EventIconEnums,
-  calendar
+  CalendarManager
 }
 
 export type {

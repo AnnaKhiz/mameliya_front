@@ -4,13 +4,13 @@ import { useI18n } from "vue-i18n";
 import {computed, onMounted, ref, type Ref, watch} from "vue";
 import {AppButton} from "@/shared/ui/button";
 import {
-  calendar,
+  CalendarManager,
   type CalendarEventType,
   type DialogEventsType,
   type FormEventType,
   type PendingValueType,
   type TimeListValues,
-  useGoogleEventStore
+  useGoogleEventStore, type CalendarNames
 } from "@/entities/calendar";
 // @ts-ignore
 import { VueCal } from 'vue-cal';
@@ -25,6 +25,8 @@ type Props = {
   currentEvent?: CalendarEventType | null,
   dialog: DialogEventsType,
   resetForm: () => void,
+  calendar: CalendarManager,
+  type: CalendarNames
 }
 
 const props = defineProps<Props>();
@@ -53,10 +55,10 @@ const saveEventDescription = async () => {
 
   const { title, description } = form;
 
-  const result = await calendar.createEventRequest({
+  const result = await props.calendar.createEventRequest({
     title,
     description,
-    type: 'beauty'
+    type: props.type
   })
 
   if (!result.result) {
@@ -78,11 +80,11 @@ const saveEventChanges = async () => {
   };
 
   delete updatedEvent.date;
-
+console.log('cur', props.calendar.currentEvent)
   const result = await updateGoogleEvent({
     body: updatedEvent,
-    type: calendar.currentEvent?.name,
-    eventId: calendar.currentEvent?.id
+    type: props.type,
+    eventId: props.calendar.currentEvent?.id
   })
 
   if (!result.result) {
@@ -95,7 +97,7 @@ const saveEventChanges = async () => {
 }
 
 const handleCellClick = (event: Record<string, any>) => {
-  const result = calendar.setNewDate(event);
+  const result = props.calendar.setNewDate(event);
   if (!result) return;
 
   console.log(result)
@@ -108,11 +110,11 @@ const handleCellClick = (event: Record<string, any>) => {
 const saveDisabled = computed(() => (!!messageError.value || !formEventData.value.description || !formEventData.value.title));
 
 onMounted(() => {
-  calendar.initStore();
-  const { startList, endList } = calendar.generateEventTimeLists(props.dialog === 'edit');
+  props.calendar.initStore();
+  const { startList, endList } = props.calendar.generateEventTimeLists(props.dialog === 'edit');
   startDatedList.value = startList;
   endDatesList.value = endList;
-  pendingEvent.value = calendar.pendingEvent;
+  pendingEvent.value = props.calendar.pendingEvent;
 })
 
 watch(() => formEventData.value, (newValue) => {
