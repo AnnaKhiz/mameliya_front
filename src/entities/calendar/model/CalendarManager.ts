@@ -10,7 +10,7 @@ import { useGoogleEventStore } from "@/entities/calendar";
 import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts"
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 export class CalendarManager {
-  events: CalendarEventType[] = [];
+  _events: CalendarEventType[] = [];
   private _pendingEvent: PendingValueType | null = null;
   private _currentEvent: CalendarEventType | null = null;
   googleStore: ReturnType<typeof useGoogleEventStore> | null = null;
@@ -41,6 +41,9 @@ export class CalendarManager {
   set currentEvent(event: CalendarEventType) {
     this._currentEvent = event;
   }
+  set events(event: CalendarEventType[]) {
+    this._events = event;
+  }
   set pendingEvent(event: PendingValueType | null) {
     this._pendingEvent = event;
   }
@@ -50,6 +53,9 @@ export class CalendarManager {
   get currentEvent(): CalendarEventType | null {
     return this._currentEvent;
   }
+  get events(): CalendarEventType[] | null {
+    return this._events;
+  }
   handleCreateEvent({ event, resolve }: PendingValueType): void {
     if (event.start) {
       this.pendingEvent = { event, resolve };
@@ -58,6 +64,12 @@ export class CalendarManager {
     this.pendingEvent = null;
   }
 
+  async handleGetEventsList(type: CalendarNames | 'all') {
+    const result = await this.googleStore?.googleCalendarEvents(type);
+    if (result) {
+      this.events = result.data.events;
+    }
+  }
   async createEventRequest(
     { title, description, type }:
       { title: string, description: string, type: string }
@@ -77,6 +89,8 @@ export class CalendarManager {
       type: type
     });
 
+    // this._events.push(result.data)
+console.log(this._events)
     return result;
   }
 
@@ -87,7 +101,17 @@ export class CalendarManager {
       eventId: this.currentEvent?.id
     });
     console.log(result)
+
+    this.removeEventFromArray(result.data?.id);
     return result?.data;
+  }
+
+  removeEventFromArray(eventId: string) {
+    const index: number = this._events?.findIndex(event => event.id === eventId) ?? -1;
+
+    if (index === -1) return this._events;
+
+    this._events?.splice(index, 1);
   }
 
   updateFormEventData() {

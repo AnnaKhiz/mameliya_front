@@ -17,9 +17,9 @@ const changeDialogState = (value: DialogEventsType) => {
   dialog.value = value;
 }
 
-onMounted(() => {
-  calendar.value = new CalendarManager();
-})
+// onMounted(() => {
+//   calendar.value = new CalendarManager();
+// })
 
 </script>
 
@@ -36,7 +36,7 @@ onMounted(() => {
           <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
           <p>{{ t('mama.beauty_calendar_remind') }}</p>
         </div>
-        <CalendarComponent :type="'beauty'" :calendar="calendar" />
+        <CalendarComponent :type="'beauty'"  />
       </div>
     </div>
 

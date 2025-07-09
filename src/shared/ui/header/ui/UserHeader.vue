@@ -26,7 +26,7 @@ const { t } = useI18n();
 const router = useRouter();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
-const calendar = ref<CalendarManager | null>();
+const calendar = ref<CalendarManager | null>(new CalendarManager());
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -46,9 +46,9 @@ const openGeneralCalendar = async () => {
   changeDialogState('calendar');
 }
 
-onMounted(() => {
-  calendar.value = new CalendarManager();
-})
+// onMounted(() => {
+//   calendar.value = new CalendarManager();
+// })
 
 </script>
 
@@ -101,7 +101,7 @@ onMounted(() => {
     @update:dialog-visibility="dialog = $event"
   >
     <template #default>
-      <CalendarComponent :type="'all'" :calendar="calendar" />
+      <CalendarComponent :type="'all'" />
     </template>
   </ModalComponent>
 </template>
