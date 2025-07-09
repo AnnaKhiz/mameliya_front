@@ -119,8 +119,8 @@ const resetForm = ():void => {
 const handleRemoveFromCal = async (event: boolean) => {
   console.log('remove clicked')
   if (!event) return;
-
-  const id = await props.calendar.removeEventRequest(props.type);
+console.log(event)
+  const id = await props.calendar.removeEventRequest(props.type === 'all' ? props.calendar?.currentEvent?.name : props.type);
   if (!id) return;
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   changeDialogState('none');
