@@ -74,7 +74,7 @@ export class CalendarManager {
 
     const result = await this.googleStore?.addNewEventToCalendar({
       body: finalizedEvent,
-      type
+      type: type
     });
 
     return result;

@@ -26,7 +26,7 @@ type Props = {
   dialog: DialogEventsType,
   resetForm: () => void,
   calendar: CalendarManager,
-  type: CalendarNames
+  type: CalendarNames | 'all'
 }
 
 const props = defineProps<Props>();
@@ -58,7 +58,7 @@ const saveEventDescription = async () => {
   const result = await props.calendar.createEventRequest({
     title,
     description,
-    type: props.type
+    type: props.type === 'all' ? 'general' : props.type
   })
 
   if (!result.result) {
@@ -80,10 +80,9 @@ const saveEventChanges = async () => {
   };
 
   delete updatedEvent.date;
-console.log('cur', props.calendar.currentEvent)
   const result = await updateGoogleEvent({
     body: updatedEvent,
-    type: props.type,
+    type: props.type === 'all' ? props.calendar.currentEvent?.name : props.type,
     eventId: props.calendar.currentEvent?.id
   })
 

@@ -30,7 +30,7 @@ import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
-const calendar = ref<CalendarManager>();
+// const calendar = ref<CalendarManager>();
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null);
@@ -46,19 +46,20 @@ const formEventData = ref<FormEventType>({
 });
 
 type Props = {
-  type: CalendarNames;
+  type: CalendarNames,
+  calendar: CalendarManager,
 }
 
 const props = defineProps<Props>()
 const createEvent = ( { event, resolve }: PendingValueType) => {
-  messageNotify.value = calendar.value.validateEventDate(event);
+  messageNotify.value = props.calendar.validateEventDate(event) || '';
 
   if (messageNotify.value) {
     dialog.value = 'notify';
     return;
   }
 
-  calendar.value.handleCreateEvent({  event, resolve });
+  props.calendar.handleCreateEvent({  event, resolve });
   changeDialogState('add');
 }
 const changeDialogState = (value: DialogEventsType) => {
@@ -68,7 +69,7 @@ const changeDialogState = (value: DialogEventsType) => {
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   changeDialogState('details');
 
-  calendar.value.currentEvent = {
+  props.calendar.currentEvent = {
     ...event,
     start: parseDateToString(event.start as string),
     end: parseDateToString(event.end as string)
@@ -105,7 +106,7 @@ const dropEvent = async ({ event }: { event: CalendarEventType}) => {
 }
 const resetForm = ():void => {
   changeDialogState('none');
-  calendar.value.pendingEvent = null;
+  props.calendar.pendingEvent = null;
 
   formEventData.value = {
     title: '',
@@ -119,36 +120,36 @@ const handleRemoveFromCal = async (event: boolean) => {
   console.log('remove clicked')
   if (!event) return;
 
-  const id = await calendar.value.removeEventRequest(props.type);
+  const id = await props.calendar.removeEventRequest(props.type);
   if (!id) return;
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   changeDialogState('none');
 }
 
 onMounted( async () => {
-   calendar.value = new CalendarManager();
+   // calendar.value = new CalendarManager();
   if (user?.google_refresh) {
     await googleCalendarEvents(props.type);
     if (!userCalendarEvents.value || !generalUserEvents.value) return;
 
     if (generalUserEvents.value) {
-      events.value = calendar.value.parseUserCalendarEvents(generalUserEvents.value, props.type) as CalendarEventType[];
+      events.value = props.calendar.parseUserCalendarEvents(generalUserEvents.value, props.type) as CalendarEventType[];
       return;
     }
-    events.value = calendar.value.parseUserCalendarEvents(userCalendarEvents.value, props.type) as CalendarEventType[];
+    events.value = props.calendar.parseUserCalendarEvents(userCalendarEvents.value, props.type) as CalendarEventType[];
   }
 })
 
 
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
-    events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
+    events.value = props.calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
 }, { deep: true})
 
 watch(() => generalUserEvents.value, (newValue) => {
   if (newValue) {
-    events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
+    events.value = props.calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
 }, { deep: true})
 

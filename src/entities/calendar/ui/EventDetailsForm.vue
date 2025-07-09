@@ -11,7 +11,7 @@ type Props = {
   dialog: DialogEventsType,
   closeDialogs: (value: DialogEventsType) => void,
   calendar: CalendarManager,
-  type: CalendarNames
+  type: CalendarNames | 'all'
 }
 
 const props = defineProps<Props>();

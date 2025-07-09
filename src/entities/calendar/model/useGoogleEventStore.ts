@@ -20,7 +20,12 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
       console.log('result?.data?.events', result?.data?.events)
       if (type === 'all') {
         generalUserEvents.value = result?.data?.events
-          .filter((event: Record<string, any>) => event.calendarName && (event.calendarName === 'beauty' || event.calendarName === 'family'));
+          .filter((event: Record<string, any>) => {
+            return event.calendarName
+              && (event.calendarName === 'beauty'
+                || event.calendarName === 'family'
+                || event.calendarName === 'general')
+          });
       } else {
         userCalendarEvents.value = result?.data?.events;
       }
