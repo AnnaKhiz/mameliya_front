@@ -14,10 +14,10 @@ import {
   EventInstruction,
   calendar
 } from "@/entities/calendar";
+
 const { userCalendarEvents, isLoading } = storeToRefs(useGoogleEventStore());
 const {
   googleCalendarEvents,
-  parseUserCalendarEvents,
   connectGoogleCalendar,
   updateGoogleEvent
 } = useGoogleEventStore();
@@ -123,13 +123,16 @@ onMounted( async () => {
   if (user?.google_refresh) {
     await googleCalendarEvents('beauty');
     if (!userCalendarEvents.value) return;
-    events.value = parseUserCalendarEvents(userCalendarEvents.value) as CalendarEventType[];
+    events.value = calendar.parseUserCalendarEvents(userCalendarEvents.value, 'beauty') as CalendarEventType[];
   }
 })
 
+
+
 watch(() => userCalendarEvents.value, (newValue) => {
   if (newValue) {
-    events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
+
+    events.value = calendar.parseUserCalendarEvents(newValue, 'beauty') as CalendarEventType[];
   }
 }, { deep: true})
 

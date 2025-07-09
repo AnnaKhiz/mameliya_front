@@ -16,10 +16,15 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {type CalendarEventType, useGoogleEventStore} from "@/entities/calendar";
+import {
+  type CalendarEventType,
+  useGoogleEventStore,
+  calendar
+} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
-const { googleCalendarEvents, parseUserCalendarEvents } = useGoogleEventStore();
+
+const { googleCalendarEvents } = useGoogleEventStore();
 const { generalUserEvents } = storeToRefs(useGoogleEventStore())
 
 const { mama } = storeToRefs(useMamaStore())
@@ -44,13 +49,13 @@ const openGeneralCalendar = async () => {
   dialog.value = 'calendar';
   await googleCalendarEvents('all');
   if (!generalUserEvents.value) return;
-  events.value = parseUserCalendarEvents(generalUserEvents.value) as CalendarEventType[];
+  events.value = calendar.parseUserCalendarEvents(generalUserEvents.value, 'all') as CalendarEventType[];
   console.log('events.value', events.value)
 }
 
 watch(() => generalUserEvents.value, (newValue) => {
   if (newValue) {
-    events.value = parseUserCalendarEvents(newValue) as CalendarEventType[];
+    events.value = calendar.parseUserCalendarEvents(newValue, 'all') as CalendarEventType[];
   }
 }, { deep: true})
 </script>
