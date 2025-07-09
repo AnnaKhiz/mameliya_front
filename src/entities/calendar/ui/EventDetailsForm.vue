@@ -2,7 +2,7 @@
 import { AppButton } from "@/shared/ui/button";
 import type {DialogEventsType} from "@/entities/calendar";
 import { useI18n } from "vue-i18n";
-import { calendar } from "@/entities/calendar"
+import { calendar } from "@/entities/calendar";
 
 import {onMounted, ref} from "vue";
 

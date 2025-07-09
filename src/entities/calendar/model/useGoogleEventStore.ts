@@ -17,6 +17,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     try {
       result = await fetchData('user/google/events/:type', 'GET', { type });
       isLoading.value = false;
+      console.log('result?.data?.events', result?.data?.events)
       if (type === 'all') {
         generalUserEvents.value = result?.data?.events
           .filter((event: Record<string, any>) => event.calendarName && (event.calendarName === 'beauty' || event.calendarName === 'family'));
@@ -24,7 +25,7 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
         userCalendarEvents.value = result?.data?.events;
       }
 
-      console.log('EVENT LIST: ', generalUserEvents.value)
+      console.log('EVENT general LIST: ', generalUserEvents.value)
       console.log('EVENT LIST: ', userCalendarEvents.value)
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);

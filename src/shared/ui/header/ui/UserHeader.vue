@@ -16,22 +16,14 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {
-  type CalendarEventType,
-  useGoogleEventStore,
-  calendar
-} from "@/entities/calendar";
+import { CalendarComponent } from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 
-const { googleCalendarEvents } = useGoogleEventStore();
-const { generalUserEvents } = storeToRefs(useGoogleEventStore())
-
-const { mama } = storeToRefs(useMamaStore())
+const { mama } = storeToRefs(useMamaStore());
 
 const { t } = useI18n();
 const router = useRouter();
-const events = ref<CalendarEventType[] | null>();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const updateModal = (value: boolean) => {
@@ -45,19 +37,14 @@ const handleLogOut = async () => {
   await router.push({ name: 'home'});
 }
 
-const openGeneralCalendar = async () => {
-  dialog.value = 'calendar';
-  await googleCalendarEvents('all');
-  if (!generalUserEvents.value) return;
-  events.value = calendar.parseUserCalendarEvents(generalUserEvents.value, 'all') as CalendarEventType[];
-  console.log('events.value', events.value)
+const changeDialogState = (value: HeaderDialogsType) => {
+  dialog.value = value;
 }
 
-watch(() => generalUserEvents.value, (newValue) => {
-  if (newValue) {
-    events.value = calendar.parseUserCalendarEvents(newValue, 'all') as CalendarEventType[];
-  }
-}, { deep: true})
+const openGeneralCalendar = async () => {
+  changeDialogState('calendar');
+}
+
 </script>
 
 <template>
@@ -109,34 +96,7 @@ watch(() => generalUserEvents.value, (newValue) => {
     @update:dialog-visibility="dialog = $event"
   >
     <template #default>
-      <Vue-cal
-        v-if="events?.length"
-        ref="vuecalRef"
-        class="w-full"
-        time-at-cursor
-        time
-        events-on-month-view
-        view-default="week"
-        :disable-views="[]"
-        :editable-events="{ create: true, resize: false,  drag: true, delete: true }"
-        :min-event-width="0"
-        v-model:events="events"
-      />
-      <div v-else>
-        No data yet. Loading
-      </div>
-
+      <CalendarComponent :type="'all'" />
     </template>
   </ModalComponent>
 </template>
-
-<style scoped>
-.vuecal {
-  --vuecal-primary-color: #523629;
-  --vuecal-event-color: white;
-}
-
-.vuecal__event {
-  background-color: #735c52;
-}
-</style>

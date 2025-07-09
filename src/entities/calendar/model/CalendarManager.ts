@@ -187,7 +187,7 @@ class CalendarManager {
     const currentDay = new Date(this.currentEvent?.start);
     const checkedDateOnly = this.normalizeDate(checkedFullDateTime);
     const currentDateOnly = this.normalizeDate(currentDay);
-    const todayDateOnly = calendar.normalizeDate(todayDate);
+    const todayDateOnly = this.normalizeDate(todayDate);
 
     return { checkedDateOnly, currentDateOnly, todayDateOnly }
   }
@@ -208,13 +208,19 @@ class CalendarManager {
   }
   private createParsedEvent(event: Record<string, any>, style: CalendarNames | 'all') {
     let currentStyles;
+    console.log('style', style)
     if (style !== 'all') {
+      console.log('style!== all')
       currentStyles = this.styles?.[style]
     } else {
+      console.log('style === all')
+      console.log('event calendar name', event)
       currentStyles = this.styles
         ? this.styles[event.calendarName as CalendarNames]
         : null;
     }
+
+    console.log('currentStyles', currentStyles)
 
     return {
       ...currentStyles,

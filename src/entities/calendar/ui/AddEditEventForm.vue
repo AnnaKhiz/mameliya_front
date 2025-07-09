@@ -81,7 +81,7 @@ const saveEventChanges = async () => {
 
   const result = await updateGoogleEvent({
     body: updatedEvent,
-    type: 'beauty',
+    type: calendar.currentEvent?.name,
     eventId: calendar.currentEvent?.id
   })
 
@@ -126,7 +126,7 @@ watch(() => formEventData.value, (newValue) => {
 </script>
 
 <template>
-  <section>
+  <section class="w-full">
     <form action="" class="flex flex-col items-start justify-start gap-4 w-full">
       <div class="w-full">
         <h2 class="mb-2">{{ t('mama.calendar.modal_event_name') }}</h2>
