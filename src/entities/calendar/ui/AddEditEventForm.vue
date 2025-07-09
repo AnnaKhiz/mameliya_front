@@ -10,15 +10,13 @@ import {
   type FormEventType,
   type PendingValueType,
   type TimeListValues,
-  useGoogleEventStore, type CalendarNames
+  type CalendarNames
 } from "@/entities/calendar";
 // @ts-ignore
 import { VueCal } from 'vue-cal';
 import 'vue-cal/style';
-import {parseDateToString} from "@/shared/lib/parseDateToString.ts";
 
 const { t } = useI18n();
-const { updateGoogleEvent } = useGoogleEventStore();
 
 type Props = {
   pendingEvent?: PendingValueType | null,
@@ -80,14 +78,11 @@ const saveEventChanges = async () => {
   };
 
   delete updatedEvent.date;
-  const result = await updateGoogleEvent({
-    body: updatedEvent,
-    type: props.type === 'all' ? props.calendar.currentEvent?.name : props.type,
-    eventId: props.calendar.currentEvent?.id
-  })
 
-  if (!result.result) {
-    messageTextarea.value = t('notify.updates_not_saved');
+  const result = await props.calendar.updateEventRequest(updatedEvent, props.type);
+
+  if (typeof result === 'string') {
+    messageTextarea.value = result;
     return;
   }
 
@@ -99,7 +94,6 @@ const handleCellClick = (event: Record<string, any>) => {
   const result = props.calendar.setNewDate(event);
   if (!result) return;
 
-  console.log(result)
   startDatedList.value = result?.startList as TimeListValues[];
   endDatesList.value = result?.endList as TimeListValues[];
   messageError.value = result?.message;

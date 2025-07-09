@@ -1,26 +1,19 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import { ref, onMounted} from "vue";
+import { ref } from "vue";
 import {
   type DialogEventsType,
   EventInstruction,
-  CalendarComponent, CalendarManager
+  CalendarComponent,
 } from "@/entities/calendar";
-const calendar = ref<CalendarManager | null>();
 const { t } = useI18n();
 import 'vue-cal/style';
 import ModalComponent from "@/shared/ui/modal";
 
 const dialog = ref<DialogEventsType>('none');
-
 const changeDialogState = (value: DialogEventsType) => {
   dialog.value = value;
 }
-
-onMounted(() => {
-  calendar.value = new CalendarManager();
-})
-
 </script>
 
 <template>
@@ -36,7 +29,7 @@ onMounted(() => {
           <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
           <p>{{ t('mama.beauty_calendar_remind') }}</p>
         </div>
-        <CalendarComponent :type="'beauty'" :calendar="calendar" />
+        <CalendarComponent :type="'beauty'"  />
       </div>
     </div>
 

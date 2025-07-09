@@ -8,18 +8,15 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
   const generalUserEvents = ref<CalendarEventType[] | null>(null);
   const isLoading = ref<boolean>(false);
 
-  const connectGoogleCalendar = () => {
-    window.location.href = 'http://localhost:3000/user/google/check';
-  }
   const googleCalendarEvents = async (type: string): Promise<any> => {
     let result: Record<string, any> | null = null;
+    let filteredResult: Record<string, any> | null = null;
     isLoading.value = true;
     try {
       result = await fetchData('user/google/events/:type', 'GET', { type });
       isLoading.value = false;
-      console.log('result?.data?.events', result?.data?.events)
       if (type === 'all') {
-        generalUserEvents.value = result?.data?.events
+        filteredResult = result?.data?.events
           .filter((event: Record<string, any>) => {
             return event.calendarName
               && (event.calendarName === 'beauty'
@@ -27,15 +24,12 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
                 || event.calendarName === 'general')
           });
       } else {
-        userCalendarEvents.value = result?.data?.events;
+        filteredResult = result?.data?.events;
       }
-
-      console.log('EVENT general LIST: ', generalUserEvents.value)
-      console.log('EVENT LIST: ', userCalendarEvents.value)
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);
     }
-    return result;
+    return filteredResult;
   }
 
   const addNewEventToCalendar = async (
@@ -46,7 +40,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     try {
       result = await fetchData('user/google/event/add/:type', 'POST', { type }, body);
       isLoading.value = false;
-      userCalendarEvents.value?.push(result?.data);
     } catch(error) {
       console.error('Error [ADD EVENT TO CAL]: ', error);
     }
@@ -61,7 +54,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     try {
       result = await fetchData('user/google/event/update/:type/:eventId', 'PATCH', { type, eventId }, body);
       isLoading.value = false;
-      updateUserCalendarEvents(result?.data);
     } catch(error) {
       console.error('Error [UPDATE EVENT FROM CAL]: ', error);
     }
@@ -75,7 +67,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     isLoading.value = true;
     try {
       result = await fetchData('user/google/event/remove/:type/:eventId', 'DELETE', { type, eventId });
-      removeEventFromArray(result?.data.id);
       isLoading.value = false;
     } catch(error) {
       console.error('Error [DELETE EVENT FROM CAL]: ', error);
@@ -83,24 +74,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     return result;
   }
 
-// ADDITIONAL FUNCTIONS
-  const removeEventFromArray = (eventId: string) => {
-    const index: number = userCalendarEvents.value?.findIndex(event => event.id === eventId) ?? -1;
-
-    if (index === -1) return userCalendarEvents.value;
-
-    userCalendarEvents.value?.splice(index, 1);
-  }
-
-  const updateUserCalendarEvents = (data: CalendarEventType) => {
-    const index: number = userCalendarEvents.value?.findIndex(e => e.id === data.id) ?? -1;
-
-    if (index === -1) return userCalendarEvents.value;
-
-    if (userCalendarEvents.value) {
-      userCalendarEvents.value[index] = data;
-    }
-  }
 
   return {
     userCalendarEvents,
@@ -109,7 +82,6 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     googleCalendarEvents,
     addNewEventToCalendar,
     removeGoogleCalendarEvent,
-    connectGoogleCalendar,
     updateGoogleEvent
   }
 })

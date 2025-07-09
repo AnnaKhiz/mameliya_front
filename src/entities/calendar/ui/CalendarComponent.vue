@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {onMounted, watch, ref, onBeforeUnmount} from "vue";
+import {onMounted, watch, ref, onBeforeUnmount, computed} from "vue";
 import { useUserStore } from "@/entities/user";
 import { AppButton } from "@/shared/ui/button";
 import {
@@ -15,22 +15,17 @@ import {
   CalendarManager, type CalendarNames
 } from "@/entities/calendar";
 
-const { userCalendarEvents, generalUserEvents, isLoading } = storeToRefs(useGoogleEventStore());
-const {
-  googleCalendarEvents,
-  connectGoogleCalendar,
-  updateGoogleEvent
-} = useGoogleEventStore();
+const { updateGoogleEvent } = useGoogleEventStore();
 const { user } = useUserStore();
 const { t } = useI18n();
 // @ts-ignore
 import { VueCal } from 'vue-cal';
 import 'vue-cal/style';
-import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
-// const calendar = ref<CalendarManager>();
+
+const calendar = ref<CalendarManager>(new CalendarManager());
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null);
@@ -46,20 +41,19 @@ const formEventData = ref<FormEventType>({
 });
 
 type Props = {
-  type: CalendarNames,
-  calendar: CalendarManager,
+  type: CalendarNames | 'all',
 }
 
 const props = defineProps<Props>()
 const createEvent = ( { event, resolve }: PendingValueType) => {
-  messageNotify.value = props.calendar.validateEventDate(event) || '';
+  messageNotify.value = calendar.value.validateEventDate(event) || '';
 
   if (messageNotify.value) {
     dialog.value = 'notify';
     return;
   }
 
-  props.calendar.handleCreateEvent({  event, resolve });
+  calendar.value.handleCreateEvent({  event, resolve });
   changeDialogState('add');
 }
 const changeDialogState = (value: DialogEventsType) => {
@@ -69,7 +63,7 @@ const changeDialogState = (value: DialogEventsType) => {
 const showDetails = ({ event }: { event: CalendarEventType}) => {
   changeDialogState('details');
 
-  props.calendar.currentEvent = {
+  calendar.value.currentEvent = {
     ...event,
     start: parseDateToString(event.start as string),
     end: parseDateToString(event.end as string)
@@ -106,7 +100,7 @@ const dropEvent = async ({ event }: { event: CalendarEventType}) => {
 }
 const resetForm = ():void => {
   changeDialogState('none');
-  props.calendar.pendingEvent = null;
+  calendar.value.pendingEvent = null;
 
   formEventData.value = {
     title: '',
@@ -116,42 +110,35 @@ const resetForm = ():void => {
     end: ''
   }
 }
+
+const calendarType = computed(() => props.type === 'all' ? calendar.value?.currentEvent?.name : props.type);
 const handleRemoveFromCal = async (event: boolean) => {
-  console.log('remove clicked')
   if (!event) return;
-console.log(event)
-  const id = await props.calendar.removeEventRequest(props.type === 'all' ? props.calendar?.currentEvent?.name : props.type);
+
+  const id = await calendar.value.removeEventRequest(calendarType.value);
   if (!id) return;
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   changeDialogState('none');
 }
 
 onMounted( async () => {
-   // calendar.value = new CalendarManager();
-  if (user?.google_refresh) {
-    await googleCalendarEvents(props.type);
-    if (!userCalendarEvents.value || !generalUserEvents.value) return;
+  calendar.value.initStore();
 
-    if (generalUserEvents.value) {
-      events.value = props.calendar.parseUserCalendarEvents(generalUserEvents.value, props.type) as CalendarEventType[];
-      return;
+  if (user?.google_refresh) {
+    await calendar.value.handleGetEventsList(props.type);
+    if (calendar.value.events) {
+      events.value = calendar.value.parseUserCalendarEvents(calendar.value.events, props.type) as CalendarEventType[];
     }
-    events.value = props.calendar.parseUserCalendarEvents(userCalendarEvents.value, props.type) as CalendarEventType[];
   }
 })
 
 
-watch(() => userCalendarEvents.value, (newValue) => {
+watch(() => calendar.value._events, (newValue) => {
   if (newValue) {
-    events.value = props.calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
+    events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
-}, { deep: true})
 
-watch(() => generalUserEvents.value, (newValue) => {
-  if (newValue) {
-    events.value = props.calendar.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
-  }
-}, { deep: true})
+}, { deep: true });
 
 watch(dialog, (newValue) => {
   if(newValue === 'none') {
@@ -165,12 +152,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!calendar.isLoading">
     <AppButton
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
       class="mb-4 mr-4"
-      @click.prevent="connectGoogleCalendar"
+      @click.prevent="calendar.connectGoogleCalendar"
     />
     <Vue-cal
       v-else
@@ -194,7 +181,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog add calendar -->
   <ModalComponent
-    v-if="!isLoading && (dialog === 'add' || dialog === 'edit')"
+    v-if="!calendar.isLoading && (dialog === 'add' || dialog === 'edit')"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -212,7 +199,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog show details -->
   <ModalComponent
-    v-if="!isLoading && dialog === 'details'"
+    v-if="!calendar.isLoading && dialog === 'details'"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -249,7 +236,7 @@ onBeforeUnmount(() => {
 
   <!-- dialog notify  -->
   <ModalComponent
-    v-if="!isLoading && dialog === 'notify'"
+    v-if="!calendar.isLoading && dialog === 'notify'"
     full
     :title="t('general.error')"
     @update:dialog-visibility="dialog = $event"
