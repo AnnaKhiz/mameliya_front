@@ -1,19 +1,38 @@
 import type {
-  CalendarEventType, FormEventType,
+  CalendarEventType,
   PendingValueType,
-  TimeListValues
+  TimeListValues,
+  EventStylesListType,
+  CalendarNames,
 } from "@/entities/calendar";
 import { i18n } from '@/shared/config/i18n';
-
-import {useGoogleEventStore} from "@/entities/calendar";
-import {parseDateToString} from "@/shared/lib/parseDateToString.ts";
-
-class CalendarManager {
+import { useGoogleEventStore } from "@/entities/calendar";
+import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts"
+import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
+export class CalendarManager {
   events: CalendarEventType[] = [];
   private _pendingEvent: PendingValueType | null = null;
   private _currentEvent: CalendarEventType | null = null;
   googleStore: ReturnType<typeof useGoogleEventStore> | null = null;
+  styles: EventStylesListType  | null = null;
   constructor() {
+    this.styles = {
+      beauty: {
+        content: EventIconEnums.BEAUTY,
+        backgroundColor: '#ced3ff',
+        color: '#523629',
+      },
+      family: {
+        content: EventIconEnums.FAMILY,
+        backgroundColor: '#e8bba8',
+        color: '#523629',
+      },
+      general: {
+        content: EventIconEnums.GENERAL,
+        backgroundColor: '#95d0fc',
+        color: '#523629',
+      }
+    }
   }
 
   initStore() {
@@ -55,17 +74,19 @@ class CalendarManager {
 
     const result = await this.googleStore?.addNewEventToCalendar({
       body: finalizedEvent,
-      type
+      type: type
     });
 
     return result;
   }
 
   async removeEventRequest(type: string) {
+    console.log('remove request')
     const result = await this.googleStore?.removeGoogleCalendarEvent({
       type,
       eventId: this.currentEvent?.id
     });
+    console.log(result)
     return result?.data;
   }
 
@@ -168,9 +189,51 @@ class CalendarManager {
     const currentDay = new Date(this.currentEvent?.start);
     const checkedDateOnly = this.normalizeDate(checkedFullDateTime);
     const currentDateOnly = this.normalizeDate(currentDay);
-    const todayDateOnly = calendar.normalizeDate(todayDate);
+    const todayDateOnly = this.normalizeDate(todayDate);
 
     return { checkedDateOnly, currentDateOnly, todayDateOnly }
+  }
+
+  parseUserCalendarEvents(
+    event: CalendarEventType | CalendarEventType[],
+    style: CalendarNames | 'all'
+  ): CalendarEventType | CalendarEventType[] {
+    if (this.checkIsArray(event)) {
+      return event.map((e: CalendarEventType) => this.createParsedEvent(e, style))
+        .filter((elem: CalendarEventType) => elem.start && elem.end)
+    }
+    return this.createParsedEvent(event, style);
+  }
+
+  private checkIsArray(data: Record<string, any> | Record<string, any>[]) {
+    return Array.isArray(data);
+  }
+  private createParsedEvent(event: Record<string, any>, style: CalendarNames | 'all') {
+    let currentStyles;
+    console.log('style', style)
+    if (style !== 'all') {
+      console.log('style!== all')
+      currentStyles = this.styles?.[style]
+    } else {
+      console.log('style === all')
+      console.log('event calendar name', event)
+      currentStyles = this.styles
+        ? this.styles[event.calendarName as CalendarNames]
+        : null;
+    }
+
+    console.log('currentStyles', currentStyles)
+
+    return {
+      ...currentStyles,
+      start: new Date(event.start?.dateTime || event.start?.date),
+      end: new Date(event.end?.dateTime || event.end?.date),
+      title: event.summary || event.title || 'No title',
+      contentFull: event.description || '',
+      id: event.id,
+      isAllDay: false,
+      name: event.calendarName
+    }
   }
   private createTimeValuesList(hours: number, minutes: number) {
     const maxHours = 24;
@@ -231,4 +294,4 @@ class CalendarManager {
 
 }
 
-export const calendar = new CalendarManager();
+// export const calendar = new CalendarManager();

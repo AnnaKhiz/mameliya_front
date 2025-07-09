@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { AppButton } from "@/shared/ui/button";
-import type {DialogEventsType} from "@/entities/calendar";
+import {CalendarManager, type CalendarNames, type DialogEventsType} from "@/entities/calendar";
 import { useI18n } from "vue-i18n";
-import { calendar } from "@/entities/calendar";
-
 import {onMounted, ref} from "vue";
 
 const { t } = useI18n();
@@ -12,6 +10,8 @@ const isEditable = ref<boolean>(false);
 type Props = {
   dialog: DialogEventsType,
   closeDialogs: (value: DialogEventsType) => void,
+  calendar: CalendarManager,
+  type: CalendarNames | 'all'
 }
 
 const props = defineProps<Props>();
@@ -26,14 +26,14 @@ const handleDeleteEvent = async () => {
 }
 const editEvent = async () => {
   emits('update:dialog', 'edit');
-  const updatedFormData = calendar.updateFormEventData();
+  const updatedFormData = props.calendar.updateFormEventData();
   emits('update:formEventData', updatedFormData);
 }
 
 onMounted(() => {
-  calendar.initStore();
+  props.calendar.initStore();
   const today = new Date();
-  const date = new Date(calendar.currentEvent?.start ?? '');
+  const date = new Date(props.calendar.currentEvent?.start ?? '');
 
   isEditable.value = date < today;
 })
@@ -41,26 +41,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <section>
+  <section class="w-full">
     <div class="mb-4">
       <p>
         <span class="font-bold">{{ t('mama.calendar.title') }}</span>:
-        {{ calendar.currentEvent?.title }}
+        {{ props.calendar.currentEvent?.title }}
       </p>
       <p>
         <span class="font-bold">{{ t('mama.calendar.description') }}</span>:
-        {{ calendar.currentEvent?.contentFull  }}
+        {{ props.calendar.currentEvent?.contentFull  }}
       </p>
       <p>
         <span class="font-bold">{{ t('mama.calendar.date_start') }}</span>:
-        {{ calendar.currentEvent?.start }}
+        {{ props.calendar.currentEvent?.start }}
       </p>
       <p>
         <span class="font-bold">{{ t('mama.calendar.date_end') }}</span>:
-        {{ calendar.currentEvent?.end }}
+        {{ props.calendar.currentEvent?.end }}
       </p>
     </div>
-    <div class="flex justify-start items-center gap-2 w-full">
+    <div class="flex justify-start items-center gap-2 w-full flex-wrap">
       <AppButton :label="t('general.close')" @click="props.closeDialogs('none')" />
       <AppButton :label="t('general.delete')" @click="handleDeleteEvent" />
       <AppButton :label="t('general.edit')" @click="editEvent" :disabled="isEditable" />

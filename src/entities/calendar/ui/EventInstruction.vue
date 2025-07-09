@@ -9,10 +9,11 @@ type Props = {
 }
 
 const props = defineProps<Props>();
+
 </script>
 
 <template>
-  <section>
+  <section class="w-full">
     <div class="w-full flex flex-col items-start justify-start gap-3 px-5 pb-5 whitespace-pre-line">
       <p><span class="font-semibold">1.</span> {{ t('mama.calendar.instruction_1') }} </p>
       <p><span class="font-semibold">2.</span> {{ t('mama.calendar.instruction_2') }} </p>
