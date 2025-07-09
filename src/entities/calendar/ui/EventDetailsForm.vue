@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { AppButton } from "@/shared/ui/button";
-import {CalendarManager, type CalendarNames, type DialogEventsType} from "@/entities/calendar";
+import {
+  CalendarManager,
+  type CalendarNames,
+  type DialogEventsType
+} from "@/entities/calendar";
 import { useI18n } from "vue-i18n";
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const { t } = useI18n();
 const isEditable = ref<boolean>(false);

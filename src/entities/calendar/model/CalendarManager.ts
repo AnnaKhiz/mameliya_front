@@ -15,6 +15,7 @@ export class CalendarManager {
   private _currentEvent: CalendarEventType | null = null;
   googleStore: ReturnType<typeof useGoogleEventStore> | null = null;
   styles: EventStylesListType  | null = null;
+  isLoading: boolean = false;
   constructor() {
     this.styles = {
       beauty: {
@@ -47,6 +48,7 @@ export class CalendarManager {
   set pendingEvent(event: PendingValueType | null) {
     this._pendingEvent = event;
   }
+
   get pendingEvent(): PendingValueType | null {
     return this._pendingEvent;
   }
@@ -55,6 +57,10 @@ export class CalendarManager {
   }
   get events(): CalendarEventType[] | null {
     return this._events;
+  }
+
+  connectGoogleCalendar() {
+    window.location.href = 'http://localhost:3000/user/google/check';
   }
   handleCreateEvent({ event, resolve }: PendingValueType): void {
     if (event.start) {
@@ -65,9 +71,11 @@ export class CalendarManager {
   }
 
   async handleGetEventsList(type: CalendarNames | 'all') {
+    this.isLoading = true;
     const result = await this.googleStore?.googleCalendarEvents(type);
+    this.isLoading = false;
     if (result) {
-      this.events = result.data.events;
+      this.events = result;
     }
   }
   async createEventRequest(
@@ -83,25 +91,25 @@ export class CalendarManager {
     };
 
     this._pendingEvent?.resolve(finalizedEvent);
-
+    this.isLoading = true;
     const result = await this.googleStore?.addNewEventToCalendar({
       body: finalizedEvent,
       type: type
     });
-
-    // this._events.push(result.data)
-console.log(this._events)
+    this.isLoading = false;
+    this._events.push(result.data)
+    console.log('add events', this._events)
     return result;
   }
 
   async removeEventRequest(type: string) {
-    console.log('remove request')
+    this.isLoading = true;
     const result = await this.googleStore?.removeGoogleCalendarEvent({
       type,
       eventId: this.currentEvent?.id
     });
-    console.log(result)
 
+    this.isLoading = false;
     this.removeEventFromArray(result.data?.id);
     return result?.data;
   }
@@ -126,6 +134,34 @@ console.log(this._events)
       date,
       start,
       end
+    }
+  }
+
+  async updateEventRequest(updatedEvent: CalendarEventType, type: CalendarNames | 'all'): Promise<string | boolean> {
+    this.isLoading = true;
+
+    const result = await this.googleStore?.updateGoogleEvent({
+      body: updatedEvent,
+      type: type === 'all' ? this._currentEvent?.name : type,
+      eventId: this._currentEvent?.id
+    })
+    this.isLoading = false;
+
+    if (!result) {
+      return i18n.global.t('notify.updates_not_saved');
+    }
+
+    this.updateUserCalendarEvents(result.data);
+    return true;
+  }
+
+  updateUserCalendarEvents(data: CalendarEventType) {
+    const index: number = this._events?.findIndex(e => e.id === data.id) ?? -1;
+
+    if (index === -1) return this._events;
+
+    if (this._events) {
+      this._events[index] = data;
     }
   }
 
@@ -234,19 +270,14 @@ console.log(this._events)
   }
   private createParsedEvent(event: Record<string, any>, style: CalendarNames | 'all') {
     let currentStyles;
-    console.log('style', style)
+
     if (style !== 'all') {
-      console.log('style!== all')
       currentStyles = this.styles?.[style]
     } else {
-      console.log('style === all')
-      console.log('event calendar name', event)
       currentStyles = this.styles
         ? this.styles[event.calendarName as CalendarNames]
         : null;
     }
-
-    console.log('currentStyles', currentStyles)
 
     return {
       ...currentStyles,
@@ -317,5 +348,3 @@ console.log(this._events)
   }
 
 }
-
-// export const calendar = new CalendarManager();

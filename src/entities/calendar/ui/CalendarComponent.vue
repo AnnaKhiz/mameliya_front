@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {onMounted, watch, ref, onBeforeUnmount} from "vue";
+import {onMounted, watch, ref, onBeforeUnmount, computed} from "vue";
 import { useUserStore } from "@/entities/user";
 import { AppButton } from "@/shared/ui/button";
 import {
@@ -15,21 +15,16 @@ import {
   CalendarManager, type CalendarNames
 } from "@/entities/calendar";
 
-const { userCalendarEvents, generalUserEvents, isLoading } = storeToRefs(useGoogleEventStore());
-const {
-  googleCalendarEvents,
-  connectGoogleCalendar,
-  updateGoogleEvent
-} = useGoogleEventStore();
+const { updateGoogleEvent } = useGoogleEventStore();
 const { user } = useUserStore();
 const { t } = useI18n();
 // @ts-ignore
 import { VueCal } from 'vue-cal';
 import 'vue-cal/style';
-import {storeToRefs} from "pinia";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
+
 const calendar = ref<CalendarManager>(new CalendarManager());
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
@@ -46,8 +41,7 @@ const formEventData = ref<FormEventType>({
 });
 
 type Props = {
-  type: CalendarNames,
-  // calendar: CalendarManager,
+  type: CalendarNames | 'all',
 }
 
 const props = defineProps<Props>()
@@ -116,24 +110,25 @@ const resetForm = ():void => {
     end: ''
   }
 }
+
+const calendarType = computed(() => props.type === 'all' ? calendar.value?.currentEvent?.name : props.type);
 const handleRemoveFromCal = async (event: boolean) => {
-  console.log('remove clicked')
   if (!event) return;
-console.log(event)
-  const id = await calendar.value.removeEventRequest(props.type === 'all' ? calendar.value?.currentEvent?.name : props.type);
+
+  const id = await calendar.value.removeEventRequest(calendarType.value);
   if (!id) return;
   vuecalRef.value?.view.deleteEvent({ id }, 3);
   changeDialogState('none');
 }
 
 onMounted( async () => {
-  console.log('calendar!!!!', calendar.value)
-  calendar.value.initStore()
+  calendar.value.initStore();
+
   if (user?.google_refresh) {
     await calendar.value.handleGetEventsList(props.type);
-
-    events.value = calendar.value.parseUserCalendarEvents(calendar.value.events, props.type) as CalendarEventType[];
-    console.log('events in component', events.value)
+    if (calendar.value.events) {
+      events.value = calendar.value.parseUserCalendarEvents(calendar.value.events, props.type) as CalendarEventType[];
+    }
   }
 })
 
@@ -142,6 +137,7 @@ watch(() => calendar.value._events, (newValue) => {
   if (newValue) {
     events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }
+
 }, { deep: true });
 
 watch(dialog, (newValue) => {
@@ -156,12 +152,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!calendar.isLoading">
     <AppButton
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
       class="mb-4 mr-4"
-      @click.prevent="connectGoogleCalendar"
+      @click.prevent="calendar.connectGoogleCalendar"
     />
     <Vue-cal
       v-else
@@ -185,7 +181,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog add calendar -->
   <ModalComponent
-    v-if="!isLoading && (dialog === 'add' || dialog === 'edit')"
+    v-if="!calendar.isLoading && (dialog === 'add' || dialog === 'edit')"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -203,7 +199,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog show details -->
   <ModalComponent
-    v-if="!isLoading && dialog === 'details'"
+    v-if="!calendar.isLoading && dialog === 'details'"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -240,7 +236,7 @@ onBeforeUnmount(() => {
 
   <!-- dialog notify  -->
   <ModalComponent
-    v-if="!isLoading && dialog === 'notify'"
+    v-if="!calendar.isLoading && dialog === 'notify'"
     full
     :title="t('general.error')"
     @update:dialog-visibility="dialog = $event"

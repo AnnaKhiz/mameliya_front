@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-// @ts-ignore
-import { VueCal } from 'vue-cal';
-import 'vue-cal/style';
+import {ref} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
@@ -16,7 +13,7 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {CalendarComponent, CalendarManager} from "@/entities/calendar";
+import {CalendarComponent} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 
@@ -26,7 +23,6 @@ const { t } = useI18n();
 const router = useRouter();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
-const calendar = ref<CalendarManager | null>(new CalendarManager());
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -45,10 +41,6 @@ const changeDialogState = (value: HeaderDialogsType) => {
 const openGeneralCalendar = async () => {
   changeDialogState('calendar');
 }
-
-// onMounted(() => {
-//   calendar.value = new CalendarManager();
-// })
 
 </script>
 
@@ -97,6 +89,7 @@ const openGeneralCalendar = async () => {
     v-if="dialog === 'calendar'"
     full
     :width="'w-4/6'"
+    :height="'min-h-72'"
     :title="t('mama.calendar.general_calendar_title')"
     @update:dialog-visibility="dialog = $event"
   >
