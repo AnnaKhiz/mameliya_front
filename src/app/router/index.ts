@@ -113,11 +113,50 @@ const router = createRouter({
             {
               path: 'family',
               name: 'user-family',
+              redirect: { name: 'user-family_plans'},
               props: true,
               component: () => import('@/pages/family'),
               meta: {
                 requiresAuth: true,
               },
+              children: [
+                {
+                  path: 'plans',
+                  name: 'user-family_plans',
+                  props: true,
+                  component: () => import('@/pages/family/ui/FamilyPlans.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'menu',
+                  name: 'user-family_menu',
+                  props: true,
+                  component: () => import('@/pages/family/ui/FamilyMenu.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'chores',
+                  name: 'user-family_chores',
+                  props: true,
+                  component: () => import('@/pages/family/ui/FamilyChores.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'family_calendar',
+                  name: 'user-family_calendar',
+                  props: true,
+                  component: () => import('@/pages/family/ui/FamilyCalendar.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                }
+              ]
             },
             {
               path: 'children',

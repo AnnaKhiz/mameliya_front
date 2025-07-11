@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-import {XMarkIcon} from "@heroicons/vue/16/solid";
+import { XMarkIcon } from "@heroicons/vue/16/solid";
 
 type Props = {
   full?: boolean;

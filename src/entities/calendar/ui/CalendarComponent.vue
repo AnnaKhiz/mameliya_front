@@ -11,7 +11,6 @@ import {
   AddEditEventForm,
   useGoogleEventStore,
   EventDetailsForm,
-  EventInstruction,
   CalendarManager, type CalendarNames
 } from "@/entities/calendar";
 
@@ -152,12 +151,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="!calendar.isLoading">
+  <div v-if="!calendar.isLoading" class="w-full">
     <AppButton
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
       class="mb-4 mr-4"
-      @click.prevent="calendar.connectGoogleCalendar"
+      @click.prevent="calendar.connectGoogleCalendar(props.type)"
     />
     <Vue-cal
       v-else
@@ -218,19 +217,6 @@ onBeforeUnmount(() => {
       <div v-else >
         {{ t('mama.calendar.no_details_event')}}
       </div>
-    </template>
-  </ModalComponent>
-
-  <!-- dialog instruction   -->
-  <ModalComponent
-    v-if="dialog === 'instruction'"
-    full
-    :title="t('mama.how_to_use')"
-    :width="'w-4/6'"
-    @update:dialog-visibility="changeDialogState"
-  >
-    <template #default>
-      <EventInstruction :close-dialogs="changeDialogState" />
     </template>
   </ModalComponent>
 

@@ -1,6 +1,5 @@
 import AddEditEventForm from "@/entities/calendar/ui/AddEditEventForm.vue";
 import EventDetailsForm from "@/entities/calendar/ui/EventDetailsForm.vue";
-import EventInstruction from "@/entities/calendar/ui/EventInstruction.vue";
 import CalendarComponent from "@/entities/calendar/ui/CalendarComponent.vue";
 
 import { useGoogleEventStore } from "@/entities/calendar/model/useGoogleEventStore.ts";
@@ -21,7 +20,6 @@ export {
   CalendarComponent,
   AddEditEventForm,
   EventDetailsForm,
-  EventInstruction,
   useGoogleEventStore,
   EventIconEnums,
   CalendarManager

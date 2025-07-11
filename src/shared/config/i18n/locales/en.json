@@ -30,7 +30,7 @@
 			"plans": "Weekly/weekend plans",
 			"menu": "Weekly/daily menu plans",
 			"chores": "Household chores, distribution of chores",
-			"general_calendar": "General calendar"
+			"family_calendar": "Family calendar"
 		},
 		"children": {
 			"title": "Children",
@@ -61,6 +61,9 @@
 			"cosmetology": "Cosmetology",
 			"manicure": "Nail care",
 			"schedule_rituals": "Schedule of rituals"
+		},
+		"faq": {
+			"title": "FAQ"
 		}
 	},
 	"notify": {
@@ -215,5 +218,10 @@
 			"date_can_not_be_smaller": "Event date can not be smaller than current",
 			"general_calendar_title": "General calendar (all events)"
 		}
+	},
+	"family": {
+		"family_calendar": "Family calendar",
+		"family_calendar_about": "Family Calendar is a shared calendar for planning and tracking family events such as birthdays, holidays, gatherings, trips, and important dates.",
+		"family_calendar_what_inside": "It helps the whole family stay informed about upcoming events and coordinate plans together."
 	}
 }
