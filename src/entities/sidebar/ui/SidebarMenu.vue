@@ -51,30 +51,30 @@ const asideList = computed(():AsideMenuType[] => ([
     value: 'family',
     listHidden: true,
     links: [
-      {
-        id: 1,
-        title: t('aside.family.family_events'),
-        value: 'events',
-      },
+      // {
+      //   id: 1,
+      //   title: t('aside.family.family_events'),
+      //   value: 'events',
+      // },
       {
         id: 2,
         title: t('aside.family.plans'),
-        value: 'plans',
+        value: 'family_plans',
       },
       {
         id: 3,
         title: t('aside.family.menu'),
-        value: 'menu',
+        value: 'family_menu',
       },
       {
         id: 4,
         title: t('aside.family.chores'),
-        value: 'chores',
+        value: 'family_chores',
       },
       {
         id: 5,
-        title: t('aside.family.general_calendar'),
-        value: 'general_calendar',
+        title: t('aside.family.family_calendar'),
+        value: 'family_calendar',
       },
     ]
   },
@@ -200,6 +200,19 @@ const asideList = computed(():AsideMenuType[] => ([
       },
     ]
   },
+  {
+    id: 7,
+    title: t('aside.faq.title'),
+    value: 'faq',
+    listHidden: true,
+    links: [
+      {
+        id: 1,
+        title: t('aside.faq.title'),
+        value: 'faq_calendar',
+      },
+    ]
+  }
 ]))
 
 const goToPage = (params: GoToPageParams): void => {

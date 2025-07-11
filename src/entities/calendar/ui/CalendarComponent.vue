@@ -11,7 +11,6 @@ import {
   AddEditEventForm,
   useGoogleEventStore,
   EventDetailsForm,
-  EventInstruction,
   CalendarManager, type CalendarNames
 } from "@/entities/calendar";
 
@@ -218,19 +217,6 @@ onBeforeUnmount(() => {
       <div v-else >
         {{ t('mama.calendar.no_details_event')}}
       </div>
-    </template>
-  </ModalComponent>
-
-  <!-- dialog instruction   -->
-  <ModalComponent
-    v-if="dialog === 'instruction'"
-    full
-    :title="t('mama.how_to_use')"
-    :width="'w-4/6'"
-    @update:dialog-visibility="changeDialogState"
-  >
-    <template #default>
-      <EventInstruction :close-dialogs="changeDialogState" />
     </template>
   </ModalComponent>
 
