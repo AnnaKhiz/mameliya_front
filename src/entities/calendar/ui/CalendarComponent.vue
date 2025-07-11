@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
       class="mb-4 mr-4"
-      @click.prevent="calendar.connectGoogleCalendar"
+      @click.prevent="calendar.connectGoogleCalendar(props.type)"
     />
     <Vue-cal
       v-else

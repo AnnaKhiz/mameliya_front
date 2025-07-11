@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
@@ -8,7 +8,7 @@ import {AppButton} from "@/shared/ui/button";
 import LanguageDropdown from "@/features/dropdown";
 import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
 import {useI18n} from "vue-i18n";
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
@@ -21,6 +21,7 @@ const { mama } = storeToRefs(useMamaStore());
 
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const updateModal = (value: boolean) => {
@@ -41,6 +42,12 @@ const changeDialogState = (value: HeaderDialogsType) => {
 const openGeneralCalendar = async () => {
   changeDialogState('calendar');
 }
+console.log(route.query)
+watch(() => route.query, (newValue) => {
+  if (newValue.modal === 'success') {
+    changeDialogState('calendar');
+  }
+}, { immediate: true})
 
 </script>
 

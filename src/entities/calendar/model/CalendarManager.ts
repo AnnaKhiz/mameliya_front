@@ -59,8 +59,9 @@ export class CalendarManager {
     return this._events;
   }
 
-  connectGoogleCalendar() {
-    window.location.href = 'http://localhost:3000/user/google/check';
+  connectGoogleCalendar(type: CalendarNames | 'all') {
+    const currentUrl = encodeURIComponent(window.location.href);
+    window.location.href = `http://localhost:3000/user/google/check?type=${type}&redirect=${currentUrl}`;
   }
   handleCreateEvent({ event, resolve }: PendingValueType): void {
     if (event.start) {
