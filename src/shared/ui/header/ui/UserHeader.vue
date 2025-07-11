@@ -16,7 +16,7 @@ import { useMamaStore} from "@/entities/mama";
 import {CalendarComponent} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
-
+const { user } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
 
 const { t } = useI18n();
@@ -88,8 +88,8 @@ const openGeneralCalendar = async () => {
   <ModalComponent
     v-if="dialog === 'calendar'"
     full
-    :width="'w-4/6'"
-    :height="'min-h-72'"
+    :width="!user?.google_refresh ? 'w-fit' : 'w-4/6'"
+    :height="!user?.google_refresh ? 'h-fit' : 'min-h-72'"
     :title="t('mama.calendar.general_calendar_title')"
     @update:dialog-visibility="dialog = $event"
   >

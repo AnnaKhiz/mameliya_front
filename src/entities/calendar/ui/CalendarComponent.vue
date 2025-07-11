@@ -152,7 +152,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="!calendar.isLoading">
+  <div v-if="!calendar.isLoading" class="w-full">
     <AppButton
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
