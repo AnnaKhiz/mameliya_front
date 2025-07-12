@@ -71,6 +71,7 @@ watch(() => route.query, (newValue) => {
           </template>
         </MoodPanelLayout>
         <CalendarDaysIcon
+          v-if="user"
           class="fill-brown-dark w-7 cursor-pointer outline-none"
           @click="openGeneralCalendar"
           v-tooltip="t('mama.calendar.general_calendar_title')"

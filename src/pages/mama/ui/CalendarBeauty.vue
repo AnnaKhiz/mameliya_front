@@ -17,7 +17,7 @@ const changeDialogState = (value: DialogEventsType) => {
 
 <template>
   <section>
-    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 bg-gradient-main relative text-brown-dark ">
+    <div class="flex flex-col justify-start items-start h-full w-full overflow-hidden p-5 relative text-brown-dark ">
       <div class="w-full">
         <div class="flex justify-between items-start">
           <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.beauty_calendar') }}:</h2>
