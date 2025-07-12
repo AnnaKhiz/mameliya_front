@@ -208,7 +208,7 @@
 			"time_start": "Event start",
 			"time_end": "Event end",
 			"empty_fields": "Can not save empty fields",
-			"instruction_1": "To sync your beauty calendar with Google Calendar, click the \"Connect Google Calendar\" button and follow the on-screen instructions.",
+			"instruction_1": "To sync your calendar with Google Calendar, click the \"Connect Google Calendar\" button and follow the on-screen instructions.",
 			"instruction_2": "After successfully connecting and syncing with your Google account, a calendar with your beauty treatment schedule will appear on the page.",
 			"instruction_3": "On the calendar, you can choose your preferred view: day, multiple days, week, month, year, or multiple years.",
 			"instruction_4": "To add a new event, select a time range on the calendar—from the event’s start time to its end time. A dialog window will open where you can enter the event title and description. Click the \"Save\" button to confirm.",

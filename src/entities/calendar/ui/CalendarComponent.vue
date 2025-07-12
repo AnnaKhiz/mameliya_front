@@ -151,7 +151,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="!calendar.isLoading" class="w-full">
+  <div v-if="!calendar.isLoading" class="w-full h-full">
     <AppButton
       v-if="!user?.google_refresh"
       :label="t('mama.connect_google_calendar')"
@@ -237,9 +237,11 @@ onBeforeUnmount(() => {
 .vuecal {
   --vuecal-primary-color: #523629;
   --vuecal-event-color: white;
+  --vuecal-height: 90%;
 }
 
 .vuecal__event {
   background-color: #735c52;
 }
+
 </style>
