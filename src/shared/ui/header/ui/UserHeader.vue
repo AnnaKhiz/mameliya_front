@@ -71,6 +71,7 @@ watch(() => route.query, (newValue) => {
           </template>
         </MoodPanelLayout>
         <CalendarDaysIcon
+          v-if="user"
           class="fill-brown-dark w-7 cursor-pointer outline-none"
           @click="openGeneralCalendar"
           v-tooltip="t('mama.calendar.general_calendar_title')"
@@ -96,7 +97,7 @@ watch(() => route.query, (newValue) => {
     v-if="dialog === 'calendar'"
     full
     :width="!user?.google_refresh ? 'w-fit' : 'w-4/6'"
-    :height="!user?.google_refresh ? 'h-fit' : 'min-h-72'"
+    :height="!user?.google_refresh ? 'h-5/6' : 'min-h-72 h-5/6'"
     :title="t('mama.calendar.general_calendar_title')"
     @update:dialog-visibility="dialog = $event"
   >
