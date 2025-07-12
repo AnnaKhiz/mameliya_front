@@ -4,6 +4,7 @@ import {
   type RouteLocationNormalizedGeneric,
   type RouteLocationNormalizedLoadedGeneric
 } from 'vue-router';
+import {useUserStore} from "@/entities/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,17 @@ const router = createRouter({
     {
       path: '/user',
       name: 'user',
+      beforeEnter: async (to) => {
+        const userStore = useUserStore();
+        await userStore.checkUserSession();
+        const userId = userStore.user?.userId;
+
+        if (to.name === 'user' && userId){
+          if (to.params.id !== userId) {
+            return { name: 'user-home', params: { id: userId } };
+          }
+        }
+      },
       props: true,
       meta: {
         requiresAuth: true,
@@ -220,7 +232,7 @@ function redirectToUser(auth: boolean, to: RouteLocationNormalizedGeneric, next:
   if (auth) {
     const newPath = to.path;
     if (!to.fullPath.includes('user')) {
-      to.fullPath = '/user' + newPath;
+      to.name = 'user';
     }
   }
 }
