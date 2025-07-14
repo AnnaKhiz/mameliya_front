@@ -22,7 +22,11 @@ const message = ref<string>('');
       :placeholder="t('helper_ai.placeholder')"
       class="dark-mode w-full text-brown-dark"
     />
-    <AppButton :label="t('general.send')" :thin-style="'px-3 py-2 '" />
+    <AppButton
+      :label="t('general.send')"
+      icon
+      class="bg-brown-medium hover:bg-white rounded p-2 transition duration-500"
+    />
   </div>
   </div>
 </template>
