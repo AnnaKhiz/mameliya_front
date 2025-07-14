@@ -129,11 +129,6 @@ const asideList = computed(():AsideMenuType[] => ([
       },
       {
         id: 3,
-        title: t('aside.mental_health.assistant'),
-        value: 'assistant',
-      },
-      {
-        id: 4,
         title: t('aside.mental_health.favorite_books'),
         value: 'favorite_books',
       }
