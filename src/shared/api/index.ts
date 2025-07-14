@@ -7,7 +7,8 @@ export async function fetchData<TBody = unknown>(
 	method: HttpMethodType = 'GET',
 	pathParams: PathParams = {},
 	body: TBody | null = null,
-	headers: HeadersType = headersDefault
+	headers: HeadersType = headersDefault,
+  fullPath?: boolean
 ): Promise<any> {
 	let data = null;
 	try {
@@ -17,8 +18,9 @@ export async function fetchData<TBody = unknown>(
 		}
 		const isFormData = body instanceof FormData;
 		const fetchHeaders = isFormData ? {} : headers;
+    const requestUrl = fullPath ? url : `${apiBaseUrl}/${processedUrl}`;
 
-		const result = await fetch(`${apiBaseUrl}/${processedUrl}`, {
+		const result = await fetch(requestUrl, {
 			method,
 			credentials: 'include',
 			headers: fetchHeaders,

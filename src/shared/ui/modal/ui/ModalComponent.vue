@@ -6,6 +6,7 @@ type Props = {
   title: string;
   width?: string;
   height?: string;
+  show: boolean;
 }
 const props = defineProps<Props>();
 
@@ -20,6 +21,7 @@ const closeDialog = () => {
   <teleport to="body">
     <Transition name="fade" >
       <div
+        v-if="props.show"
         :class="full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : ''"
       >
         <div

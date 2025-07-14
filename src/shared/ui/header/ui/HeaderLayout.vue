@@ -14,7 +14,7 @@ const { isBurgerOpen } = storeToRefs(useBurgerMenuStore());
   </header>
 
   <!--  Modal Burger Dialog -->
-  <ModalComponent v-if="isBurgerOpen" title="burger">
+  <ModalComponent :show="isBurgerOpen" title="burger">
     <template #default>
       <slot name="burger" />
     </template>

@@ -29,6 +29,7 @@ select {
     box-shadow: inset 20px 20px 0 20px rgba(244, 249, 212, 0.36);
   }
   &.dark-mode {
+    border-radius: 4px;
     box-shadow: none;
     border-bottom: 1px solid rgba(204, 208, 181, 0.51);
     &:hover, &:active {

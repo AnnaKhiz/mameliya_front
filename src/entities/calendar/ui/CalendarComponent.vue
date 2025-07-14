@@ -180,7 +180,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog add calendar -->
   <ModalComponent
-    v-if="!calendar.isLoading && (dialog === 'add' || dialog === 'edit')"
+    :show="!calendar.isLoading && (dialog === 'add' || dialog === 'edit')"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -198,7 +198,7 @@ onBeforeUnmount(() => {
 
   <!--  dialog show details -->
   <ModalComponent
-    v-if="!calendar.isLoading && dialog === 'details'"
+    :show="!calendar.isLoading && dialog === 'details'"
     full
     :title="t('mama.calendar.modal_title')"
     @update:dialog-visibility="dialog = $event"
@@ -222,7 +222,7 @@ onBeforeUnmount(() => {
 
   <!-- dialog notify  -->
   <ModalComponent
-    v-if="!calendar.isLoading && dialog === 'notify'"
+    :show="!calendar.isLoading && dialog === 'notify'"
     full
     :title="t('general.error')"
     @update:dialog-visibility="dialog = $event"
