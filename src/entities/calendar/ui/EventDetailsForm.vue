@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AppButton } from "@/shared/ui/button";
 import {
-  CalendarManager,
+  type ICalendarManager,
   type CalendarNames,
   type DialogEventsType
 } from "@/entities/calendar";
@@ -14,7 +14,7 @@ const isEditable = ref<boolean>(false);
 type Props = {
   dialog: DialogEventsType,
   closeDialogs: (value: DialogEventsType) => void,
-  calendar: CalendarManager,
+  calendar: ICalendarManager,
   type: CalendarNames | 'all'
 }
 

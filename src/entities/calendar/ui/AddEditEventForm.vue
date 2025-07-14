@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import {computed, onMounted, ref, type Ref, watch} from "vue";
 import {AppButton} from "@/shared/ui/button";
 import {
-  CalendarManager,
+  type ICalendarManager,
   type CalendarEventType,
   type DialogEventsType,
   type FormEventType,
@@ -23,7 +23,7 @@ type Props = {
   currentEvent?: CalendarEventType | null,
   dialog: DialogEventsType,
   resetForm: () => void,
-  calendar: CalendarManager,
+  calendar: ICalendarManager,
   type: CalendarNames | 'all'
 }
 

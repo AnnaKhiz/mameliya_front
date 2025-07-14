@@ -2,7 +2,7 @@
 import { defineProps } from 'vue';
 import { PaperAirplaneIcon } from "@heroicons/vue/16/solid";
 type Props = {
-  label: string;
+  label?: string;
   disabled?: boolean;
   thinStyle?: string;
   bordered?: string;

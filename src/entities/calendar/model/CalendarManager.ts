@@ -9,8 +9,10 @@ import { i18n } from '@/shared/config/i18n';
 import { useGoogleEventStore } from "@/entities/calendar";
 import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts"
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
+
+
 export class CalendarManager {
-  _events: CalendarEventType[] = [];
+  private _events: CalendarEventType[] = [];
   private _pendingEvent: PendingValueType | null = null;
   private _currentEvent: CalendarEventType | null = null;
   googleStore: ReturnType<typeof useGoogleEventStore> | null = null;
@@ -116,7 +118,7 @@ export class CalendarManager {
     return result?.data;
   }
 
-  removeEventFromArray(eventId: string) {
+  removeEventFromArray(eventId: string): CalendarEventType[] | undefined {
     const index: number = this._events?.findIndex(event => event.id === eventId) ?? -1;
 
     if (index === -1) return this._events;
@@ -124,7 +126,13 @@ export class CalendarManager {
     this._events?.splice(index, 1);
   }
 
-  updateFormEventData() {
+  updateFormEventData(): {
+    title: string;
+    description: string;
+    date: string;
+    start: string;
+    end: string;
+  } {
     const { date, start, end } = this.splitDate({
       eventStart: this.currentEvent?.start ?? '',
       eventEnd: this.currentEvent?.end || ''
@@ -157,7 +165,7 @@ export class CalendarManager {
     return true;
   }
 
-  updateUserCalendarEvents(data: CalendarEventType) {
+  updateUserCalendarEvents(data: CalendarEventType): CalendarEventType[] | undefined {
     const index: number = this._events?.findIndex(e => e.id === data.id) ?? -1;
 
     if (index === -1) return this._events;

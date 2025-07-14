@@ -11,7 +11,9 @@ import {
   AddEditEventForm,
   useGoogleEventStore,
   EventDetailsForm,
-  CalendarManager, type CalendarNames
+  CalendarManager,
+  type CalendarNames,
+  type ICalendarManager
 } from "@/entities/calendar";
 
 const { updateGoogleEvent } = useGoogleEventStore();
@@ -24,7 +26,7 @@ import ModalComponent from "@/shared/ui/modal";
 import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import LoaderComponent from "@/features/loader";
 
-const calendar = ref<CalendarManager>(new CalendarManager());
+const calendar = ref<ICalendarManager>(new CalendarManager());
 const dialog = ref<DialogEventsType>('none');
 const events = ref<CalendarEventType[] | null>();
 const vuecalRef = ref<InstanceType<typeof VueCal> | null>(null);
@@ -132,7 +134,7 @@ onMounted( async () => {
 })
 
 
-watch(() => calendar.value._events, (newValue) => {
+watch(() => calendar.value.events, (newValue) => {
   if (newValue) {
     events.value = calendar.value.parseUserCalendarEvents(newValue, props.type) as CalendarEventType[];
   }

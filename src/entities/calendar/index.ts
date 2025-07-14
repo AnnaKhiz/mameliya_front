@@ -12,6 +12,7 @@ import type { TimeListValues } from "@/entities/calendar/types/TimeListValues.ts
 import type { EventStyleType } from "@/entities/calendar/types/EventStyleType.ts";
 import type { EventStylesListType } from "@/entities/calendar/types/EventStylesListType.ts";
 import type { CalendarNames } from "@/entities/calendar/types/CalendarNames.ts";
+import type { ICalendarManager } from "@/entities/calendar/interfaces/ICalendarManager.ts";
 
 import { EventIconEnums } from "@/entities/calendar/types/EventIconEnums.ts";
 import { CalendarManager } from "@/entities/calendar/model/CalendarManager.ts"
@@ -22,7 +23,8 @@ export {
   EventDetailsForm,
   useGoogleEventStore,
   EventIconEnums,
-  CalendarManager
+  CalendarManager,
+
 }
 
 export type {
@@ -33,5 +35,6 @@ export type {
   TimeListValues,
   EventStyleType,
   EventStylesListType,
-  CalendarNames
+  CalendarNames,
+  ICalendarManager
 }

@@ -17,7 +17,7 @@ const { t } = useI18n();
 const message = ref<string>('');
 const confirmDelete = ref<boolean>(false);
 const dialog = ref<DialogEventsType>('none');
-const errorInputStyle = ref<booelan>(false);
+const errorInputStyle = ref<boolean>(false);
 const sendMessage = async () => {
   if (!message.value) return errorInputStyle.value = true;
   const userMessage = generateMessageForAI('You', message.value);
@@ -82,7 +82,7 @@ const clearChat = () => {
 
     <AppButton
       icon
-      class="bg-brown-medium "
+      class="bg-brown-medium"
     >
       <template #icon>
         <PaperAirplaneIcon
