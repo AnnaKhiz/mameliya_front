@@ -74,6 +74,7 @@ export class CalendarManager {
   async handleGetEventsList(type: CalendarNames | 'all') {
     this.isLoading = true;
     const result = await this.googleStore?.googleCalendarEvents(type);
+
     this.isLoading = false;
     if (result) {
       this.events = result;

@@ -15,17 +15,9 @@ export const useGoogleEventStore = defineStore('googleEvents', () => {
     try {
       result = await fetchData('user/google/events/:type', 'GET', { type });
       isLoading.value = false;
-      if (type === 'all') {
-        filteredResult = result?.data?.events
-          .filter((event: Record<string, any>) => {
-            return event.calendarName
-              && (event.calendarName === 'beauty'
-                || event.calendarName === 'family'
-                || event.calendarName === 'general')
-          });
-      } else {
-        filteredResult = result?.data?.events;
-      }
+
+      filteredResult = result?.data?.events;
+
     } catch(error) {
       console.error('Error [CAL EVENTS]: ', error);
     }
