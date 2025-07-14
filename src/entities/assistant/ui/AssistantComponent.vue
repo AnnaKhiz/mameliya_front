@@ -17,8 +17,9 @@ const { t } = useI18n();
 const message = ref<string>('');
 const confirmDelete = ref<boolean>(false);
 const dialog = ref<DialogEventsType>('none');
-
+const errorInputStyle = ref<booelan>(false);
 const sendMessage = async () => {
+  if (!message.value) return errorInputStyle.value = true;
   const userMessage = generateMessageForAI('You', message.value);
   addNewMessage(userMessage);
   const assistantResponse = await sendMessageToAssistant(message.value);
@@ -76,6 +77,7 @@ const clearChat = () => {
       type="text"
       :placeholder="t('helper_ai.placeholder')"
       class="dark-mode w-full text-brown-dark"
+      :class="errorInputStyle ? 'error-style' : ''"
     />
 
     <AppButton
