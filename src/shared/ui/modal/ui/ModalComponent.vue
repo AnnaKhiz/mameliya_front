@@ -23,10 +23,10 @@ const closeDialog = () => {
         :class="full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : ''"
       >
         <div
-          class="bg-white p-5 rounded-md  h-auto flex flex-col items-center justify-start gap-4 text-brown-dark"
+          class="bg-white p-5 rounded-md flex flex-col items-center justify-start gap-4 text-brown-dark"
           :class="[
             props.width || 'w-2/6' ,
-            props.height || 'min-height-fit'
+            props.height || 'min-height-24'
           ]"
         >
           <div class="flex justify-center items-center w-full">
