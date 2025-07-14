@@ -10,6 +10,7 @@
 		"delete": "Delete",
 		"close": "Close",
 		"edit": "Edit",
+		"send": "Send",
 		"please_wait": "Please wait",
 		"successfully_sent": "Successfully sent",
 		"error": "Error",
@@ -226,6 +227,7 @@
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",
-		"modal_header": "Chat with AI assistant"
+		"modal_header": "Chat with AI assistant",
+		"placeholder": "Write a message..."
 	}
 }

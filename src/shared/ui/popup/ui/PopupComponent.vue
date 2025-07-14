@@ -30,7 +30,6 @@ const changeDialogState = (value: string) => {
         ]"
       >
         <div
-
           class="bg-brown-dark p-3 rounded-md flex flex-col items-center justify-start gap-4 text-white"
           :class="[
             props.width || 'w-2/6' ,
@@ -56,7 +55,7 @@ const changeDialogState = (value: string) => {
               class="w-9 cursor-pointer hover:bg-brown-medium rounded p-2 transition duration-500"
             />
           </div>
-          <slot v-if="!collapse" />
+          <slot v-if="!collapse" class="flex-grow h-full w-full"/>
         </div>
 
       </div>
