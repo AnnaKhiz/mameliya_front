@@ -6,8 +6,9 @@ import {
   CalendarComponent,
 } from "@/entities/calendar";
 const { t } = useI18n();
-import 'vue-cal/style';
-import { FAQCalendar } from "@/shared/ui/faq";
+import ModalComponent from "@/shared/ui/modal";
+import FAQCalendarInfo from "@/pages/faq/ui/FAQCalendarInfo.vue";
+import { AppButton } from "@/shared/ui/button";
 
 const dialog = ref<DialogEventsType>('none');
 const changeDialogState = (value: DialogEventsType) => {
@@ -27,24 +28,31 @@ const changeDialogState = (value: DialogEventsType) => {
       </div>
     </div>
 
-
     <!-- dialog instruction   -->
-    <FAQCalendar
-      v-if="dialog === 'instruction'"
+    <ModalComponent
+      :show="dialog === 'instruction'"
+      full
+      :title="t('mama.how_to_use')"
+      :width="'w-4/6'"
       @update:dialog-visibility="changeDialogState"
     >
-      <template #content>
-        <div class="flex flex-col justify-between items-start gap-2 mb-6">
-          <p>{{ t('mama.beauty_calendar_about') }}</p>
-          <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
-          <p>{{ t('mama.beauty_calendar_remind') }}</p>
-        </div>
-      </template>
-    </FAQCalendar>
-
+      <section class="w-full">
+        <FAQCalendarInfo
+          @update:dialog-visibility="changeDialogState"
+        >
+          <template #content>
+            <div class="flex flex-col justify-between items-start gap-2 mb-6">
+              <p>{{ t('mama.beauty_calendar_about') }}</p>
+              <p>{{ t('mama.beauty_calendar_what_inside') }}</p>
+              <p>{{ t('mama.beauty_calendar_remind') }}</p>
+            </div>
+          </template>
+        </FAQCalendarInfo>
+      </section>
+      <div class="flex justify-start items-center gap-2 w-full">
+        <AppButton :label="t('general.close')" @click="changeDialogState" />
+      </div>
+    </ModalComponent>
   </section>
 </template>
 
-<style scoped>
-
-</style>

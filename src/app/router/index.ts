@@ -205,6 +205,36 @@ const router = createRouter({
               meta: {
                 requiresAuth: true,
               }
+            },
+            {
+              path: 'faq',
+              name: 'user-faq',
+              redirect: { name: 'user-faq-general'},
+              props: true,
+              component: () => import('@/pages/faq/ui/FAQPage.vue'),
+              meta: {
+                requiresAuth: true,
+              },
+              children: [
+                {
+                  path: 'faq-general',
+                  name: 'user-faq-general',
+                  props: true,
+                  component: () => import('@/pages/faq/ui/FAQGeneral.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'faq-calendar',
+                  name: 'user-faq-calendar',
+                  props: true,
+                  component: () => import('@/pages/faq/ui/FAQCalendarPage.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                }
+              ]
             }
           ]
         },

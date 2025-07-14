@@ -203,8 +203,8 @@ const asideList = computed(():AsideMenuType[] => ([
     links: [
       {
         id: 1,
-        title: t('aside.faq.title'),
-        value: 'faq_calendar',
+        title: t('aside.faq.faq_calendar'),
+        value: 'faq-calendar',
       },
     ]
   }

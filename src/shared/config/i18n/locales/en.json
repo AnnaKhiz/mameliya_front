@@ -65,7 +65,8 @@
 			"schedule_rituals": "Schedule of rituals"
 		},
 		"faq": {
-			"title": "FAQ"
+			"title": "FAQ",
+			"faq_calendar": "How to use calendar?"
 		}
 	},
 	"notify": {
@@ -220,7 +221,16 @@
 			"instruction_6": "To change any information about an event, click on it once, then press the \"Edit\" button. In the window that opens, enter all the necessary details. You can change the \"Title,\" \"Description,\" \"Event Date,\" and \"Start and End Time.\" After making the desired changes, click the \"Save Changes\" button.",
 			"instruction_7": "To delete an event, click on it once and then press the \"Delete\" button.",
 			"date_can_not_be_smaller": "Event date can not be smaller than current",
-			"general_calendar_title": "General calendar (all events)"
+			"general_calendar_title": "General calendar (all events)",
+			"three_calendars": "The application has 3 calendars:",
+			"beauty_calendar": "A calendar for beauty procedures",
+			"beauty_calendar_description": "here you can create a schedule for self-care routines, appointments with a beautician, manicure or haircut sessions, or simply set reminders—like doing a facial massage before bed or applying a night cream.",
+			"family_calendar": "Family calendar",
+			"family_calendar_description": "a separate schedule for family events — birthdays, family celebrations or trips, important household tasks, or shopping reminders.",
+			"children_calendar": "Children’s calendar",
+			"children_calendar_description": "A separate calendar for keeping track of events related to children – schedules for clubs, courses, or extracurricular activities, taking vitamins or medications, doctor appointments, or other important reminders.",
+			"general_calendar": "General calendar",
+			"general_calendar_description": "This calendar will display all events from the Beauty Procedures calendar, the Family calendar, and the Children’s calendar, as well as any other events that don’t belong to these specific categories."
 		}
 	},
 	"family": {
