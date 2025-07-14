@@ -7,7 +7,6 @@ type Props = {
   thinStyle?: string;
   bordered?: string;
   icon?: boolean;
-  iconColor?: string;
 }
 const props = defineProps<Props>();
 
@@ -27,9 +26,5 @@ const props = defineProps<Props>();
   >
     {{ props.label }}
   </button>
-  <PaperAirplaneIcon
-    v-else
-    class="w-12 cursor-pointer outline-none -rotate-90 "
-    :class="iconColor ? iconColor : 'fill-white hover:fill-brown-medium'"
-  />
+  <slot v-else name="icon" />
 </template>

@@ -18,6 +18,8 @@ import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 import {AssistantComponent} from "@/entities/assistant";
 import {PopupComponent, type PopupDialogsType} from "@/shared/ui/popup";
+import {useAssistantStore} from "@/entities/assistant/model/useAssistantStore.ts";
+const { removeChatHistory } = useAssistantStore();
 const { user } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
 
@@ -42,7 +44,13 @@ const changeDialogState = (value: HeaderDialogsType) => {
   dialog.value = value;
 }
 const changePopupState = (value: PopupDialogsType) => {
-  popup.value = value;
+  if (value === 'none') {
+    popup.value = value;
+    removeChatHistory();
+  } else {
+    popup.value = value;
+  }
+
 }
 
 const openGeneralCalendar = async () => {

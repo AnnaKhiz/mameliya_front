@@ -11,6 +11,8 @@
 		"close": "Close",
 		"edit": "Edit",
 		"send": "Send",
+		"confirm": "Confirm",
+		"cancel": "Cancel",
 		"please_wait": "Please wait",
 		"successfully_sent": "Successfully sent",
 		"error": "Error",
@@ -73,7 +75,9 @@
 		"user_with_email_exist": "User with such email is already exist",
 		"register_successful": "Sign up is successful",
 		"wrong_email_or_password": "Wrong email or password",
-		"updates_not_saved": "Updates not saved"
+		"updates_not_saved": "Updates not saved",
+		"confirm_delete": "Delete confirmation",
+		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!"
 	},
 	"validation": {
 		"wrong_email_format": "Wrong email format",

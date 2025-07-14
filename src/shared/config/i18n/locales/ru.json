@@ -11,6 +11,8 @@
 		"send": "Отправить",
 		"delete": "Удалить",
 		"edit": "Изменить",
+		"confirm": "Подтвердить",
+		"cancel": "Отменить",
 		"please_wait": "Пожалуйста подождите",
 		"successfully_sent": "Успешно отправлено",
 		"error": "Ошибка",
@@ -73,7 +75,9 @@
 		"user_with_email_exist": "Пользователь с таким email уже существует",
 		"register_successful": "Регистрация прошла успешно",
 		"wrong_email_or_password": "Неправильный email или пароль",
-		"updates_not_saved": "Данные не сохранены"
+		"updates_not_saved": "Данные не сохранены",
+		"confirm_delete": "Подтверждение удаления",
+		"confirm_clear_dialog": "Ты уверена, что хочешь открыть новый чат и очистить текущий? История чата не сохранится!"
 	},
 	"validation": {
 		"wrong_email_format": "Неправильный формат email",
