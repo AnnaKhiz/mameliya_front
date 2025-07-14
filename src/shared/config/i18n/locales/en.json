@@ -223,5 +223,9 @@
 		"family_calendar": "Family calendar",
 		"family_calendar_about": "Family Calendar is a shared calendar for planning and tracking family events such as birthdays, holidays, gatherings, trips, and important dates.",
 		"family_calendar_what_inside": "It helps the whole family stay informed about upcoming events and coordinate plans together."
+	},
+	"helper_ai": {
+		"tooltip": "AI assistant",
+		"modal_header": "Chat with AI assistant"
 	}
 }

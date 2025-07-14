@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
-import { CalendarDaysIcon, ChartPieIcon } from "@heroicons/vue/16/solid";
+import { CalendarDaysIcon, ChartPieIcon, ChatBubbleLeftRightIcon } from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
 import {BurgerButton, BurgerContent} from "@/features/burger";
 import {AppButton} from "@/shared/ui/button";
@@ -16,6 +16,8 @@ import { useMamaStore} from "@/entities/mama";
 import {CalendarComponent} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
+import {AssistantComponent} from "@/entities/assistant";
+import {PopupComponent, type PopupDialogsType} from "@/shared/ui/popup";
 const { user } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
 
@@ -24,6 +26,7 @@ const router = useRouter();
 const route = useRoute();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
+const popup = ref<PopupDialogsType>('none');
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -38,11 +41,19 @@ const handleLogOut = async () => {
 const changeDialogState = (value: HeaderDialogsType) => {
   dialog.value = value;
 }
+const changePopupState = (value: PopupDialogsType) => {
+  popup.value = value;
+}
 
 const openGeneralCalendar = async () => {
   changeDialogState('calendar');
 }
-console.log(route.query)
+
+const openAIChat = async () => {
+  changePopupState('ai-chat');
+}
+
+
 watch(() => route.query, (newValue) => {
   if (newValue.modal === 'success') {
     changeDialogState('calendar');
@@ -72,11 +83,17 @@ watch(() => route.query, (newValue) => {
         </MoodPanelLayout>
         <CalendarDaysIcon
           v-if="user"
-          class="fill-brown-dark w-7 cursor-pointer outline-none"
-          @click="openGeneralCalendar"
           v-tooltip="t('mama.calendar.general_calendar_title')"
+          @click="openGeneralCalendar"
+          class="fill-brown-dark w-7 cursor-pointer outline-none"
         />
         <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer"/>
+        <ChatBubbleLeftRightIcon
+          v-if="user"
+          v-tooltip="t('helper_ai.tooltip')"
+          @click="openAIChat"
+          class="fill-brown-dark w-7 cursor-pointer outline-none"
+        />
         <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>
         <LanguageDropdown />
@@ -92,17 +109,31 @@ watch(() => route.query, (newValue) => {
     </template>
   </HeaderLayout>
 
-  <!-- dialog notify  -->
+  <!-- dialog all calendar events  -->
   <ModalComponent
-    v-if="dialog === 'calendar'"
+    :show="dialog === 'calendar'"
     full
     :width="!user?.google_refresh ? 'w-fit' : 'w-4/6'"
     :height="!user?.google_refresh ? 'h-5/6' : 'min-h-72 h-5/6'"
     :title="t('mama.calendar.general_calendar_title')"
-    @update:dialog-visibility="dialog = $event"
+    @update:dialog-visibility="changeDialogState($event)"
   >
     <template #default>
       <CalendarComponent :type="'all'" />
     </template>
   </ModalComponent>
+
+  <!-- dialog ai chat  -->
+  <PopupComponent
+    :show="popup === 'ai-chat' || popup === 'collapse'"
+    :collapse="popup === 'collapse'"
+    :width="'w-full'"
+    :height="'min-h-96'"
+    :title="t('helper_ai.modal_header')"
+    @update:dialog-visibility="changePopupState($event)"
+  >
+    <template #default>
+      <AssistantComponent />
+    </template>
+  </PopupComponent>
 </template>
