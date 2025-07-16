@@ -7,7 +7,7 @@ import {
 } from "@/entities/calendar";
 const { t } = useI18n();
 import ModalComponent from "@/shared/ui/modal";
-import FAQCalendarInfo from "@/pages/faq/ui/FAQCalendarInfo.vue";
+import FAQCalendarInfo from "../../faq/ui/FAQCalendarInfo.vue";
 import { AppButton } from "@/shared/ui/button";
 
 const dialog = ref<DialogEventsType>('none');

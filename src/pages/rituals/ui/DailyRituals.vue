@@ -7,6 +7,7 @@ const { t } = useI18n();
 <template>
   <div>
     <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.daily_rituals') }}:</h2>
+
   </div>
 </template>
 

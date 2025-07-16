@@ -22,10 +22,8 @@
 		"mama": {
 			"title": "Мама",
 			"self_feeling": "Самоощущение",
-			"daily_rituals": "Ежедневные ритуалы",
-			"personal_notes": "Личные заметки",
-			"timer": "Время для себя",
-			"beauty_calendar": "Календарь процедур красоты"
+			"diary": "Дневник",
+			"timer": "Время для себя"
 		},
 		"family": {
 			"title": "Семья",
@@ -53,16 +51,13 @@
 		},
 		"mental_health": {
 			"title": "Ментальное здоровье",
-			"diary": "Дневник",
 			"meditations": "Медитации",
 			"favorite_books": "Любимые книги"
 		},
 		"rituals": {
 			"title": "Ритуалы красоты",
-			"massage": "Массаж",
-			"cosmetology": "Косметолог",
-			"manicure": "Уход за ногтями",
-			"schedule_rituals": "График ритуалов"
+			"daily_rituals": "Ежедневные ритуалы",
+			"beauty_calendar": "Календарь процедур красоты"
 		},
 		"faq": {
 			"title": "FAQ",
