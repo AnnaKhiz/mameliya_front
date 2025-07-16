@@ -20,7 +20,7 @@ const changeDialogState = (value: DialogEventsType) => {
 <template>
   <div class="w-full h-full grow-1">
     <div class="flex justify-between items-start">
-      <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('family.family_calendar') }}:</h2>
+      <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('aside.children.children_calendar') }}:</h2>
       <p
         class="cursor-pointer font-semibold underline hover:text-brown-medium"
         @click="changeDialogState('instruction')"
@@ -29,7 +29,7 @@ const changeDialogState = (value: DialogEventsType) => {
       </p>
     </div>
 
-    <CalendarComponent :type="'family'"  />
+    <CalendarComponent :type="'children'"  />
   </div>
 
   <!-- dialog instruction   -->
@@ -46,8 +46,8 @@ const changeDialogState = (value: DialogEventsType) => {
       >
         <template #content>
           <div class="flex flex-col justify-between items-start gap-2 mb-6">
-            <p>{{ t('family.family_calendar_about') }}</p>
-            <p>{{ t('family.family_calendar_what_inside') }}</p>
+            <p>{{ t('children.children_calendar_about') }}</p>
+            <p>{{ t('children.children_calendar_what_inside') }}</p>
           </div>
         </template>
       </FAQCalendarInfo>

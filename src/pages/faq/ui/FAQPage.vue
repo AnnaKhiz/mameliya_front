@@ -1,7 +1,7 @@
 
 <template>
   <div class="h-full w-full overflow-hidden p-5 relative text-brown-dark ">
-    <div class="w-full grow-1">
+    <div class="w-full h-full grow-1">
       <router-view />
     </div>
   </div>
