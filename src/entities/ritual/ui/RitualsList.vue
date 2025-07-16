@@ -18,6 +18,7 @@ import imageNailsCare from "@/shared/assets/images/nails_care.webp";
 
 import { computed, ref } from "vue";
 import { RitualItem } from "@/entities/ritual";
+import router from "@/app/router";
 
 type Props = {
   menu: boolean;
@@ -31,6 +32,7 @@ const onToggleHover = (value: RitualSectionType) => {
 }
 const goToPage = (value: RitualSectionType) => {
   emits('update:checkedMenu', value);
+  router.push({ name: value})
 }
 
 const dailyRitualsList = computed(():RitualType[] => (
@@ -106,6 +108,7 @@ const dailyRitualsList = computed(():RitualType[] => (
       <RitualItem v-if="menu" :item="item" :hovered="hovered" :menu="menu" />
       <RitualItemText v-else :item="item" :checked-menu="checkedMenu" />
     </div>
+
   </main>
 </template>
 

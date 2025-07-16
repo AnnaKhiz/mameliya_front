@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 import {ref} from "vue";
 
 import {ChevronLeftIcon} from "@heroicons/vue/16/solid";
+import router from "@/app/router";
 const { t } = useI18n();
 
 const checkedMenu = ref<RitualSectionType>('none');
@@ -12,13 +13,18 @@ const handleCheckedMenu = (value: RitualSectionType) => {
   checkedMenu.value = value;
 }
 
+const goBack = () => {
+  handleCheckedMenu('none');
+  router.push({ name: 'user-daily_rituals'});
+}
+
 </script>
 
 <template>
-  <div class="flex items-center justify-between w-full">
+  <div class="flex items-center justify-between w-full mb-5">
     <ChevronLeftIcon
       v-if="checkedMenu !== 'none'"
-      @click="checkedMenu = 'none'"
+      @click="goBack"
       class="w-8 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
       v-tooltip="t('general.back')"
     />
@@ -29,5 +35,6 @@ const handleCheckedMenu = (value: RitualSectionType) => {
     />
   </div>
 
+  <router-view v-if="checkedMenu !== 'none'" />
 </template>
 
