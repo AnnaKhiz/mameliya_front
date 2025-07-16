@@ -1,4 +1,4 @@
-import type { RitualSectionType } from "@/pages/rituals";
+import type { RitualSectionType } from "@/entities/ritual";
 
 export type RitualType = {
   id: number;
