@@ -114,10 +114,7 @@ watch(() => ritualsList.value, (newValue) => {
 }, { deep: true })
 const submitForm = async () => {
   console.log(newRitualForm);
-  await addNewRitual({
-    section: newRitualForm.value.section_key,
-    body: newRitualForm.value
-  })
+  await addNewRitual(newRitualForm.value)
 }
 </script>
 
