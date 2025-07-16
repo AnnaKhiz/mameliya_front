@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RitualSectionType, RitualType} from "@/entities/ritual";
+import type { RitualSectionType, RitualType } from "@/entities/ritual";
 
 type Props = {
   item: RitualType,

@@ -2,9 +2,10 @@
 import {useI18n} from "vue-i18n";
 const { t } = useI18n();
 
-import type {
-  RitualSectionType,
-  RitualType
+import {
+  RitualItemText,
+  type RitualSectionType,
+  type RitualType
 } from "@/entities/ritual";
 
 import imageMorningRituals from "@/shared/assets/images/morning_rituals.webp";
@@ -16,17 +17,20 @@ import imageBodyCare from "@/shared/assets/images/body_care.webp";
 import imageNailsCare from "@/shared/assets/images/nails_care.webp";
 
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
 import { RitualItem } from "@/entities/ritual";
 
+type Props = {
+  menu: boolean;
+  checkedMenu: RitualSectionType;
+}
+defineProps<Props>();
+const emits = defineEmits(['update:checkedMenu']);
 const hovered = ref<RitualSectionType>('none');
-const router = useRouter();
-
 const onToggleHover = (value: RitualSectionType) => {
   hovered.value = value;
 }
 const goToPage = (value: RitualSectionType) => {
-  router.push({ name: `user-${value}`})
+  emits('update:checkedMenu', value);
 }
 
 const dailyRitualsList = computed(():RitualType[] => (
@@ -85,7 +89,12 @@ const dailyRitualsList = computed(():RitualType[] => (
 </script>
 
 <template>
-  <main class="flex-1 self-stretch grid grid-cols-12 gap-1 grid-rows-4 max-h-screen">
+  <main
+    class="flex-1"
+    :class="menu
+        ? 'grid grid-cols-12 gap-1 grid-rows-4 max-h-screen self-stretch'
+        : 'flex items-center justify-end'"
+  >
     <div
       v-for="item in dailyRitualsList"
       :key="item.id+item.value"
@@ -94,7 +103,8 @@ const dailyRitualsList = computed(():RitualType[] => (
       @click="goToPage(item.value)"
       :class="item.gridTemplate"
     >
-      <RitualItem :item="item" :hovered="hovered" />
+      <RitualItem v-if="menu" :item="item" :hovered="hovered" :menu="menu" />
+      <RitualItemText v-else :item="item" :checked-menu="checkedMenu" />
     </div>
   </main>
 </template>
