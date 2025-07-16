@@ -3,6 +3,8 @@ import {computed, ref, watch} from 'vue';
 import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon} from "@heroicons/vue/16/solid";
 import {AppTextarea} from "@/shared/ui/form";
 import {AppButton} from "@/shared/ui/button";
+import{ useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
+const { addNewRitual } = useRitualStore()
 
 const isChecked = ref<boolean>(false);
 const isAddNewForm = ref<boolean>(false);
@@ -99,8 +101,9 @@ const handleCheck = (index: number) => {
 const saveToMyRituals = () => {
 
 }
-const addNewRitual = () => {
+const openAddRitualForm = () => {
   isAddNewForm.value = !isAddNewForm.value;
+
 }
 
 watch(() => ritualsList.value, (newValue) => {
@@ -109,6 +112,13 @@ watch(() => ritualsList.value, (newValue) => {
     checkedFavorites.value = newValue.filter(e => e.checked);
   }
 }, { deep: true })
+const submitForm = async () => {
+  console.log(newRitualForm);
+  await addNewRitual({
+    section: newRitualForm.value.section_key,
+    body: newRitualForm.value
+  })
+}
 </script>
 
 <template>
@@ -117,7 +127,7 @@ watch(() => ritualsList.value, (newValue) => {
       <div class="mb-2 flex items-center justify-between gap-1">
         <PlusCircleIcon
           class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-          @click="addNewRitual"
+          @click="openAddRitualForm"
           v-tooltip="'Add new ritual'"
         />
         <div class="mb-2 flex items-center justify-end gap-1">
@@ -166,7 +176,7 @@ watch(() => ritualsList.value, (newValue) => {
       <code>Fav: {{ checkedFavorites}}</code>
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
-      <form v-else action="" class="flex flex-col gap-3">
+      <form v-else action="" class="flex flex-col gap-3" @submit.prevent="submitForm">
         <div>
           <h2 class="mb-2">Title</h2>
           <input v-model="newRitualForm.title" type="text" placeholder="Add title">
@@ -182,7 +192,7 @@ watch(() => ritualsList.value, (newValue) => {
           <h2 class="mb-2">Description</h2>
           <AppTextarea v-model="newRitualForm.description" is-reset="" message="" placeholder-text="Add description" />
         </div>
-        <AppButton label="Save" class="w-fit" />
+        <AppButton label="Save" class="w-fit"/>
       </form>
       <code>{{ newRitualForm}}</code>
     </div>
