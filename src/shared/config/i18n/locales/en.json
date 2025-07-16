@@ -237,6 +237,15 @@
 		"children_calendar_about": "A children's calendar is a calendar where you can keep track of all events related to your kids — such as schedules for extracurricular activities or tutoring sessions, a timetable for taking vitamins or medications, friends' birthdays, and other important tasks that are easy to forget in the daily routine.",
 		"children_calendar_what_inside": "The calendar will help you plan events related to your children. To avoid scheduling conflicts, make sure to check the shared events calendar in the top panel of the website."
 	},
+	"rituals": {
+		"morning_rituals": "Morning rituals",
+		"evening_rituals": "Evening rituals",
+		"face_care": "Face care",
+		"hair_care": "Hair care",
+		"body_care": "Body care",
+		"nails_care": "Nails care",
+		"my_rituals": "My rituals"
+	},
 	"helper_ai": {
 		"tooltip": "AI assistant",
 		"modal_header": "Chat with AI assistant",
