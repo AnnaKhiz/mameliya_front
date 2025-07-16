@@ -45,7 +45,7 @@
 		},
 		"daily_routine": {
 			"title": "Daily routine",
-			"daily_tasks": "Daily tasks",
+			"children_calendar": "Children calendar",
 			"weekly_tasks": "Weekly tasks",
 			"recurring_tasks": "Recurring tasks",
 			"priority_tasks": "Priority tasks",

@@ -51,11 +51,11 @@ const asideList = computed(():AsideMenuType[] => ([
     value: 'family',
     listHidden: true,
     links: [
-      // {
-      //   id: 1,
-      //   title: t('aside.family.family_events'),
-      //   value: 'events',
-      // },
+      {
+        id: 1,
+        title: t('aside.family.family_calendar'),
+        value: 'family_calendar',
+      },
       {
         id: 2,
         title: t('aside.family.plans'),
@@ -71,11 +71,6 @@ const asideList = computed(():AsideMenuType[] => ([
         title: t('aside.family.chores'),
         value: 'family_chores',
       },
-      {
-        id: 5,
-        title: t('aside.family.family_calendar'),
-        value: 'family_calendar',
-      },
     ]
   },
   {
@@ -86,18 +81,18 @@ const asideList = computed(():AsideMenuType[] => ([
     links: [
       {
         id: 1,
-        title: t('aside.children.daily_routine'),
-        value: 'daily_routine',
+        title: t('aside.children.children_calendar'),
+        value: 'children_calendar',
       },
       {
         id: 2,
         title: t('aside.children.activities'),
-        value: 'activities',
+        value: 'children_activities',
       },
       {
         id: 3,
         title: t('aside.children.health'),
-        value: 'health',
+        value: 'children_health',
       },
       {
         id: 4,

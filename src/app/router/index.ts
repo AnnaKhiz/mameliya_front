@@ -125,13 +125,22 @@ const router = createRouter({
             {
               path: 'family',
               name: 'user-family',
-              redirect: { name: 'user-family_plans'},
+              redirect: { name: 'user-family_calendar'},
               props: true,
               component: () => import('@/pages/family'),
               meta: {
                 requiresAuth: true,
               },
               children: [
+                {
+                  path: 'family_calendar',
+                  name: 'user-family_calendar',
+                  props: true,
+                  component: () => import('@/pages/family/ui/FamilyCalendar.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
                 {
                   path: 'plans',
                   name: 'user-family_plans',
@@ -159,25 +168,64 @@ const router = createRouter({
                     requiresAuth: true,
                   },
                 },
-                {
-                  path: 'family_calendar',
-                  name: 'user-family_calendar',
-                  props: true,
-                  component: () => import('@/pages/family/ui/FamilyCalendar.vue'),
-                  meta: {
-                    requiresAuth: true,
-                  },
-                }
               ]
             },
             {
               path: 'children',
               name: 'user-children',
               props: true,
+              redirect: { name: 'user-children_calendar'},
               component: () => import('@/pages/children'),
               meta: {
                 requiresAuth: true,
               },
+              children: [
+                {
+                  path: 'children_calendar',
+                  name: 'user-children_calendar',
+                  props: true,
+                  component: () => import('@/pages/children/ui/ChildrenCalendar.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'children_activities',
+                  name: 'user-children_activities',
+                  props: true,
+                  component: () => import('@/pages/children/ui/ChildrenActivities.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'children_health',
+                  name: 'user-children_health',
+                  props: true,
+                  component: () => import('@/pages/children/ui/ChildrenHealth.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'baby_diary',
+                  name: 'user-baby_diary',
+                  props: true,
+                  component: () => import('@/pages/children/ui/BabyDiary.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'children_notes',
+                  name: 'user-children_notes',
+                  props: true,
+                  component: () => import('@/pages/children/ui/ChildrenNotes.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+              ]
             },
             {
               path: 'mental-health',
