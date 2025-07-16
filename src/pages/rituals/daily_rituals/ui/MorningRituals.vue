@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon} from "@heroicons/vue/16/solid";
+import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon} from "@heroicons/vue/16/solid";
+import {AppTextarea} from "@/shared/ui/form";
+import {AppButton} from "@/shared/ui/button";
 
 const isChecked = ref<boolean>(false);
+const isAddNewForm = ref<boolean>(false);
 const description = ref<string>('');
 const ritualsList = ref([
   {
@@ -26,7 +29,11 @@ const ritualsList = ref([
     description: 'Description 3',
     checked: false,
   }
-])
+]);
+const newRitualForm = ref<{ title: string; description: string}>({
+  title: '',
+  description: ''
+});
 
 const checkedFavorites = ref([{}])
 const toggleIsChecked = () => {
@@ -47,6 +54,7 @@ const toggleIsCheckedMultiple = () => {
 
 
 const openDescription = (index: number) => {
+  isAddNewForm.value = false;
   description.value = ritualsList.value[index].description;
 }
 
@@ -58,6 +66,9 @@ const handleCheck = (index: number) => {
 }
 const saveToMyRituals = () => {
 
+}
+const addNewRitual = () => {
+  isAddNewForm.value = !isAddNewForm.value;
 }
 
 watch(() => ritualsList.value, (newValue) => {
@@ -71,25 +82,32 @@ watch(() => ritualsList.value, (newValue) => {
 <template>
   <div class="border border-brown-medium w-full h-full grid grid-cols-12">
     <div class="border border-brown-medium col-span-3 p-2">
-      <div class="mb-2 flex items-center justify-end gap-1">
-        <ChevronDoubleUpIcon
-          @click="toggleIsChecked"
-          :class="isChecked ? 'rotate-180' : ''"
-          class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:rounded hover:cursor-pointer hover:bg-brown-light/40 transition duration-500"
-          v-tooltip="'Show checkboxes'"
-        />
-        <CheckCircleIcon
-          class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-          @click="toggleIsCheckedMultiple"
-          v-tooltip="'Check all'"
-        />
-        <StarIcon
-          v-if="anyChecked"
-          class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-          @click="saveToMyRituals"
-          v-tooltip="'Add to My rituals'"
-        />
-      </div>
+<!--      <div class="mb-2 flex items-center justify-between gap-1">-->
+<!--        <PlusCircleIcon-->
+<!--          class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"-->
+<!--          @click="addNewRitual"-->
+<!--          v-tooltip="'Add new ritual'"-->
+<!--        />-->
+        <div class="mb-2 flex items-center justify-end gap-1">
+          <ChevronDoubleUpIcon
+            @click="toggleIsChecked"
+            :class="isChecked ? 'rotate-180' : ''"
+            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:rounded hover:cursor-pointer hover:bg-brown-light/40 transition duration-500"
+            v-tooltip="'Show checkboxes'"
+          />
+          <CheckCircleIcon
+            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+            @click="toggleIsCheckedMultiple"
+            v-tooltip="'Check all'"
+          />
+          <StarIcon
+            v-if="anyChecked"
+            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+            @click="saveToMyRituals"
+            v-tooltip="'Add to My rituals'"
+          />
+        </div>
+<!--      </div>-->
       <div v-for="(item, index) in ritualsList" :key="item.id" >
         <label
           v-if="isChecked"
@@ -113,8 +131,21 @@ watch(() => ritualsList.value, (newValue) => {
 
     </div>
     <div class=" border border-brown-medium col-span-9 p-2">
-      <p>{{ description }}</p>
       <code>Fav: {{ checkedFavorites}}</code>
+      <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
+
+<!--      <form v-else action="" class="flex flex-col gap-3">-->
+<!--        <div>-->
+<!--          <h2 class="mb-2">Title</h2>-->
+<!--          <input v-model="newRitualForm.title" type="text" placeholder="Add title">-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <h2 class="mb-2">Description</h2>-->
+<!--          <AppTextarea v-model="newRitualForm.description" is-reset="" message="" placeholder-text="Add description" />-->
+<!--        </div>-->
+<!--        <AppButton label="Save" class="w-fit" />-->
+<!--      </form>-->
+      <code>{{ newRitualForm}}</code>
     </div>
   </div>
 </template>
