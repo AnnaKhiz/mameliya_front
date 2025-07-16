@@ -1,1 +1,1 @@
-export type CalendarNames = 'beauty' | 'family' | 'general';
+export type CalendarNames = 'beauty' | 'family' | 'children' | 'general';

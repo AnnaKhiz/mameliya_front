@@ -37,7 +37,7 @@
 		},
 		"children": {
 			"title": "Children",
-			"daily_routine": "Daily routine, schedule",
+			"children_calendar": "Children calendar",
 			"activities": "Activities",
 			"health": "Health, medicines, vitamins",
 			"baby_diary": "Baby diary",
@@ -237,6 +237,10 @@
 		"family_calendar": "Family calendar",
 		"family_calendar_about": "Family Calendar is a shared calendar for planning and tracking family events such as birthdays, holidays, gatherings, trips, and important dates.",
 		"family_calendar_what_inside": "It helps the whole family stay informed about upcoming events and coordinate plans together."
+	},
+	"children": {
+		"children_calendar_about": "A children's calendar is a calendar where you can keep track of all events related to your kids — such as schedules for extracurricular activities or tutoring sessions, a timetable for taking vitamins or medications, friends' birthdays, and other important tasks that are easy to forget in the daily routine.",
+		"children_calendar_what_inside": "The calendar will help you plan events related to your children. To avoid scheduling conflicts, make sure to check the shared events calendar in the top panel of the website."
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

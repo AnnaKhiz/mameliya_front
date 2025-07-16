@@ -30,6 +30,11 @@ export class CalendarManager {
         backgroundColor: '#e8bba8',
         color: '#523629',
       },
+      children: {
+        content: EventIconEnums.CHILDREN,
+        backgroundColor: '#b0ffdb',
+        color: '#523629',
+      },
       general: {
         content: EventIconEnums.GENERAL,
         backgroundColor: '#95d0fc',
