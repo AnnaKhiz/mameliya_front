@@ -13,6 +13,7 @@
 		"send": "Send",
 		"confirm": "Confirm",
 		"cancel": "Cancel",
+		"back": "Back",
 		"please_wait": "Please wait",
 		"successfully_sent": "Successfully sent",
 		"error": "Error",
@@ -22,10 +23,8 @@
 		"mama": {
 			"title": "Mother",
 			"self_feeling": "Self-feeling",
-			"daily_rituals": "Daily rituals",
-			"personal_notes": "Personal notes",
-			"timer": "Time for myself",
-			"beauty_calendar": "Beauty procedures calendar"
+			"diary": "Diary",
+			"timer": "Time for myself"
 		},
 		"family": {
 			"title": "Family",
@@ -53,16 +52,13 @@
 		},
 		"mental_health": {
 			"title": "Mental health",
-			"diary": "Diary",
 			"meditations": "Meditations",
 			"favorite_books": "Favorite books"
 		},
 		"rituals": {
 			"title": "Beauty rituals",
-			"massage": "Massage",
-			"cosmetology": "Cosmetology",
-			"manicure": "Nail care",
-			"schedule_rituals": "Schedule of rituals"
+			"daily_rituals": "Daily rituals",
+			"beauty_calendar": "Beauty procedures calendar"
 		},
 		"faq": {
 			"title": "FAQ",
@@ -241,6 +237,15 @@
 	"children": {
 		"children_calendar_about": "A children's calendar is a calendar where you can keep track of all events related to your kids — such as schedules for extracurricular activities or tutoring sessions, a timetable for taking vitamins or medications, friends' birthdays, and other important tasks that are easy to forget in the daily routine.",
 		"children_calendar_what_inside": "The calendar will help you plan events related to your children. To avoid scheduling conflicts, make sure to check the shared events calendar in the top panel of the website."
+	},
+	"rituals": {
+		"morning_rituals": "Morning rituals",
+		"evening_rituals": "Evening rituals",
+		"face_care": "Face care",
+		"hair_care": "Hair care",
+		"body_care": "Body care",
+		"nails_care": "Nails care",
+		"my_rituals": "My rituals"
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

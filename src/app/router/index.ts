@@ -103,19 +103,10 @@ const router = createRouter({
                   },
                 },
                 {
-                  path: 'beauty_calendar',
-                  name: 'user-beauty_calendar',
+                  path: 'diary',
+                  name: 'user-diary',
                   props: true,
-                  component: () => import('@/pages/mama/ui/CalendarBeauty.vue'),
-                  meta: {
-                    requiresAuth: true,
-                  },
-                },
-                {
-                  path: 'daily_rituals',
-                  name: 'user-daily_rituals',
-                  props: true,
-                  component: () => import('@/pages/mama/ui/DailyRituals.vue'),
+                  component: () => import('@/pages/mama/ui/DiaryComponent.vue'),
                   meta: {
                     requiresAuth: true,
                   },
@@ -239,11 +230,97 @@ const router = createRouter({
             {
               path: 'rituals',
               name: 'user-rituals',
+              redirect: { name: 'user-beauty_calendar' },
               props: true,
               component: () => import('@/pages/rituals/ui/RitualsPage.vue'),
               meta: {
                 requiresAuth: true,
-              }
+              },
+              children: [
+                {
+                  path: 'beauty_calendar',
+                  name: 'user-beauty_calendar',
+                  props: true,
+                  component: () => import('@/pages/rituals/ui/CalendarBeauty.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                },
+                {
+                  path: 'daily_rituals',
+                  name: 'user-daily_rituals',
+                  props: true,
+                  component: () => import('@/pages/rituals/daily_rituals/ui/DailyRituals.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
+                  children: [
+                    {
+                      path: 'morning_rituals',
+                      name: 'morning_rituals',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/MorningRituals.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'evening_rituals',
+                      name: 'evening_rituals',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/EveningRituals.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'face_care',
+                      name: 'face_care',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/FaceCare.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'my_rituals',
+                      name: 'my_rituals',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/MyRituals.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'hair_care',
+                      name: 'hair_care',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/HairCare.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'body_care',
+                      name: 'body_care',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/BodyCare.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    },
+                    {
+                      path: 'nails_care',
+                      name: 'nails_care',
+                      props: true,
+                      component: () => import('@/pages/rituals/daily_rituals/ui/NailsCare.vue'),
+                      meta: {
+                        requiresAuth: true,
+                      },
+                    }
+                  ]
+                }
+              ]
             },
             {
               path: 'daily-routine',

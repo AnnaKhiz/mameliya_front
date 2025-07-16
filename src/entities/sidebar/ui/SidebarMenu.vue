@@ -30,18 +30,13 @@ const asideList = computed(():AsideMenuType[] => ([
       },
       {
         id: 2,
-        title: t('aside.mama.daily_rituals'),
-        value: 'daily_rituals',
-      },
-      {
-        id: 3,
         title: t('aside.mama.timer'),
         value: 'timer',
       },
       {
-        id: 4,
-        title:  t('aside.mama.beauty_calendar'),
-        value: 'beauty_calendar',
+        id: 3,
+        title: t('aside.mama.diary'),
+        value: 'diary',
       },
     ]
   },
@@ -112,11 +107,7 @@ const asideList = computed(():AsideMenuType[] => ([
     value: 'mental_health',
     listHidden: true,
     links: [
-      {
-        id: 1,
-        title: t('aside.mental_health.diary'),
-        value: 'diary',
-      },
+
       {
         id: 2,
         title: t('aside.mental_health.meditations'),
@@ -137,24 +128,14 @@ const asideList = computed(():AsideMenuType[] => ([
     links: [
       {
         id: 1,
-        title: t('aside.rituals.massage'),
-        value: 'massage',
+        title:  t('aside.rituals.beauty_calendar'),
+        value: 'beauty_calendar',
       },
       {
         id: 2,
-        title: t('aside.rituals.cosmetology'),
-        value: 'cosmetology',
+        title: t('aside.rituals.daily_rituals'),
+        value: 'daily_rituals',
       },
-      {
-        id: 3,
-        title: t('aside.rituals.manicure'),
-        value: 'manicure',
-      },
-      {
-        id: 4,
-        title: t('aside.rituals.schedule_rituals'),
-        value: 'schedule_rituals',
-      }
     ]
   },
   {
