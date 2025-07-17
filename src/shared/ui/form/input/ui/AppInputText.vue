@@ -1,6 +1,6 @@
 <script setup lang="ts">
 type Props = {
-  title: string;
+  title?: string;
   placeholder?: string;
   error?: boolean;
 }

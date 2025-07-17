@@ -12,7 +12,7 @@ import {
   sectionsList,
   type NewRitualFormType
 } from "@/entities/ritual";
-import {AppInputText} from "@/shared/ui/form";
+import {AppInputText, AppSelect} from "@/shared/ui/form";
 
 const { t } = useI18n();
 const { addNewRitual } = useRitualStore()
@@ -122,18 +122,13 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
         :error="isError && !newRitualForm.title"
       />
       <div>
-        <div >
-          <h2 class="mb-1">Select section</h2>
-          <select
-            v-model="newRitualForm.section_key"
-            multiple
-            class="w-full dark-mode"
-            :class="isError && !newRitualForm.section_key.length ? 'error-style' : ''"
-          >
-            <option disabled value="">Select ritual section...</option>
-            <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
-          </select>
-        </div>
+        <AppSelect
+          v-model="newRitualForm.section_key"
+          title="Select section"
+          disabled-field="Select ritual section"
+          :list="sectionsList"
+          :error="isError && !newRitualForm.section_key.length"
+        />
       </div>
       <div>
         <h2 class="mb-1">Add recommended cosmetic</h2>
