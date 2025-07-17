@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import type {RitualDetailsItemType} from "@/entities/ritual";
+import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
+import {storeToRefs} from "pinia";
+const { openDescription, handleCheck } = useRitualStore();
+const { checkedFavorites } = storeToRefs(useRitualStore());
+
 
 type Props = {
   item: RitualDetailsItemType;
@@ -7,34 +12,23 @@ type Props = {
 }
 
 defineProps<Props>();
-const emits = defineEmits([
-  'update:openDescription',
-  'update:checkItem',
-]);
-const checkedFavorites = defineModel();
-const handleOpenDescription = (index: number) => {
-  emits('update:openDescription', index);
-}
 
-const handleCheckItem = (index: number) => {
-  emits('update:checkItem', index);
-}
 </script>
 
 <template>
   <label
     :for="item.title"
     class="block"
-    @click="handleOpenDescription(index)"
+    @click="openDescription(index)"
   >
     <input
-      v-model="checkedFavorites"
+      v-model="checkedFavorites[item.title]"
       type="checkbox"
       :name="item.title"
       :id="item.title"
       class="mr-2"
       :checked="item.checked"
-      @change="handleCheckItem(index)"
+      @change="handleCheck(index)"
     >
     {{ item.title }}
   </label>

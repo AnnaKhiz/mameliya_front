@@ -2,45 +2,26 @@
 import {
   RitualDetailsItemCheck,
   RitualDetailsItemLink,
-  type RitualDetailsItemType
 } from "@/entities/ritual";
-
-type Props = {
-  list: RitualDetailsItemType[];
-  isChecked: boolean;
-
-}
-defineProps<Props>();
-const checkedFavorites = defineModel();
-
-const emits = defineEmits([
-  'update:openDescription',
-  'update:checkItem',
-]);
-
-const handleOpenDescription = (index: number) => {
-  emits('update:openDescription', index);
-}
-
-const handleCheckItem = (index: number) => {
-  emits('update:checkItem', index);
-}
+import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
+import {storeToRefs} from "pinia";
+const { openDescription } = useRitualStore();
+const { ritualsList, isChecked, checkedFavorites } = storeToRefs(useRitualStore());
 
 </script>
 
 <template>
-  <div v-for="(item, index) in list" :key="item.id" >
+  <div v-for="(item, index) in ritualsList" :key="item.id" >
     <RitualDetailsItemCheck
       v-if="isChecked"
+      v-model="checkedFavorites"
       :item="item"
       :index="index"
-      v-model="checkedFavorites"
-      @update:open-description="handleOpenDescription"
-      @update:check-item="handleCheckItem"
     />
     <RitualDetailsItemLink
       v-else
-      @click="handleOpenDescription(index)"
+      :title="item.title"
+      @click="openDescription(index)"
     />
   </div>
 </template>
