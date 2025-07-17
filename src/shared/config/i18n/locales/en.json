@@ -249,7 +249,15 @@
 		"my_rituals": "My rituals",
 		"enter_cosmetic_item_name": "Enter cosmetic item name!",
 		"add_max_5_items": "You can add maximum 5 cosmetic items!",
-		"item_already_added": "You have already added this cosmetic name!"
+		"item_already_added": "You have already added this cosmetic name!",
+		"add_new_title": "Add new ritual",
+		"title": "Title",
+		"enter_title": "Enter ritual title...",
+		"select_section": "Select ritual section",
+		"select_ritual_section": "Select ritual section from the list",
+		"add_cosmetic": "Add recommended cosmetics",
+		"enter_cosmetic_name": "Enter name and press Enter",
+		"ritual_description": "Ritual description"
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

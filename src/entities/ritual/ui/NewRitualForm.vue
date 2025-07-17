@@ -104,7 +104,7 @@ const removeCosmeticItem = (index: number) => {
   newRitualForm.value.cosmetic_name.splice(index, 1);
 }
 
-const descriptionValid = computed(() => !!((!newRitualForm.value.description || newRitualForm.value.description === '<p><br></p>') && isError.value));
+const descriptionValid = computed(() => ((!newRitualForm.value.description || newRitualForm.value.description === '<p><br></p>') && isError.value));
 
 onBeforeUnmount(() => clearTimeout(timeoutId));
 
@@ -112,49 +112,51 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
 
 <template>
   <div>
-    <h2 class="mb-4 font-bold text-lg text-center">Add new ritual</h2>
+    <h2 class="mb-4 font-bold text-lg text-center">{{ t('rituals.add_new_title') }}</h2>
     <form  action="" class="flex flex-col gap-4" >
-      <code>{{ newRitualForm }}</code>
       <AppInputText
         v-model="newRitualForm.title"
-        title="Title"
-        placeholder="Add title"
+        :title="t('rituals.title')"
+        :placeholder="t('rituals.enter_title')"
         :error="isError && !newRitualForm.title"
+        styles="dark-mode"
       />
       <div>
         <AppSelect
           v-model="newRitualForm.section_key"
-          title="Select section"
-          disabled-field="Select ritual section"
+          :title="t('rituals.select_section')"
+          :disabled-field="t('rituals.select_ritual_section')"
           :list="sectionsList"
           :error="isError && !newRitualForm.section_key.length"
         />
       </div>
       <div>
-        <h2 class="mb-1">Add recommended cosmetic</h2>
-        <input
+        <AppInputText
           v-model="cosmeticItem"
-          type="text"
-          placeholder="Enter cosmetic name..."
+          :title="t('rituals.add_cosmetic')"
+          :placeholder="t('rituals.enter_cosmetic_name')"
           @keydown.enter.prevent="addCosmeticItem"
-          class="w-full rounded dark-mode"
+          styles="dark-mode"
         >
-        <div
-          v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
-          class="flex items-center justify-start flex-wrap py-2 gap-1"
-        >
-          <p
-            v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
-            :key="cosmetic"
-            class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
-          >{{ cosmetic }}
-            <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
-          </p>
-
-        </div>
+          <template #content>
+            <div
+              v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
+              class="flex items-center justify-start flex-wrap py-2 gap-1"
+            >
+              <div
+                v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
+                :key="cosmetic"
+                class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
+              >
+                {{ cosmetic }}
+                <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
+              </div>
+            </div>
+          </template>
+        </AppInputText>
       </div>
       <div>
-        <h2 class="mb-1">Description</h2>
+        <h2 class="mb-1">{{ t('rituals.ritual_description') }}</h2>
         <TextEditor
           v-model="newRitualForm.description"
           class="rounded"
