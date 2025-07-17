@@ -1,34 +1,44 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon, XMarkIcon} from "@heroicons/vue/16/solid";
 import { useI18n } from "vue-i18n";
 
-import {NewRitualForm} from "@/entities/ritual";
+import {
+  NewRitualForm,
+  RitualDetailsActionsMenu,
+  RitualDetailsList,
+  type RitualDetailsItemType,
+  RitualDetailsLayout
+} from "@/entities/ritual";
 const { t } = useI18n();
 const isChecked = ref<boolean>(false);
 const isAddNewForm = ref<boolean>(false);
 const description = ref<string>('');
-const ritualsList = ref([
+
+
+const ritualsList = ref<RitualDetailsItemType[]>([
   {
     id: 1,
     title: 'title 1',
-    value: 'title1',
+    creator: 'title1',
     description: 'Description 1',
     checked: false,
+    created_at: '123',
   },
   {
     id: 2,
     title: 'title 2',
-    value: 'title2',
+    creator: 'title2',
     description: 'Description 2',
     checked: false,
+    created_at: '123',
   },
   {
     id: 3,
     title: 'title 3',
-    value: 'title3',
+    creator: 'title3',
     description: 'Description 3',
     checked: false,
+    created_at: '123',
   }
 ]);
 
@@ -79,64 +89,34 @@ watch(() => ritualsList.value, (newValue) => {
 </script>
 
 <template>
-  <div class="border border-brown-medium w-full h-full grid grid-cols-12">
-    <div class="border border-brown-medium col-span-3 p-2">
-      <div class="mb-2 flex items-center justify-between gap-1">
-        <PlusCircleIcon
-          class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-          @click="openAddRitualForm"
-          v-tooltip="'Add new ritual'"
-        />
-        <div class="mb-2 flex items-center justify-end gap-1">
-          <ChevronDoubleUpIcon
-            @click="toggleIsChecked"
-            :class="isChecked ? 'rotate-180' : ''"
-            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:rounded hover:cursor-pointer hover:bg-brown-light/40 transition duration-500"
-            v-tooltip="'Show checkboxes'"
-          />
-          <CheckCircleIcon
-            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-            @click="toggleIsCheckedMultiple"
-            v-tooltip="'Check all'"
-          />
-          <StarIcon
-            v-if="anyChecked"
-            class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-            @click="saveToMyRituals"
-            v-tooltip="'Add to My rituals'"
-          />
-        </div>
-      </div>
-      <div v-for="(item, index) in ritualsList" :key="item.id" >
-        <label
-          v-if="isChecked"
-          :for="item.value"
-          class="block"
-          @click="openDescription(index)"
-        >
-          <input
-            v-model="checkedFavorites[item.value]"
-            type="checkbox"
-            :name="item.value"
-            :id="item.value"
-            class="mr-2"
-            :checked="item.checked"
-            @change="handleCheck(index)"
-          >
-          {{ item.title }}
-        </label>
-        <p v-else @click="openDescription(index)" class="text-brown-dark capitalize hover:font-bold hover:cursor-pointer mb-1 transition duration-500">{{ item.title }}</p>
-      </div>
+  <RitualDetailsLayout>
+    <template #content-left>
+      <RitualDetailsActionsMenu
+        :any-checked="anyChecked"
+        :is-checked="isChecked"
+        @update:is-checked="toggleIsChecked"
+        @update:is-checked-multiply="toggleIsCheckedMultiple"
+        @update:open-add="openAddRitualForm"
+        @update:save-to-my-rituals="saveToMyRituals"
+      />
+      <RitualDetailsList
+        v-model="checkedFavorites"
+        :list="ritualsList"
+        :is-checked="isChecked"
+        @update:check-item="handleCheck"
+        @update:open-description="openDescription"
+      />
+    </template>
 
-    </div>
-    <div class="border border-brown-medium col-span-9 p-2">
+    <template #content-right>
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
       <div v-else class="w-full h-full">
         <NewRitualForm />
       </div>
-    </div>
-  </div>
+    </template>
+
+  </RitualDetailsLayout>
 </template>
 
 <style scoped>
