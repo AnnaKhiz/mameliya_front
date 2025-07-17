@@ -249,7 +249,16 @@
 		"my_rituals": "Мои ритуалы",
 		"enter_cosmetic_item_name": "Введите название косметического средства!",
 		"add_max_5_items": "Ты можешь добавить не больше 5 единиц!",
-		"item_already_added": "Это средство уже есть в списке!"
+		"item_already_added": "Это средство уже есть в списке!",
+		"add_new_title": "Добавить новый ритуал",
+		"title": "Название",
+		"enter_title": "Введи название...",
+		"select_section": "Выбери раздел",
+		"select_ritual_section": "Выбери раздел из списка",
+		"add_cosmetic": "Добавь рекомендованную косметику",
+		"enter_cosmetic_name": "Введи название и нажми Enter",
+		"ritual_description": "Описание ритуала"
+
 	},
 	"helper_ai": {
 		"tooltip": "AI ассистент",
