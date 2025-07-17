@@ -7,6 +7,7 @@ import{ useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import ModalComponent from "@/shared/ui/modal";
 import type { DialogEventsType } from "@/entities/calendar";
 import { useI18n } from "vue-i18n";
+import {TextEditor} from "@/shared/ui/text-editor";
 const { addNewRitual } = useRitualStore()
 const { t } = useI18n();
 const isChecked = ref<boolean>(false);
@@ -179,6 +180,7 @@ const addCosmeticItem = (event: Event) => {
 const removeCosmeticItem = (index: number) => {
   newRitualForm.value.cosmetic_name.splice(index, 1)
 }
+const descriptionValid = computed(() => !!((!newRitualForm.value.description || newRitualForm.value.description === '<p><br></p>') && messageFormValidation.value));
 </script>
 
 <template>
@@ -235,10 +237,11 @@ const removeCosmeticItem = (index: number) => {
     <div class="border border-brown-medium col-span-9 p-2">
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
-      <div v-else class="flex justify-center items-center h-full">
+      <div v-else class="w-full h-full">
         <div>
           <h2 class="mb-4 font-bold text-lg text-center">Add new ritual</h2>
           <form  action="" class="flex flex-col gap-4" >
+
             <div>
               <h2 class="mb-1">Title</h2>
               <input
@@ -274,7 +277,7 @@ const removeCosmeticItem = (index: number) => {
               >
               <div
                 v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
-                class="flex items-center justify-start py-2 gap-1"
+                class="flex items-center justify-start flex-wrap py-2 gap-1"
               >
                 <p
                   v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
@@ -287,20 +290,34 @@ const removeCosmeticItem = (index: number) => {
               </div>
             </div>
             <div>
+              <code>{{ newRitualForm.description}}</code>
               <h2 class="mb-1">Description</h2>
-              <AppTextarea
+              <TextEditor
                 v-model="newRitualForm.description"
-                :is-reset="isError"
-                :max-length="600"
-                dark-mode
-                :message="messageFormValidation"
-                placeholder-text="Add description"
-                :error-style="!!(!newRitualForm.description && messageFormValidation)"
+                class="rounded"
+                :class="descriptionValid ? 'error-style' : ''"
               />
             </div>
-            <AppButton label="Save" class="w-fit -mt-6" @click.prevent="submitForm"/>
+            <p class="text-xs" :class="isError ? 'text-red-800' : 'text-green-900' ">{{ messageFormValidation }}</p>
+            <AppButton label="Save" class="w-fit block" @click.prevent="submitForm"/>
+
+
+
+
+<!--              <AppTextarea-->
+<!--                v-model="newRitualForm.description"-->
+<!--                :is-reset="isError"-->
+<!--                :max-length="600"-->
+<!--                dark-mode-->
+<!--                :message="messageFormValidation"-->
+<!--                placeholder-text="Add description"-->
+<!--                :error-style="!!(!newRitualForm.description && messageFormValidation)"-->
+<!--              />-->
+
           </form>
+
         </div>
+
 
       </div>
     </div>

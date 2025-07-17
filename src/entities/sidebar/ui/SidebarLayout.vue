@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <div
-      class="p-5 bg-gradient-main h-full drop-shadow-2xl max-h-screen overflow-auto flex-shrink-0 "
+      class="p-5 bg-gradient-main h-full drop-shadow-2xl overflow-auto flex-shrink-0 "
       id="aside"
       :class="props.width ? `min-w-[${props.width}]` : 'min-w-[250px]'"
   >

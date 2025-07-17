@@ -44,7 +44,7 @@ select {
   }
   &.error-style {
     border-color: rgba(255, 0, 0, 0.42);
-    box-shadow: 2px 2px 5px rgba(255, 0, 0, 0.6), -2px -2px 5px rgba(255, 0, 0, 0.4);
+    /*box-shadow: 2px 2px 5px rgba(255, 0, 0, 0.6), -2px -2px 5px rgba(255, 0, 0, 0.4);*/
   }
   &.light-mode {
     box-shadow: none;
@@ -110,7 +110,7 @@ body textarea {
   }
   &.error-style {
     border-color: rgba(255, 0, 0, 0.42);
-    box-shadow: 2px 2px 5px rgba(255, 0, 0, 0.6), -2px -2px 5px rgba(255, 0, 0, 0.4);
+    /*box-shadow: 2px 2px 5px rgba(255, 0, 0, 0.6), -2px -2px 5px rgba(255, 0, 0, 0.4);*/
   }
   &.dark-mode {
     border: 1px solid rgba(204, 208, 181, 0.51);
@@ -136,7 +136,6 @@ body, html {
   font-family: 'Roboto', sans-serif;
   width: 100%;
   height: 100%;
-  max-height: 100vh;
 }
 
 .bg-gradient-main {
@@ -154,3 +153,7 @@ body, html {
   opacity: 0;
 }
 
+.error-style {
+  border: 1px solid rgba(255, 0, 0, 0.42);
+  /*box-shadow: 2px 2px 5px rgba(255, 0, 0, 0.6), -2px -2px 5px rgba(255, 0, 0, 0.4);*/
+}
