@@ -38,11 +38,11 @@ const ritualsList = ref([
 const messageNotify = ref<string>('');
 const dialog = ref<DialogEventsType>('none');
 const cosmeticList = ref()
-const newRitualForm = ref<{ title: string; description: string; section_key: string; cosmeticItems: string[] }>({
+const newRitualForm = ref<{ title: string; description: string; section_key: string[]; cosmetic_name: string[] }>({
   title: '',
   description: '',
-  section_key: '',
-  cosmeticItems: []
+  section_key: [],
+  cosmetic_name: []
 });
 
 const checkedFavorites = ref([{}])
@@ -131,13 +131,13 @@ const addCosmeticItem = (event: Event) => {
    return;
  }
 
-  if (newRitualForm.value.cosmeticItems.length === 5) {
+  if (newRitualForm.value.cosmetic_name.length === 5) {
     dialog.value = 'notify';
     messageNotify.value = 'You can add maximum 5 cosmetic items!'
     return;
   }
 
-  const duplicates = newRitualForm.value.cosmeticItems.some(e => e.toLowerCase() === cosmeticItem.value.toLowerCase());
+  const duplicates = newRitualForm.value.cosmetic_name.some(e => e.toLowerCase() === cosmeticItem.value.toLowerCase());
   if (duplicates) {
     dialog.value = 'notify';
     messageNotify.value = 'You already added this cosmetic name!';
@@ -145,12 +145,12 @@ const addCosmeticItem = (event: Event) => {
   }
 
 
-  newRitualForm.value.cosmeticItems.push(cosmeticItem.value);
+  newRitualForm.value.cosmetic_name.push(cosmeticItem.value);
   cosmeticItem.value = '';
 
 }
 const removeCosmeticItem = (index: number) => {
-  newRitualForm.value.cosmeticItems.splice(index, 1)
+  newRitualForm.value.cosmetic_name.splice(index, 1)
 }
 </script>
 
@@ -217,9 +217,10 @@ const removeCosmeticItem = (index: number) => {
               <input v-model="newRitualForm.title" type="text" placeholder="Add title">
             </div>
             <div>
+              <code>{{ newRitualForm }}</code>
               <div>
                 <h2 class="mb-2">Select section</h2>
-                <select v-model="newRitualForm.section_key" >
+                <select v-model="newRitualForm.section_key" multiple>
                   <option disabled value="">Select ritual section...</option>
                   <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
                 </select>
@@ -228,11 +229,11 @@ const removeCosmeticItem = (index: number) => {
                 <h2 class="mb-2">Add recommended cosmetic</h2>
                 <input v-model="cosmeticItem" type="text" placeholder="Enter cosmetic name..." @keydown.enter.prevent="addCosmeticItem">
                 <div
-                  v-if="newRitualForm?.cosmeticItems && newRitualForm?.cosmeticItems.length"
+                  v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
                   class="flex items-center justify-start py-2 gap-1"
                 >
                   <p
-                    v-for="(cosmetic, index) in newRitualForm.cosmeticItems"
+                    v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
                     :key="cosmetic"
                     class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
                   >{{ cosmetic }}
