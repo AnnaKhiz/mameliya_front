@@ -56,7 +56,7 @@ const submitForm = async () => {
 const resetForm = () => {
   newRitualForm.value = {
     title: '',
-    description: '',
+    description: '<p><br></p>',
     section_key: [],
     cosmetic_name: []
   }
