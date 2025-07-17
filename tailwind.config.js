@@ -20,7 +20,8 @@ export default {
         'brown-light': '#bdb6b0',
         'gray-light': '#9d938c',
         'gray-lighter': 'rgba(2193,213,208,0.23)',
-        'yellow-warm': '#f7e18e'
+        'yellow-warm': '#f7e18e',
+        'input-bg': 'rgba(246,255,230,0.53)',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

@@ -6,6 +6,7 @@ type Props = {
   isReset: boolean;
   message: string;
   darkMode?: boolean;
+  errorStyle?: boolean;
   maxLength?: number;
   placeholderText?: string;
 }
@@ -25,8 +26,11 @@ const currentLength = computed(() => {
   <div class="w-fit">
       <textarea
         v-model="commentText"
-        class="placeholder:opacity-25 block mb-2 p-4 w-full"
-        :class="darkMode ? 'dark-mode' : ''"
+        class="placeholder:opacity-25 block mb-2 p-4 w-full rounded"
+        :class="[
+          props.darkMode ? 'dark-mode' : '',
+          props.errorStyle ? 'error-style' : ''
+        ]"
         rows="5"
         cols="50"
         :placeholder="props.placeholderText ? t(`${props.placeholderText}`) : t('mama.write_comment')"

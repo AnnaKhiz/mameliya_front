@@ -35,7 +35,9 @@ const ritualsList = ref([
     checked: false,
   }
 ]);
+const isError = ref<boolean>(false);
 const messageNotify = ref<string>('');
+const messageFormValidation = ref<string>('');
 const dialog = ref<DialogEventsType>('none');
 const cosmeticList = ref()
 const newRitualForm = ref<{ title: string; description: string; section_key: string[]; cosmetic_name: string[] }>({
@@ -45,6 +47,10 @@ const newRitualForm = ref<{ title: string; description: string; section_key: str
   cosmetic_name: []
 });
 
+const isFormValid = () => {
+  const { title, description, section_key } = newRitualForm.value;
+  return !(!title || !description || !section_key.length);
+}
 const checkedFavorites = ref([{}])
 const toggleIsChecked = () => {
   isChecked.value = !isChecked.value;
@@ -120,7 +126,28 @@ watch(() => ritualsList.value, (newValue) => {
   }
 }, { deep: true })
 const submitForm = async (event: Event) => {
-  await addNewRitual(newRitualForm.value)
+  if (!isFormValid()) {
+    messageFormValidation.value = 'Fill empty fields';
+    isError.value = true;
+    return;
+  }
+
+  const result = await addNewRitual(newRitualForm.value);
+
+  if (result.result) {
+    isError.value = false;
+    messageFormValidation.value = 'Ritual saved successfully!';
+    resetForm();
+  }
+}
+
+const resetForm = () => {
+  newRitualForm.value = {
+    title: '',
+    description: '',
+    section_key: [],
+    cosmetic_name: []
+  }
 }
 
 const cosmeticItem = ref<string>('')
@@ -211,49 +238,67 @@ const removeCosmeticItem = (index: number) => {
       <div v-else class="flex justify-center items-center h-full">
         <div>
           <h2 class="mb-4 font-bold text-lg text-center">Add new ritual</h2>
-          <form  action="" class="flex flex-col gap-3" >
+          <form  action="" class="flex flex-col gap-4" >
             <div>
-              <h2 class="mb-2">Title</h2>
-              <input v-model="newRitualForm.title" type="text" placeholder="Add title">
+              <h2 class="mb-1">Title</h2>
+              <input
+                v-model="newRitualForm.title"
+                type="text"
+                placeholder="Add title"
+                :class="messageFormValidation && !newRitualForm.title ? 'error-style' : ''"
+                class="w-full rounded dark-mode"
+              >
             </div>
             <div>
-              <code>{{ newRitualForm }}</code>
-              <div>
-                <h2 class="mb-2">Select section</h2>
-                <select v-model="newRitualForm.section_key" multiple>
+              <div >
+                <h2 class="mb-1">Select section</h2>
+                <select
+                  v-model="newRitualForm.section_key"
+                  multiple
+                  class="w-full dark-mode"
+                  :class="messageFormValidation && !newRitualForm.section_key.length ? 'error-style' : ''"
+                >
                   <option disabled value="">Select ritual section...</option>
                   <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
                 </select>
               </div>
-              <div>
-                <h2 class="mb-2">Add recommended cosmetic</h2>
-                <input v-model="cosmeticItem" type="text" placeholder="Enter cosmetic name..." @keydown.enter.prevent="addCosmeticItem">
-                <div
-                  v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
-                  class="flex items-center justify-start py-2 gap-1"
-                >
-                  <p
-                    v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
-                    :key="cosmetic"
-                    class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
-                  >{{ cosmetic }}
-                    <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
-                  </p>
+            </div>
+            <div>
+              <h2 class="mb-1">Add recommended cosmetic</h2>
+              <input
+                v-model="cosmeticItem"
+                type="text"
+                placeholder="Enter cosmetic name..."
+                @keydown.enter.prevent="addCosmeticItem"
+                class="w-full rounded dark-mode"
+              >
+              <div
+                v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
+                class="flex items-center justify-start py-2 gap-1"
+              >
+                <p
+                  v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
+                  :key="cosmetic"
+                  class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
+                >{{ cosmetic }}
+                  <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
+                </p>
 
-                </div>
               </div>
             </div>
             <div>
-              <h2 class="mb-2">Description</h2>
+              <h2 class="mb-1">Description</h2>
               <AppTextarea
                 v-model="newRitualForm.description"
-                is-reset=""
+                :is-reset="isError"
                 :max-length="600"
-                message=""
+                dark-mode
+                :message="messageFormValidation"
                 placeholder-text="Add description"
+                :error-style="!!(!newRitualForm.description && messageFormValidation)"
               />
             </div>
-            <AppButton label="Save" class="w-fit" @click.prevent="submitForm"/>
+            <AppButton label="Save" class="w-fit -mt-6" @click.prevent="submitForm"/>
           </form>
         </div>
 
