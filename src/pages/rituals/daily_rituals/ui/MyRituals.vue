@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon} from "@heroicons/vue/16/solid";
-import {AppTextarea} from "@/shared/ui/form";
-import {AppButton} from "@/shared/ui/button";
-import{ useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
-const { addNewRitual } = useRitualStore()
+import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon, XMarkIcon} from "@heroicons/vue/16/solid";
+import { useI18n } from "vue-i18n";
 
+import {NewRitualForm} from "@/entities/ritual";
+const { t } = useI18n();
 const isChecked = ref<boolean>(false);
 const isAddNewForm = ref<boolean>(false);
 const description = ref<string>('');
@@ -32,47 +31,11 @@ const ritualsList = ref([
     checked: false,
   }
 ]);
-const newRitualForm = ref<{ title: string; description: string; section_key: string; }>({
-  title: '',
-  description: '',
-  section_key: ''
-});
 
 const checkedFavorites = ref([{}])
 const toggleIsChecked = () => {
   isChecked.value = !isChecked.value;
 }
-
-const sectionsList = [
-  {
-    text: 'Morning rituals',
-    value: 'morning_rituals'
-  },
-  {
-    text: 'Evening rituals',
-    value: 'evening_rituals'
-  },
-  {
-    text: 'Face care',
-    value: 'face_care'
-  },
-  {
-    text: 'My rituals',
-    value: 'my_rituals'
-  },
-  {
-    text: 'Hair care',
-    value: 'hair_care'
-  },
-  {
-    text: 'Body care',
-    value: 'body_care'
-  },
-  {
-    text: 'Nails care',
-    value: 'nails_care'
-  },
-]
 
 const toggleIsCheckedMultiple = () => {
   if (isChecked.value) {
@@ -112,10 +75,7 @@ watch(() => ritualsList.value, (newValue) => {
     checkedFavorites.value = newValue.filter(e => e.checked);
   }
 }, { deep: true })
-const submitForm = async () => {
-  console.log(newRitualForm);
-  await addNewRitual(newRitualForm.value)
-}
+
 </script>
 
 <template>
@@ -169,29 +129,12 @@ const submitForm = async () => {
       </div>
 
     </div>
-    <div class=" border border-brown-medium col-span-9 p-2">
-      <code>Fav: {{ checkedFavorites}}</code>
+    <div class="border border-brown-medium col-span-9 p-2">
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
-      <form v-else action="" class="flex flex-col gap-3" @submit.prevent="submitForm">
-        <div>
-          <h2 class="mb-2">Title</h2>
-          <input v-model="newRitualForm.title" type="text" placeholder="Add title">
-        </div>
-        <div>
-          <h2 class="mb-2">Select section</h2>
-          <select v-model="newRitualForm.section_key" >
-            <option disabled value="">Select ritual section...</option>
-            <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
-          </select>
-        </div>
-        <div>
-          <h2 class="mb-2">Description</h2>
-          <AppTextarea v-model="newRitualForm.description" is-reset="" message="" placeholder-text="Add description" />
-        </div>
-        <AppButton label="Save" class="w-fit"/>
-      </form>
-      <code>{{ newRitualForm}}</code>
+      <div v-else class="w-full h-full">
+        <NewRitualForm />
+      </div>
     </div>
   </div>
 </template>

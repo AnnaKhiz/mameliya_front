@@ -73,6 +73,7 @@
 		"wrong_email_or_password": "Wrong email or password",
 		"updates_not_saved": "Updates not saved",
 		"confirm_delete": "Delete confirmation",
+		"successfully saved": "Сохранено успешно",
 		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!"
 	},
 	"validation": {
@@ -245,7 +246,10 @@
 		"hair_care": "Hair care",
 		"body_care": "Body care",
 		"nails_care": "Nails care",
-		"my_rituals": "My rituals"
+		"my_rituals": "My rituals",
+		"enter_cosmetic_item_name": "Enter cosmetic item name!",
+		"add_max_5_items": "You can add maximum 5 cosmetic items!",
+		"item_already_added": "You have already added this cosmetic name!"
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

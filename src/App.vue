@@ -17,7 +17,10 @@ onMounted(async () => {
 <template>
   <MainHeader v-if="!isAuthenticated" />
   <UserHeader v-else />
-  <router-view />
+  <div class="flex-grow h-fit">
+    <router-view />
+  </div>
+
   <footer-component />
 </template>
 
