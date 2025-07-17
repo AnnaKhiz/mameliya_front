@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon} from "@heroicons/vue/16/solid";
+import {StarIcon, CheckCircleIcon, ChevronDoubleUpIcon, PlusCircleIcon, XMarkIcon} from "@heroicons/vue/16/solid";
 import {AppTextarea} from "@/shared/ui/form";
 import {AppButton} from "@/shared/ui/button";
 import{ useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
+import ModalComponent from "@/shared/ui/modal";
+import type { DialogEventsType } from "@/entities/calendar";
+import { useI18n } from "vue-i18n";
 const { addNewRitual } = useRitualStore()
-
+const { t } = useI18n();
 const isChecked = ref<boolean>(false);
 const isAddNewForm = ref<boolean>(false);
 const description = ref<string>('');
@@ -32,10 +35,14 @@ const ritualsList = ref([
     checked: false,
   }
 ]);
-const newRitualForm = ref<{ title: string; description: string; section_key: string; }>({
+const messageNotify = ref<string>('');
+const dialog = ref<DialogEventsType>('none');
+const cosmeticList = ref()
+const newRitualForm = ref<{ title: string; description: string; section_key: string; cosmeticItems: string[] }>({
   title: '',
   description: '',
-  section_key: ''
+  section_key: '',
+  cosmeticItems: []
 });
 
 const checkedFavorites = ref([{}])
@@ -112,9 +119,38 @@ watch(() => ritualsList.value, (newValue) => {
     checkedFavorites.value = newValue.filter(e => e.checked);
   }
 }, { deep: true })
-const submitForm = async () => {
-  console.log(newRitualForm);
+const submitForm = async (event: Event) => {
   await addNewRitual(newRitualForm.value)
+}
+
+const cosmeticItem = ref<string>('')
+const addCosmeticItem = (event: Event) => {
+ if (!cosmeticItem.value) {
+   dialog.value = 'notify';
+   messageNotify.value = 'Enter cosmetic name!';
+   return;
+ }
+
+  if (newRitualForm.value.cosmeticItems.length === 5) {
+    dialog.value = 'notify';
+    messageNotify.value = 'You can add maximum 5 cosmetic items!'
+    return;
+  }
+
+  const duplicates = newRitualForm.value.cosmeticItems.some(e => e.toLowerCase() === cosmeticItem.value.toLowerCase());
+  if (duplicates) {
+    dialog.value = 'notify';
+    messageNotify.value = 'You already added this cosmetic name!';
+    return;
+  }
+
+
+  newRitualForm.value.cosmeticItems.push(cosmeticItem.value);
+  cosmeticItem.value = '';
+
+}
+const removeCosmeticItem = (index: number) => {
+  newRitualForm.value.cosmeticItems.splice(index, 1)
 }
 </script>
 
@@ -169,31 +205,72 @@ const submitForm = async () => {
       </div>
 
     </div>
-    <div class=" border border-brown-medium col-span-9 p-2">
-      <code>Fav: {{ checkedFavorites}}</code>
+    <div class="border border-brown-medium col-span-9 p-2">
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
-      <form v-else action="" class="flex flex-col gap-3" @submit.prevent="submitForm">
+      <div v-else class="flex justify-center items-center h-full">
         <div>
-          <h2 class="mb-2">Title</h2>
-          <input v-model="newRitualForm.title" type="text" placeholder="Add title">
+          <h2 class="mb-4 font-bold text-lg text-center">Add new ritual</h2>
+          <form  action="" class="flex flex-col gap-3" >
+            <div>
+              <h2 class="mb-2">Title</h2>
+              <input v-model="newRitualForm.title" type="text" placeholder="Add title">
+            </div>
+            <div>
+              <div>
+                <h2 class="mb-2">Select section</h2>
+                <select v-model="newRitualForm.section_key" >
+                  <option disabled value="">Select ritual section...</option>
+                  <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
+                </select>
+              </div>
+              <div>
+                <h2 class="mb-2">Add recommended cosmetic</h2>
+                <input v-model="cosmeticItem" type="text" placeholder="Enter cosmetic name..." @keydown.enter.prevent="addCosmeticItem">
+                <div
+                  v-if="newRitualForm?.cosmeticItems && newRitualForm?.cosmeticItems.length"
+                  class="flex items-center justify-start py-2 gap-1"
+                >
+                  <p
+                    v-for="(cosmetic, index) in newRitualForm.cosmeticItems"
+                    :key="cosmetic"
+                    class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
+                  >{{ cosmetic }}
+                    <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
+                  </p>
+
+                </div>
+              </div>
+            </div>
+            <div>
+              <h2 class="mb-2">Description</h2>
+              <AppTextarea
+                v-model="newRitualForm.description"
+                is-reset=""
+                :max-length="600"
+                message=""
+                placeholder-text="Add description"
+              />
+            </div>
+            <AppButton label="Save" class="w-fit" @click.prevent="submitForm"/>
+          </form>
         </div>
-        <div>
-          <h2 class="mb-2">Select section</h2>
-          <select v-model="newRitualForm.section_key" >
-            <option disabled value="">Select ritual section...</option>
-            <option v-for="section in sectionsList" :key="section.value" :value="section.value">{{ section.text }}</option>
-          </select>
-        </div>
-        <div>
-          <h2 class="mb-2">Description</h2>
-          <AppTextarea v-model="newRitualForm.description" is-reset="" message="" placeholder-text="Add description" />
-        </div>
-        <AppButton label="Save" class="w-fit"/>
-      </form>
-      <code>{{ newRitualForm}}</code>
+
+      </div>
     </div>
   </div>
+
+  <!-- dialog notify  -->
+  <ModalComponent
+    :show="dialog === 'notify'"
+    full
+    :title="t('general.error')"
+    @update:dialog-visibility="dialog = $event"
+  >
+    <template #default>
+      <p>{{ messageNotify }}</p>
+    </template>
+  </ModalComponent>
 </template>
 
 <style scoped>

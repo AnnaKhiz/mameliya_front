@@ -6,12 +6,13 @@ type Props = {
   isReset: boolean;
   message: string;
   darkMode?: boolean;
+  maxLength?: number;
   placeholderText?: string;
 }
 const props = defineProps<Props>();
 const { t } = useI18n();
 
-const maxLength = 300;
+const maxLength = props.maxLength ? props.maxLength : 300;
 const commentText = defineModel<string>();
 
 const currentLength = computed(() => {
