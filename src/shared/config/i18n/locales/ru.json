@@ -259,8 +259,13 @@
 		"enter_cosmetic_name": "Введи название и нажми Enter",
 		"ritual_description": "Описание ритуала",
 		"no_rituals": "В этом разделе нет ритуалов.",
-		"add_ritual": "Ты можешь добавить ритуал в разделе \"Мои итуалы\"."
-
+		"add_ritual": "Ты можешь добавить ритуал в разделе \"Мои итуалы\"",
+		"show_checkboxes": "Показать выбор",
+		"hide_checkboxes": "Показать список",
+		"check_all": "Выбрать все",
+		"uncheck_all": "Снять выбор",
+		"add_to_my_rituals": "Добавить в \"Мои ритуалы\"",
+		"hide_add_new_ritual": "Скрыть форму"
 	},
 	"helper_ai": {
 		"tooltip": "AI ассистент",

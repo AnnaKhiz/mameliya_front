@@ -259,7 +259,13 @@
 		"enter_cosmetic_name": "Enter name and press Enter",
 		"ritual_description": "Ritual description",
 		"no_rituals": "There are no rituals in this section.",
-		"add_ritual": "You can add your own ritual in \"My rituals\" section."
+		"add_ritual": "You can add your own ritual in \"My rituals\" section.",
+		"show_checkboxes": "Show select",
+		"hide_checkboxes": "Show list",
+		"check_all": "Select all",
+		"uncheck_all": "Unselect all",
+		"add_to_my_rituals": "Add to \"My rituals\"",
+		"hide_add_new_ritual": "Hide form"
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",
