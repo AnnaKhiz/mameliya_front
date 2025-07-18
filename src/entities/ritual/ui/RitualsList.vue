@@ -32,7 +32,7 @@ const onToggleHover = (value: RitualSectionType) => {
 }
 const goToPage = (value: RitualSectionType) => {
   emits('update:checkedMenu', value);
-  router.push({ name: value})
+  // router.push({ name: value})
 }
 
 const dailyRitualsList = computed(():RitualType[] => (

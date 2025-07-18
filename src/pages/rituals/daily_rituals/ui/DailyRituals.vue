@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type RitualSectionType, RitualsList } from "@/entities/ritual";
+import {RitualDetailsPage, type RitualSectionType, RitualsList} from "@/entities/ritual";
 import { useI18n } from "vue-i18n";
 import {ref} from "vue";
 
@@ -34,7 +34,10 @@ const goBack = () => {
       @update:checked-menu="handleCheckedMenu"
     />
   </div>
+  <RitualDetailsPage
+    v-if="checkedMenu !== 'none'"
+    :checked-menu="checkedMenu"
+  />
 
-  <router-view v-if="checkedMenu !== 'none'" />
 </template>
 

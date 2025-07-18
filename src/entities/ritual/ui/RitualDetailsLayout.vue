@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <div class="border border-brown-medium w-full h-full grid grid-cols-12">
-    <div class="border border-brown-medium col-span-3 p-2">
+  <div class="w-full h-full grid grid-cols-12">
+    <div class="col-span-3 p-2 border-r border-r-brown-medium/10">
       <slot name="content-left" />
     </div>
-    <div class="border border-brown-medium col-span-9 p-2">
+    <div class="col-span-9 p-2">
       <slot name="content-right" />
     </div>
   </div>

@@ -7,6 +7,7 @@ import RitualDetailsLayout from "@/entities/ritual/ui/RitualDetailsLayout.vue";
 import RitualDetailsItemCheck from "@/entities/ritual/ui/RitualDetailsItemCheck.vue";
 import RitualDetailsItemLink from "@/entities/ritual/ui/RitualDetailsItemLink.vue";
 import RitualDetailsList from "@/entities/ritual/ui/RitualDetailsList.vue";
+import RitualDetailsPage from "@/entities/ritual/ui/RitualDetailsPage.vue";
 
 import type { RitualSectionType } from "@/entities/ritual/types/RitualSectionType.ts";
 import type { RitualType } from "@/entities/ritual/types/RitualType.ts";
@@ -27,7 +28,8 @@ export {
   RitualDetailsLayout,
   RitualDetailsItemCheck,
   RitualDetailsItemLink,
-  RitualDetailsList
+  RitualDetailsList,
+  RitualDetailsPage
 }
 
 export type {
