@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
-import { useI18n } from "vue-i18n";
+import { onMounted, watch} from 'vue';
+
 
 import {
   NewRitualForm,
   RitualDetailsActionsMenu,
   RitualDetailsList,
-  type RitualDetailsItemType,
   RitualDetailsLayout, type RitualSectionType
 } from "@/entities/ritual";
-const { t } = useI18n();
+
+import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 
 type Props = {
   checkedMenu: RitualSectionType;
 }
-defineProps<Props>();
+const props = defineProps<Props>();
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
-const { } = useRitualStore();
-const { ritualsList, description, checkedFavorites, isAddNewForm } = storeToRefs(useRitualStore());
+const { getRitualsBySection } = useRitualStore();
+const { ritualsList, checkedFavorites, isAddNewForm, checkedRitual } = storeToRefs(useRitualStore());
 
 watch(() => ritualsList.value, (newValue) => {
   console.log('rituals list', ritualsList)
@@ -27,19 +27,38 @@ watch(() => ritualsList.value, (newValue) => {
   }
 }, { deep: true });
 
+watch(() => props.checkedMenu, async (newValue) => {
+  if (newValue) {
+    await getRitualsBySection(props.checkedMenu)
+  }
+})
+
+onMounted(async () => {
+  await getRitualsBySection(props.checkedMenu)
+})
+
 </script>
 
 <template>
   <RitualDetailsLayout>
     <template #content-left>
-      <RitualDetailsActionsMenu :is-add-icon="checkedMenu === 'my_rituals'" />
+      <RitualDetailsActionsMenu :is-add-icon="props.checkedMenu === 'my_rituals'" />
       <RitualDetailsList />
     </template>
 
     <template #content-right>
-      <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
+      <div v-if="checkedRitual && !isAddNewForm" class="overflow-auto">
+        <div class="flex gap-2 text-xs text-gray-500/50 ml-auto w-fit">
+          <span>{{ checkedRitual?.creator }},</span>
+          <span>{{ parseDateToString(checkedRitual?.created_at) }}</span>
+        </div>
 
-      <div v-else-if="isAddNewForm && checkedMenu === 'my_rituals'" class="w-full h-full">
+        <h2 class="pt-5 px-5 font-bold text-lg">{{ checkedRitual.title }}</h2>
+
+        <div class="p-5 " v-html="checkedRitual.description"></div>
+      </div>
+
+      <div v-else-if="isAddNewForm && props.checkedMenu === 'my_rituals'" class="w-full h-full">
         <NewRitualForm />
       </div>
     </template>

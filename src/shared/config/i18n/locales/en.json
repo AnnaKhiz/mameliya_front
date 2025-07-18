@@ -257,7 +257,9 @@
 		"select_ritual_section": "Select ritual section from the list",
 		"add_cosmetic": "Add recommended cosmetics",
 		"enter_cosmetic_name": "Enter name and press Enter",
-		"ritual_description": "Ritual description"
+		"ritual_description": "Ritual description",
+		"no_rituals": "There are no rituals in this section.",
+		"add_ritual": "You can add your own ritual in \"My rituals\" section."
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

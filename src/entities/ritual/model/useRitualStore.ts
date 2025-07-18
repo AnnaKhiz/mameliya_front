@@ -1,36 +1,11 @@
 import {defineStore} from "pinia";
 import {computed, ref} from 'vue';
 import {fetchData} from "@/shared/api";
-import type {RitualDetailsItemType} from "@/entities/ritual";
+import type {RitualDetailsItemType, RitualSectionType} from "@/entities/ritual";
 
 export const useRitualStore = defineStore('rituals', () => {
-  const ritualsList = ref<RitualDetailsItemType[]>([
-    {
-      id: 1,
-      title: 'title 1',
-      creator: 'title1',
-      description: 'Description 1',
-      checked: false,
-      created_at: '123',
-    },
-    {
-      id: 2,
-      title: 'title 2',
-      creator: 'title2',
-      description: 'Description 2',
-      checked: false,
-      created_at: '123',
-    },
-    {
-      id: 3,
-      title: 'title 3',
-      creator: 'title3',
-      description: 'Description 3',
-      checked: false,
-      created_at: '123',
-    }
-  ]);
-
+  const ritualsList = ref<RitualDetailsItemType[] | []>([]);
+  const checkedRitual = ref<RitualDetailsItemType | null>(null);
   const isChecked = ref<boolean>(false);
   const isAddNewForm = ref<boolean>(false);
   const description = ref<string>('');
@@ -63,7 +38,7 @@ export const useRitualStore = defineStore('rituals', () => {
   }
   const openDescription = (index: number) => {
     isAddNewForm.value = false;
-    description.value = ritualsList.value[index].description;
+    checkedRitual.value = ritualsList.value[index];
   }
 
   const addNewRitual = async (body: Record<string, any>) => {
@@ -75,6 +50,18 @@ export const useRitualStore = defineStore('rituals', () => {
         'POST',
         { },
         body);
+    } catch (error) {
+      console.error('Error [ADD NEW RITUAL ', error);
+    }
+    return result;
+  }
+
+  const getRitualsBySection = async (section: RitualSectionType) => {
+    let result = null;
+    try {
+      result = await fetchData('user/rituals/:section','GET', { section });
+      console.log('get result', result);
+      ritualsList.value = result.data.map((el: RitualDetailsItemType) => ({...el, checked: false}));
     } catch (error) {
       console.error('Error [ADD NEW RITUAL ', error);
     }
@@ -93,12 +80,14 @@ export const useRitualStore = defineStore('rituals', () => {
     checkedFavorites,
     anyChecked,
     allChecked,
+    checkedRitual,
     handleCheck,
     addNewRitual,
     openAddRitualForm,
     toggleIsChecked,
     toggleIsCheckedMultiple,
     openDescription,
-    saveToMyRituals
+    saveToMyRituals,
+    getRitualsBySection
   }
 })

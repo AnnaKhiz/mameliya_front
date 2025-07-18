@@ -257,7 +257,9 @@
 		"select_ritual_section": "Выбери раздел из списка",
 		"add_cosmetic": "Добавь рекомендованную косметику",
 		"enter_cosmetic_name": "Введи название и нажми Enter",
-		"ritual_description": "Описание ритуала"
+		"ritual_description": "Описание ритуала",
+		"no_rituals": "В этом разделе нет ритуалов.",
+		"add_ritual": "Ты можешь добавить ритуал в разделе \"Мои итуалы\"."
 
 	},
 	"helper_ai": {
