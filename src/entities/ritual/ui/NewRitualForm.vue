@@ -13,6 +13,7 @@ import {
   type NewRitualFormType
 } from "@/entities/ritual";
 import {AppInputText, AppSelect} from "@/shared/ui/form";
+import TagComponent from "@/shared/ui/tag";
 
 const { t } = useI18n();
 const { addNewRitual } = useRitualStore()
@@ -100,10 +101,10 @@ const addCosmeticItem = () => {
   newRitualForm.value.cosmetic_name.push(cosmeticItem.value);
   cosmeticItem.value = '';
 }
-const removeCosmeticItem = (index: number) => {
-  newRitualForm.value.cosmetic_name.splice(index, 1);
-}
 
+const handleFormUpdate = (event: string[]) => {
+  newRitualForm.value.cosmetic_name = event;
+}
 const descriptionValid = computed(() => ((!newRitualForm.value.description || newRitualForm.value.description === '<p><br></p>') && isError.value));
 
 onBeforeUnmount(() => clearTimeout(timeoutId));
@@ -139,19 +140,11 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
           styles="dark-mode"
         >
           <template #content>
-            <div
+            <TagComponent
               v-if="newRitualForm?.cosmetic_name && newRitualForm?.cosmetic_name.length"
-              class="flex items-center justify-start flex-wrap py-2 gap-1"
-            >
-              <div
-                v-for="(cosmetic, index) in newRitualForm.cosmetic_name"
-                :key="cosmetic"
-                class="py-1 pl-2 pr-7 rounded bg-brown-medium/40 text-brown-dark relative"
-              >
-                {{ cosmetic }}
-                <XMarkIcon class="w-4 fill-brown-medium hover:fill-white transition duration-500 absolute top-1 right-1 cursor-pointer" @click="removeCosmeticItem(index)"/>
-              </div>
-            </div>
+              :new-ritual-form="newRitualForm"
+              @update:new-ritual-form="handleFormUpdate"
+            />
           </template>
         </AppInputText>
       </div>

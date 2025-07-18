@@ -28,7 +28,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div class="mb-2 flex items-center gap-1" :class="isAddIcon ? 'justify-between ' : 'justify-end'">
+  <div class="mb-2 flex items-center gap-1 border-b border-brown-medium/20" :class="isAddIcon ? 'justify-between ' : 'justify-end'">
     <PlusCircleIcon
       v-if="isAddIcon"
       class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"

@@ -10,7 +10,7 @@ defineProps<Props>();
 
 <template>
   <p
-    class="text-brown-dark capitalize hover:font-bold hover:cursor-pointer mb-1 transition duration-500"
+    class="text-brown-dark normal-case hover:font-bold hover:cursor-pointer mb-1 transition duration-500"
     @click="openDescription(index)"
   >
     {{ title }}
