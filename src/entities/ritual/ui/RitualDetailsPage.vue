@@ -18,7 +18,7 @@ const props = defineProps<Props>();
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 import TagComponent from "@/shared/ui/tag";
-const { getRitualsBySection, getFavoriteRituals } = useRitualStore();
+const { getRitualsBySection, getFavoriteRituals, resetIsChecked } = useRitualStore();
 const { ritualsList, checkedFavorites, isAddNewForm, checkedRitual } = storeToRefs(useRitualStore());
 
 watch(() => ritualsList.value, (newValue) => {
@@ -28,6 +28,7 @@ watch(() => ritualsList.value, (newValue) => {
 }, { deep: true });
 
 watch(() => props.checkedMenu, async (newValue) => {
+  resetIsChecked();
   if (newValue && newValue === 'my_rituals') {
     await getFavoriteRituals();
   } else {
@@ -36,7 +37,6 @@ watch(() => props.checkedMenu, async (newValue) => {
 })
 
 onMounted(async () => {
-
   if (props.checkedMenu === 'my_rituals') {
     await getFavoriteRituals();
   } else {

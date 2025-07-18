@@ -25,6 +25,10 @@ export const useRitualStore = defineStore('rituals', () => {
     isAddNewForm.value = !isAddNewForm.value;
   }
 
+  const resetIsChecked = () => {
+    isChecked.value = false;
+  }
+
   const toggleIsChecked = () => {
     isChecked.value = !isChecked.value;
   }
@@ -84,12 +88,18 @@ export const useRitualStore = defineStore('rituals', () => {
 
       if (result.code === 204) {
         responseError.value = t('general.duplicate');
+      } else {
+        responseError.value = '';
       }
 
     } catch (error) {
       console.error('Error [ADD FAVORITE RITUAL] ', error);
     }
     return result;
+  }
+
+  const clearResponseError = () => {
+    responseError.value = '';
   }
 
 
@@ -159,6 +169,8 @@ export const useRitualStore = defineStore('rituals', () => {
     saveToMyRituals,
     getRitualsBySection,
     getFavoriteRituals,
-    removeFromMyRituals
+    removeFromMyRituals,
+    clearResponseError,
+    resetIsChecked
   }
 })

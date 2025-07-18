@@ -18,7 +18,8 @@ const {
   toggleIsChecked,
   toggleIsCheckedMultiple,
   saveToMyRituals,
-  removeFromMyRituals
+  removeFromMyRituals,
+  clearResponseError
 } = useRitualStore();
 const {
   isChecked,
@@ -43,6 +44,11 @@ const handleRemove = async () => {
   dialog.value = 'none';
   messageNotify.value = '';
   await removeFromMyRituals();
+}
+
+const handleClose = (event: DialogEventsType) => {
+  dialog.value = event;
+  clearResponseError();
 }
 
 watch(() => responseError.value, (newValue) => {
@@ -86,8 +92,8 @@ watch(() => responseError.value, (newValue) => {
   <ModalComponent
     :show="dialog === 'notify'"
     full
-    :title="t('general.confirm')"
-    @update:dialog-visibility="dialog = $event"
+    :title="responseError ? t('general.error') : t('general.confirm')"
+    @update:dialog-visibility="handleClose"
   >
     <template #default>
       <p>{{ messageNotify }}</p>
@@ -95,7 +101,7 @@ watch(() => responseError.value, (newValue) => {
     <template #actions>
       <div class="flex items-center justify-center gap-4">
         <AppButton v-if="!responseError" :label="t('general.confirm')" @click="handleRemove" />
-        <AppButton :label="t('general.close')" @click="dialog = 'none'" />
+        <AppButton :label="t('general.close')" @click="handleClose" />
       </div>
     </template>
   </ModalComponent>
