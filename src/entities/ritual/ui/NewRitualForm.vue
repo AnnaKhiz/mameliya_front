@@ -111,7 +111,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
 </script>
 
 <template>
-  <div>
+  <div class="w-4/5 m-auto">
     <h2 class="mb-4 font-bold text-lg text-center">{{ t('rituals.add_new_title') }}</h2>
     <form  action="" class="flex flex-col gap-4" >
       <AppInputText

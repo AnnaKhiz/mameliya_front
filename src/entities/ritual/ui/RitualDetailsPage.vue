@@ -7,10 +7,14 @@ import {
   RitualDetailsActionsMenu,
   RitualDetailsList,
   type RitualDetailsItemType,
-  RitualDetailsLayout
+  RitualDetailsLayout, type RitualSectionType
 } from "@/entities/ritual";
 const { t } = useI18n();
 
+type Props = {
+  checkedMenu: RitualSectionType;
+}
+defineProps<Props>();
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 const { } = useRitualStore();
@@ -21,21 +25,21 @@ watch(() => ritualsList.value, (newValue) => {
   if (newValue) {
     checkedFavorites.value = newValue.filter(e => e.checked);
   }
-}, { deep: true })
+}, { deep: true });
 
 </script>
 
 <template>
   <RitualDetailsLayout>
     <template #content-left>
-      <RitualDetailsActionsMenu />
+      <RitualDetailsActionsMenu :is-add-icon="checkedMenu === 'my_rituals'" />
       <RitualDetailsList />
     </template>
 
     <template #content-right>
       <p v-if="description && checkedFavorites.length && !isAddNewForm">{{ description }}</p>
 
-      <div v-else-if="isAddNewForm" class="w-full h-full">
+      <div v-else-if="isAddNewForm && checkedMenu === 'my_rituals'" class="w-full h-full">
         <NewRitualForm />
       </div>
     </template>

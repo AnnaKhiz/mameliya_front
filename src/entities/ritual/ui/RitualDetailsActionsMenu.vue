@@ -10,11 +10,16 @@ import {storeToRefs} from "pinia";
 const { openAddRitualForm, toggleIsChecked, toggleIsCheckedMultiple, saveToMyRituals } = useRitualStore();
 const { isChecked, anyChecked } = storeToRefs(useRitualStore());
 
+type Props = {
+  isAddIcon: boolean;
+}
+defineProps<Props>();
 </script>
 
 <template>
-  <div class="mb-2 flex items-center justify-between gap-1">
+  <div class="mb-2 flex items-center gap-1" :class="isAddIcon ? 'justify-between ' : 'justify-end'">
     <PlusCircleIcon
+      v-if="isAddIcon"
       class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
       @click="openAddRitualForm"
       v-tooltip="'Add new ritual'"
