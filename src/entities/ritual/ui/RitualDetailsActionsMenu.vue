@@ -8,23 +8,49 @@ import {
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 import {useI18n} from "vue-i18n";
+import ModalComponent from "@/shared/ui/modal";
+import {ref, watch} from "vue";
+import type {DialogEventsType} from "@/entities/calendar";
+import App from "@/App.vue";
+import {AppButton} from "@/shared/ui/button";
 const {
   openAddRitualForm,
   toggleIsChecked,
   toggleIsCheckedMultiple,
-  saveToMyRituals
+  saveToMyRituals,
+  removeFromMyRituals
 } = useRitualStore();
 const {
   isChecked,
   anyChecked,
   allChecked,
   isAddNewForm,
+  responseError
 } = storeToRefs(useRitualStore());
 const { t } = useI18n();
 type Props = {
   isAddIcon: boolean;
 }
 defineProps<Props>();
+
+const dialog = ref<DialogEventsType>('none');
+const messageNotify = ref<string>('');
+const showConfirmDelete = () => {
+  dialog.value = 'notify';
+  messageNotify.value = t('rituals.remove_ritual_notify');
+}
+const handleRemove = async () => {
+  dialog.value = 'none';
+  messageNotify.value = '';
+  await removeFromMyRituals();
+}
+
+watch(() => responseError.value, (newValue) => {
+  if (newValue) {
+    dialog.value = 'notify';
+    messageNotify.value = newValue;
+  }
+})
 </script>
 
 <template>
@@ -48,13 +74,31 @@ defineProps<Props>();
         v-tooltip="allChecked ? t('rituals.uncheck_all') : t('rituals.check_all')"
       />
       <StarIcon
-        v-if="anyChecked"
+        v-if="anyChecked || isAddIcon"
         class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-        @click="saveToMyRituals"
-        v-tooltip="t('rituals.add_to_my_rituals')"
+        @click="isAddIcon ? showConfirmDelete() : saveToMyRituals()"
+        v-tooltip="isAddIcon ? t('rituals.remove_from_my_rituals') : t('rituals.add_to_my_rituals')"
       />
     </div>
   </div>
+
+  <!-- dialog notify  -->
+  <ModalComponent
+    :show="dialog === 'notify'"
+    full
+    :title="t('general.confirm')"
+    @update:dialog-visibility="dialog = $event"
+  >
+    <template #default>
+      <p>{{ messageNotify }}</p>
+    </template>
+    <template #actions>
+      <div class="flex items-center justify-center gap-4">
+        <AppButton v-if="!responseError" :label="t('general.confirm')" @click="handleRemove" />
+        <AppButton :label="t('general.close')" @click="dialog = 'none'" />
+      </div>
+    </template>
+  </ModalComponent>
 </template>
 
 <style scoped>

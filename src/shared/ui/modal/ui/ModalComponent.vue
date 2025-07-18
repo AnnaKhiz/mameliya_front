@@ -36,6 +36,7 @@ const closeDialog = () => {
             <XMarkIcon class="w-9 cursor-pointer justify-self-end" @click="closeDialog" />
           </div>
           <slot />
+          <slot name="actions" />
         </div>
       </div>
     </Transition>

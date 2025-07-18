@@ -17,7 +17,8 @@
 		"please_wait": "Please wait",
 		"successfully_sent": "Successfully sent",
 		"error": "Error",
-		"min": "min"
+		"min": "min",
+		"duplicate": "Duplicate item. This item already exist in list!"
 	},
 	"aside": {
 		"mama": {
@@ -265,7 +266,9 @@
 		"check_all": "Select all",
 		"uncheck_all": "Unselect all",
 		"add_to_my_rituals": "Add to \"My rituals\"",
-		"hide_add_new_ritual": "Hide form"
+		"hide_add_new_ritual": "Hide form",
+		"remove_from_my_rituals": "Remove from \"My rituals\"",
+		"remove_ritual_notify": "Please note that if you delete a ritual you created, it will be permanently removed. If you remove someone else's ritual from \"My Rituals\", it will remain in its thematic section but will be removed from your favorites list. Do you confirm the deletion?"
 	},
 	"helper_ai": {
 		"tooltip": "AI assistant",

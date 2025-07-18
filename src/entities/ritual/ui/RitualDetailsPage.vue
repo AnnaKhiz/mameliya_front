@@ -28,15 +28,10 @@ watch(() => ritualsList.value, (newValue) => {
 }, { deep: true });
 
 watch(() => props.checkedMenu, async (newValue) => {
-  console.log(newValue)
-  // await getFavoriteRituals();
-  if (newValue) {
-    await getRitualsBySection(props.checkedMenu)
-    if (newValue === 'my_rituals') {
-      await getFavoriteRituals();
-    } else {
-      await getRitualsBySection(props.checkedMenu);
-    }
+  if (newValue && newValue === 'my_rituals') {
+    await getFavoriteRituals();
+  } else {
+    await getRitualsBySection(props.checkedMenu);
   }
 })
 
@@ -54,7 +49,6 @@ onMounted(async () => {
 <template>
   <RitualDetailsLayout>
     <template #content-left>
-
       <RitualDetailsActionsMenu :is-add-icon="props.checkedMenu === 'my_rituals'" />
       <RitualDetailsList />
     </template>

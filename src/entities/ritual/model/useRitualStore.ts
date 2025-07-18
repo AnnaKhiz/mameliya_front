@@ -3,12 +3,14 @@ import {computed, ref} from 'vue';
 import {fetchData} from "@/shared/api";
 import type {RitualDetailsItemType, RitualSectionType} from "@/entities/ritual";
 import { useUserStore } from "@/entities/user";
+import {useI18n} from "vue-i18n";
 
 export const useRitualStore = defineStore('rituals', () => {
   const userStore = useUserStore();
-
+  const { t } = useI18n();
   const ritualsList = ref<RitualDetailsItemType[] | []>([]);
   const checkedRitual = ref<RitualDetailsItemType | null>(null);
+  const responseError = ref<string>('');
   const isChecked = ref<boolean>(false);
   const isAddNewForm = ref<boolean>(false);
   const description = ref<string>('');
@@ -80,7 +82,10 @@ export const useRitualStore = defineStore('rituals', () => {
         { },
         body);
 
-      console.log('fav result', result.data)
+      if (result.code === 204) {
+        responseError.value = t('general.duplicate');
+      }
+
     } catch (error) {
       console.error('Error [ADD FAVORITE RITUAL] ', error);
     }
@@ -115,6 +120,22 @@ export const useRitualStore = defineStore('rituals', () => {
     });
   }
 
+  const removeFromMyRituals = async () => {
+    const favoriteRituals = checkedFavorites.value.filter((e: Record<string, any>) => e.checked);
+    await removeMyRitualsRequest(favoriteRituals);
+  }
+
+  const removeMyRitualsRequest = async (body: Record<string, any>[]) => {
+    let result = null;
+    try {
+      result = await fetchData('user/rituals/favorites/remove', 'DELETE', { }, body);
+      ritualsList.value = parseRitualsList(result.data);
+    } catch (error) {
+      console.error('Error [REMOVE RITUAL ', error);
+    }
+    return result;
+  }
+
   const filterGeneralRituals = (list: RitualDetailsItemType[]):RitualDetailsItemType[]  => {
     return list.filter((e: RitualDetailsItemType) => (e.creator === 'Admin' || e.creator === userStore.user?.userId));
   }
@@ -128,6 +149,7 @@ export const useRitualStore = defineStore('rituals', () => {
     anyChecked,
     allChecked,
     checkedRitual,
+    responseError,
     handleCheck,
     addNewRitual,
     openAddRitualForm,
@@ -136,6 +158,7 @@ export const useRitualStore = defineStore('rituals', () => {
     openDescription,
     saveToMyRituals,
     getRitualsBySection,
-    getFavoriteRituals
+    getFavoriteRituals,
+    removeFromMyRituals
   }
 })

@@ -39,6 +39,5 @@ const goBack = () => {
     :checked-menu="checkedMenu"
   />
 
-<!--  <router-view v-if="checkedMenu !== 'none'" />-->
 </template>
 
