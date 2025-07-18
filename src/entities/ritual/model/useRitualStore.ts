@@ -1,25 +1,26 @@
-import {defineStore} from "pinia";
+import {defineStore, storeToRefs} from "pinia";
 import {computed, ref} from 'vue';
 import {fetchData} from "@/shared/api";
 import type {RitualDetailsItemType, RitualSectionType} from "@/entities/ritual";
+import { useUserStore } from "@/entities/user";
 
 export const useRitualStore = defineStore('rituals', () => {
+  const userStore = useUserStore();
+
   const ritualsList = ref<RitualDetailsItemType[] | []>([]);
   const checkedRitual = ref<RitualDetailsItemType | null>(null);
   const isChecked = ref<boolean>(false);
   const isAddNewForm = ref<boolean>(false);
   const description = ref<string>('');
-  const checkedFavorites = ref([{}]);
+  const checkedFavorites = ref<Record<string, any>>([{}]);
   const anyChecked = computed(() => ritualsList.value.some(e => e.checked));
   const allChecked = computed(() => ritualsList.value.every(e => e.checked));
   const handleCheck = (index: number) => {
     ritualsList.value[index].checked = !ritualsList.value[index].checked;
-    console.log('rituals checked', ritualsList.value)
   }
 
   const openAddRitualForm = () => {
     isAddNewForm.value = !isAddNewForm.value;
-
   }
 
   const toggleIsChecked = () => {
@@ -60,17 +61,63 @@ export const useRitualStore = defineStore('rituals', () => {
     let result = null;
     try {
       result = await fetchData('user/rituals/:section','GET', { section });
-      console.log('get result', result);
-      ritualsList.value = result.data.map((el: RitualDetailsItemType) => ({...el, checked: false}));
+
+      const parsedList = parseRitualsList(result.data);
+      ritualsList.value = filterGeneralRituals(parsedList);
+
     } catch (error) {
       console.error('Error [ADD NEW RITUAL ', error);
     }
     return result;
   }
 
-  const saveToMyRituals = () => {
+  const addToFavorites = async (body: Record<string, any>[]) => {
+    let result = null;
+    try {
+      result = await fetchData(
+        'user/rituals/favorites/add',
+        'POST',
+        { },
+        body);
 
-}
+      console.log('fav result', result.data)
+    } catch (error) {
+      console.error('Error [ADD FAVORITE RITUAL] ', error);
+    }
+    return result;
+  }
+
+
+  const getFavoriteRituals = async () => {
+    let result = null;
+    try {
+      result = await fetchData('user/rituals/favorites/get');
+
+      ritualsList.value = parseRitualsList(result.data);
+    } catch (error) {
+      console.error('Error [GET FAVORITE RITUAL ', error);
+    }
+    return result;
+  }
+
+  const saveToMyRituals = async () => {
+    const favoriteRituals = checkedFavorites.value.filter((e: Record<string, any>) => e.checked);
+    await addToFavorites(favoriteRituals);
+  }
+
+  const parseRitualsList = (list: RitualDetailsItemType[]) => {
+    return list.map((el: RitualDetailsItemType) => {
+      return {
+        ...el,
+        cosmetic_name: JSON.parse(el.cosmetic_name as any),
+        checked: false
+      }
+    });
+  }
+
+  const filterGeneralRituals = (list: RitualDetailsItemType[]):RitualDetailsItemType[]  => {
+    return list.filter((e: RitualDetailsItemType) => (e.creator === 'Admin' || e.creator === userStore.user?.userId));
+  }
 
   return {
     ritualsList,
@@ -88,6 +135,7 @@ export const useRitualStore = defineStore('rituals', () => {
     toggleIsCheckedMultiple,
     openDescription,
     saveToMyRituals,
-    getRitualsBySection
+    getRitualsBySection,
+    getFavoriteRituals
   }
 })

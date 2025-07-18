@@ -255,7 +255,7 @@
 		"enter_title": "Enter ritual title...",
 		"select_section": "Select ritual section",
 		"select_ritual_section": "Select ritual section from the list",
-		"add_cosmetic": "Add recommended cosmetics",
+		"add_cosmetic": "Add tags/cosmetics/tools",
 		"enter_cosmetic_name": "Enter name and press Enter",
 		"ritual_description": "Ritual description",
 		"no_rituals": "There are no rituals in this section.",

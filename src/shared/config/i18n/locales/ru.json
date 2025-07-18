@@ -255,7 +255,7 @@
 		"enter_title": "Введи название...",
 		"select_section": "Выбери раздел",
 		"select_ritual_section": "Выбери раздел из списка",
-		"add_cosmetic": "Добавь рекомендованную косметику",
+		"add_cosmetic": "Добавь теги/косметику/инструменты",
 		"enter_cosmetic_name": "Введи название и нажми Enter",
 		"ritual_description": "Описание ритуала",
 		"no_rituals": "В этом разделе нет ритуалов.",
