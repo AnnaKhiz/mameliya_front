@@ -193,6 +193,7 @@
 		"connect_google_calendar": "Connect Google Calendar",
 		"instruction": "Instruction",
 		"how_to_use": "How to use the calendar",
+		"user_page": "User page",
 		"calendar": {
 			"modal_title": "Event description",
 			"modal_event_name": "Name",
