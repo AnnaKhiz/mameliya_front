@@ -295,6 +295,15 @@ const router = createRouter({
                   },
                 }
               ]
+            },
+            {
+              path: 'user_page',
+              name: 'user-page',
+              props: true,
+              component: () => import('@/pages/user-page/ui/UserPage.vue'),
+              meta: {
+                requiresAuth: true,
+              },
             }
           ]
         },

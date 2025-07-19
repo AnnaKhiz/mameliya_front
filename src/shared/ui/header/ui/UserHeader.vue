@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
-import { CalendarDaysIcon, ChartPieIcon, ChatBubbleLeftRightIcon } from "@heroicons/vue/16/solid";
+import {
+  CalendarDaysIcon,
+  ChartPieIcon,
+  ChatBubbleLeftRightIcon,
+  HomeIcon
+} from "@heroicons/vue/16/solid";
 import {MoodPanel, MoodPanelLayout} from "@/entities/mood/mood-panel";
 import {BurgerButton, BurgerContent} from "@/features/burger";
 import {AppButton} from "@/shared/ui/button";
@@ -32,8 +37,8 @@ const popup = ref<PopupDialogsType>('none');
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
-const goToAboutPage = () => {
-  router.push({ name: 'about'});
+const goToPage = (value: string) => {
+  router.push({ name: value});
 }
 const handleLogOut = async () => {
   await logOutUser();
@@ -73,11 +78,11 @@ watch(() => route.query, (newValue) => {
 <template>
   <HeaderLayout>
     <template #content>
-      <div class="sm:flex justify-between items-center sm:gap-4 xs:hidden">
+      <div class="sm:flex justify-between items-center sm:gap-2 xs:hidden">
         <MoodPanelLayout
           v-if="mama?.mood"
           @update-modal-show="updateModal"
-          class="relative cursor-pointer w-fit hover:bg-blend-soft-light">
+          class="relative w-fit hover:bg-blend-soft-light outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500">
           <template #content>
             <Transition>
               <MoodPanel
@@ -89,20 +94,27 @@ watch(() => route.query, (newValue) => {
             </Transition>
           </template>
         </MoodPanelLayout>
+        <HomeIcon
+          v-if="user"
+          v-tooltip="t('mama.user_page')"
+          @click.prevent="goToPage('user-page')"
+          class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+        />
         <CalendarDaysIcon
           v-if="user"
           v-tooltip="t('mama.calendar.general_calendar_title')"
           @click="openGeneralCalendar"
-          class="fill-brown-dark w-7 cursor-pointer outline-none"
+          class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
-        <ChartPieIcon class="fill-brown-dark w-7 cursor-pointer"/>
+
         <ChatBubbleLeftRightIcon
           v-if="user"
           v-tooltip="t('helper_ai.tooltip')"
           @click="openAIChat"
-          class="fill-brown-dark w-7 cursor-pointer outline-none"
+          class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
-        <AppButton :label="t('general.about')" @click.prevent="goToAboutPage"/>
+
+        <AppButton :label="t('general.about')" @click.prevent="goToPage('about')"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>
         <LanguageDropdown />
       </div>

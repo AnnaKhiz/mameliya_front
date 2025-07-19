@@ -193,6 +193,7 @@
 		"connect_google_calendar": "Подключить Google Calendar",
 		"instruction": "Инструкция",
 		"how_to_use": "Как пользоваться календарем",
+		"user_page": "Личный кабинет",
 		"calendar": {
 			"modal_title": "Описание события",
 			"modal_event_name": "Название",
