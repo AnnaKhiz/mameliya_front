@@ -13,6 +13,9 @@ const emits = defineEmits(['update:edit']);
 
 <template>
   <div class="w-full h-full flex flex-col gap-4 text-brown-dark px-2">
+    <div class="w-36 h-36 bg-brown-light rounded-md mb-4">
+      avatar
+    </div>
     <ListItem
       :title="t('user_page.user_name')"
       :content="user?.first_name ? user?.first_name : t('user_page.no_data')"

@@ -162,7 +162,12 @@ onMounted(() => {
         @input-click="openConfirmPasswordChange"
         class="mb-4"
       />
-      <p class="text-sm" :class="messageError ? 'text-red-600' : 'text-green-900'" >{{ messageError ? messageError : messageNotify }}</p>
+      <p
+        class="text-sm"
+        :class="messageError ? 'text-red-600' : 'text-green-900'"
+      >
+        {{ messageError ? messageError : messageNotify }}
+      </p>
       <div class="flex justify-between items-center gap-4 mt-auto mb-5">
         <AppButton :label="t('general.back')"  @click.prevent="emits('update:edit', false)"/>
         <AppButton :label="t('general.send')" @click.prevent="submitForm" />

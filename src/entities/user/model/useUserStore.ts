@@ -93,11 +93,11 @@ export const useUserStore = defineStore('user', () => {
     try {
       result = await fetchData('user/data/update', 'PATCH', {}, body);
       isLoading.value = false;
-      if (result) {
-        if (result?.data) {
-          user.value = result.data;
-        }
+
+      if (result?.data) {
+        user.value = result.data;
       }
+
 
     } catch(error) {
       console.error('Error [Check auth user]: ', error);
