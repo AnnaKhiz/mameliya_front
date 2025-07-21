@@ -72,6 +72,7 @@
 		"user_with_email_exist": "Пользователь с таким email уже существует",
 		"register_successful": "Регистрация прошла успешно",
 		"wrong_email_or_password": "Неправильный email или пароль",
+		"wrong_password": "Неправильный пароль",
 		"updates_not_saved": "Данные не сохранены",
 		"confirm_delete": "Подтверждение удаления",
 		"successfully saved": "Сохранено успешно",
@@ -83,7 +84,8 @@
 		"min_6_symbols": "Минимум 6 символов",
 		"password_required": "Пароль обязателен",
 		"password_confirm_required": "Подтверждение пароля обязательно",
-		"different_passwords": "Пароли не совпадают"
+		"different_passwords": "Пароли не совпадают",
+		"age_not_less": "Возраст не может быть меньше 16"
 	},
 	"language": {
 		"en": "Английский",
@@ -276,7 +278,7 @@
 		"modal_header": "Чат с AI ассистентом",
 		"placeholder": "Напиши сообщение..."
 	},
-	"user-page": {
+	"user_page": {
 		"dialog_title": "Личная информация",
 		"dialog_title_edit": "Изменение данных профиля",
 		"user_name": "Имя",
@@ -291,7 +293,10 @@
 		"enter_age": "Введи свой возраст...",
 		"confirm_password_change": "Подтверждение смены пароля",
 		"enter_current_password": "Введи текущий пароль",
-		"enter_new_password": "Введи новый пароль"
+		"enter_new_password": "Введи новый пароль",
+		"no_data": "Не указано",
+		"updating_error": "Ошибка обновления",
+		"update_successfully": "Обновлено успешно"
 	}
 }
 
