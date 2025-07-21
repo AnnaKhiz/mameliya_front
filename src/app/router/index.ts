@@ -69,7 +69,7 @@ const router = createRouter({
           path: ':id',
           name: 'user-home',
           props: true,
-          component: () => import('@/pages/user/ui/UserPageMain.vue'),
+          component: () => import('@/entities/user/ui/UserPageMain.vue'),
           meta: {
             requiresAuth: true,
           },

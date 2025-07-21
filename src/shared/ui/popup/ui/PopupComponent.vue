@@ -7,7 +7,8 @@ type Props = {
   width?: string;
   height?: string;
   show: boolean;
-  collapse: boolean;
+  collapse?: boolean;
+  style?: string;
 }
 const props = defineProps<Props>();
 
@@ -25,21 +26,26 @@ const changeDialogState = (value: string) => {
       <div
         v-if="props.show"
         :class="[
-          full ? 'fixed inset-0 bg-black/40 w-full h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
+          full ? 'fixed bottom-0 right-0 bg-black/40 w-1/4 h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
           collapse ? 'w-16' : ''
         ]"
       >
         <div
-          class="bg-brown-dark p-3 rounded-md flex flex-col items-center justify-start gap-4 text-white"
+          class="p-3 flex flex-col items-center justify-start gap-4"
           :class="[
             props.width || 'w-2/6' ,
-            props.height || 'min-height-24'
+            props.height || 'min-height-24',
+            props.style ? props.style : 'bg-brown-dark rounded-md text-white'
           ]"
         >
           <div v-if="!collapse" class="flex justify-center items-center w-full gap-10">
-            <h2 class="self-center font-bold text-md w-full p-1 text-center">{{ title }}</h2>
+            <h2
+              class="self-center font-bold text-md w-full p-1 text-center uppercase"
+              :class="full ? 'text-brown-dark' : 'text-white'"
+            >{{ title }}</h2>
             <div class="flex justify-self-end">
               <MinusIcon
+                v-if="!full"
                 @click="changeDialogState('collapse')"
                 class="w-9 cursor-pointer hover:bg-brown-medium rounded p-2 transition duration-500"
               />
@@ -51,6 +57,7 @@ const changeDialogState = (value: string) => {
           </div>
           <div v-else >
             <ChevronDoubleLeftIcon
+              v-if="!full && collapse"
               @click="changeDialogState('ai-chat')"
               class="w-9 cursor-pointer hover:bg-brown-medium rounded p-2 transition duration-500"
             />

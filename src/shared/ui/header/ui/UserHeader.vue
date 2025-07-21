@@ -24,6 +24,7 @@ import { vTooltip } from "floating-vue";
 import {AssistantComponent} from "@/entities/assistant";
 import {PopupComponent, type PopupDialogsType} from "@/shared/ui/popup";
 import {useAssistantStore} from "@/entities/assistant/model/useAssistantStore.ts";
+import {UserPage} from "@/pages/user-page";
 const { removeChatHistory } = useAssistantStore();
 const { user } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
@@ -34,6 +35,8 @@ const route = useRoute();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const popup = ref<PopupDialogsType>('none');
+
+const isEditInfo = ref<boolean>(false);
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -66,6 +69,9 @@ const openAIChat = async () => {
   changePopupState('ai-chat');
 }
 
+const handleIsEditInfo = (event: boolean) => {
+  isEditInfo.value = event;
+}
 
 watch(() => route.query, (newValue) => {
   if (newValue.modal === 'success') {
@@ -82,7 +88,7 @@ watch(() => route.query, (newValue) => {
         <MoodPanelLayout
           v-if="mama?.mood"
           @update-modal-show="updateModal"
-          class="relative w-fit hover:bg-blend-soft-light outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500">
+          class="relative w-fit hover:bg-blend-soft-light outline-none p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500">
           <template #content>
             <Transition>
               <MoodPanel
@@ -97,7 +103,7 @@ watch(() => route.query, (newValue) => {
         <HomeIcon
           v-if="user"
           v-tooltip="t('mama.user_page')"
-          @click.prevent="goToPage('user-page')"
+          @click="changePopupState('user-page')"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
         <CalendarDaysIcon
@@ -154,6 +160,21 @@ watch(() => route.query, (newValue) => {
   >
     <template #default>
       <AssistantComponent />
+    </template>
+  </PopupComponent>
+
+  <!-- dialog user page -->
+  <PopupComponent
+    :show="popup === 'user-page'"
+    :width="'w-full'"
+    :height="'h-full'"
+    full
+    :title="isEditInfo ? t('user_page.dialog_title_edit') : t('user_page.dialog_title')"
+    :style="'bg-white rounded-none'"
+    @update:dialog-visibility="changePopupState($event)"
+  >
+    <template #default>
+      <UserPage :edit="isEditInfo" @update:edit="handleIsEditInfo" />
     </template>
   </PopupComponent>
 </template>

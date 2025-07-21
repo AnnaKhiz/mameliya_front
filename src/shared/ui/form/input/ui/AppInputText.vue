@@ -12,7 +12,7 @@ const text = defineModel<string>();
 
 <template>
   <div>
-    <h2 v-if="title" class="mb-1">{{ title }}</h2>
+    <h2 v-if="title" class="mb-1 text-brown-dark">{{ title }}</h2>
     <input
       v-model="text"
       type="text"

@@ -275,6 +275,20 @@
 		"tooltip": "AI ассистент",
 		"modal_header": "Чат с AI ассистентом",
 		"placeholder": "Напиши сообщение..."
+	},
+	"user-page": {
+		"dialog_title": "Личная информация",
+		"dialog_title_edit": "Изменение данных профиля",
+		"user_name": "Имя",
+		"user_lastname": "Фамилия",
+		"user_email": "Email",
+		"password": "Пароль",
+		"user_age": "Возраст",
+		"enter_user_name": "Введи свое имя...",
+		"enter_user_lastname": "Введи свою фамилию...",
+		"enter_email": "Введи свой email...",
+		"enter_password": "Введи новый пароль...",
+		"enter_age": "Введи свой возраст..."
 	}
 }
 
