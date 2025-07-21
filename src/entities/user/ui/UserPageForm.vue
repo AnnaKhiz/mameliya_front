@@ -145,9 +145,9 @@ onMounted(() => {
         :error="errors && errors.email"
       />
       <div class="mb-4">
-        <p>{{ t('user_page.password') }}</p>
         <AppInputPassword
           v-model="formUserPage.password"
+          :title="t('user_page.password')"
           :placeholder-text="t('user_page.enter_password')"
           :field="'password'"
           :styles="'dark-mode'"
@@ -177,23 +177,22 @@ onMounted(() => {
     <template #actions>
       <div class="flex flex-col gap-4">
         <div class="mb-5">
-          <div class="mb-4">
-            <p>{{ t('user_page.enter_current_password') }}</p>
-            <AppInputPassword
-              v-model="formUserPage.passwordCheck"
-              :placeholder-text="t('user_page.enter_current_password')"
-              :field="'password'"
-              :styles="'dark-mode'"
-            />
-          </div>
-          <div>
-            <p>{{ t('user_page.enter_new_password') }}</p>
-            <AppInputPassword
-              v-model="formUserPage.password"
-              :placeholder-text="t('user_page.enter_new_password')"
-              :field="'passwordConfirm'"
-              :styles="'dark-mode'"/>
-          </div>
+          <AppInputPassword
+            v-model="formUserPage.passwordCheck"
+            :title="t('user_page.enter_current_password')"
+            :placeholder-text="t('user_page.enter_current_password')"
+            :field="'password'"
+            :styles="'dark-mode'"
+            class="mb-4"
+          />
+
+          <AppInputPassword
+            v-model="formUserPage.password"
+            :title="t('user_page.enter_new_password')"
+            :placeholder-text="t('user_page.enter_new_password')"
+            :field="'passwordConfirm'"
+            :styles="'dark-mode'"/>
+
           <p class="text-sm text-red-600">{{ messageError }}</p>
         </div>
         <div class="flex items-center justify-center gap-4">

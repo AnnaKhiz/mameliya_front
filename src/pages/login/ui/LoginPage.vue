@@ -95,8 +95,12 @@ const submitForm = async () => {
         </span>
       </div>
       <div >
-        <p class="mb-2">{{ t('auth.enter_password') }}</p>
-        <AppInputPassword :field="'password'" :form="formData" />
+        <AppInputPassword
+          v-model="formData.password"
+          :field="'password'"
+          :title="t('auth.enter_password')"
+          class="mb-2"
+        />
         <span
           v-if="errors.password"
           class="text-red-600 text-2xs ml-2"
