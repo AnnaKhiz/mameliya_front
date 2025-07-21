@@ -87,6 +87,39 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  const updateUser = async (body: Record<string, any>) => {
+    let result: ResponseType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/data/update', 'PATCH', {}, body);
+      isLoading.value = false;
+      if (result) {
+        if (result?.data) {
+          user.value = result.data;
+        }
+      }
+
+    } catch(error) {
+      console.error('Error [Check auth user]: ', error);
+    }
+    return result;
+
+  }
+
+  const checkUserPassword = async (body: Record<string, any>) => {
+    let result: ResponseType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/password-check', 'POST', {}, body);
+      isLoading.value = false;
+
+    } catch(error) {
+      console.error('Error [Check auth user]: ', error);
+    }
+    return result;
+
+  }
+
   return {
     user,
     isAuthenticated,
@@ -96,5 +129,7 @@ export const useUserStore = defineStore('user', () => {
     logOutUser,
     updateIsAuthenticated,
     checkUserSession,
+    updateUser,
+    checkUserPassword
   }
 })

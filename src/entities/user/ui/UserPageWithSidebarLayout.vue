@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SidebarMenu from "../../../entities/sidebar/ui/SidebarMenu.vue";
+import SidebarMenu from "../../sidebar/ui/SidebarMenu.vue";
 import {SidebarStatistic} from "@/entities/sidebar";
 </script>
 

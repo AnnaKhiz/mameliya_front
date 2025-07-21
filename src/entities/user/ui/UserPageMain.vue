@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { computed } from 'vue';
-import { UserPageWithSidebarLayout, UserSectionsMenu } from "@/pages/user";
+import { UserPageWithSidebarLayout, UserSectionsMenu } from "@/entities/user";
 
 const route = useRoute();
 

@@ -275,5 +275,22 @@
 		"tooltip": "AI assistant",
 		"modal_header": "Chat with AI assistant",
 		"placeholder": "Write a message..."
+	},
+	"user_page": {
+		"dialog_title": "User info",
+		"dialog_title_edit": "Edit user info",
+		"user_name": "Name",
+		"user_lastname": "Last name",
+		"user_email": "Email",
+		"password": "Password",
+		"user_age": "Age",
+		"enter_user_name": "Enter your name...",
+		"enter_user_lastname": "Enter your lastname...",
+		"enter_email": "Enter your email...",
+		"enter_password": "Enter new password...",
+		"enter_age": "Enter your age...",
+		"confirm_password_change": "Confirm password change",
+		"enter_current_password": "Enter current password",
+		"enter_new_password": "Enter new password"
 	}
 }

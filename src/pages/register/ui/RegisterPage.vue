@@ -100,7 +100,11 @@ const submitForm = async () => {
             </div>
             <div>
               <p>{{ t('auth.enter_password') }}</p>
-              <AppInputPassword :field="'password'" :form="formData"/>
+              <AppInputPassword
+                :field="'password'"
+                :form="formData"
+                :placeholder-text="t('auth.password_placeholder')"
+              />
               <span
                 v-if="errors.password"
                 class="text-red-600 text-2xs ml-2"
@@ -110,7 +114,11 @@ const submitForm = async () => {
             </div>
             <div>
               <p>{{ t('auth.enter_confirm_password') }}</p>
-              <AppInputPassword is-confirm :field="'passwordConfirm'" :form="formData"/>
+              <AppInputPassword
+                :field="'passwordConfirm'"
+                :form="formData"
+                :placeholder-text="t('auth.password_confirm_placeholder')"
+              />
               <span
                 v-if="errors.passwordConfirm"
                 class="text-red-600 text-2xs ml-2"
