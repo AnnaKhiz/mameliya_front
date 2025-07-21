@@ -18,7 +18,7 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {CalendarComponent} from "@/entities/calendar";
+import {CalendarComponent, type DialogEventsType} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 import {AssistantComponent} from "@/entities/assistant";

@@ -14,35 +14,39 @@ type Props = {
   isConfirm?: boolean;
   form: FormRegisterType;
   field: keyof FormRegisterType;
+  styles?: string;
+  placeholderText?: string;
 }
 const props = defineProps<Props>();
 const isHidden = ref<boolean>(true);
+const emits = defineEmits(['inputClick']);
 
 const togglePasswordVisibility = () => {
   isHidden.value = !isHidden.value;
 }
-const inputModel = toRef(props.form, props.field);
+// const inputModel = toRef(props.form, props.field);
+const inputModel = defineModel<string>();
 </script>
 
 <template>
   <div class="relative">
     <input
       v-model="inputModel"
-      class="w-full mb-1"
+      class="w-full mb-1 placeholder-gray-300"
+      :class="styles ? styles : ''"
       :type="isHidden ? 'password' : 'text'"
-      :placeholder="props.isConfirm
-        ? t('auth.password_confirm_placeholder')
-        : t('auth.password_placeholder') "
+      :placeholder="placeholderText ? placeholderText : t('auth.password_placeholder')"
+      @click="emits('inputClick', true)"
     />
     <EyeIcon
       v-if="isHidden"
-      class="w-6 absolute top-1/4 right-2 cursor-pointer"
-      @click="togglePasswordVisibility"
+      class="w-6 absolute top-1/4 right-2 cursor-pointer z-10"
+      @click.stop="togglePasswordVisibility"
     />
     <EyeSlashIcon
       v-else
-      class="w-6 absolute top-1/4 right-2 cursor-pointer"
-      @click="togglePasswordVisibility"
+      class="w-6 absolute top-1/4 right-2 cursor-pointer z-10"
+      @click.stop="togglePasswordVisibility"
     />
   </div>
 </template>

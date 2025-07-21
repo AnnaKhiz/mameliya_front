@@ -288,7 +288,10 @@
 		"enter_user_lastname": "Введи свою фамилию...",
 		"enter_email": "Введи свой email...",
 		"enter_password": "Введи новый пароль...",
-		"enter_age": "Введи свой возраст..."
+		"enter_age": "Введи свой возраст...",
+		"confirm_password_change": "Подтверждение смены пароля",
+		"enter_current_password": "Введи текущий пароль",
+		"enter_new_password": "Введи новый пароль"
 	}
 }
 

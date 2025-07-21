@@ -288,6 +288,9 @@
 		"enter_user_lastname": "Enter your lastname...",
 		"enter_email": "Enter your email...",
 		"enter_password": "Enter new password...",
-		"enter_age": "Enter your age..."
+		"enter_age": "Enter your age...",
+		"confirm_password_change": "Confirm password change",
+		"enter_current_password": "Enter current password",
+		"enter_new_password": "Enter new password"
 	}
 }
