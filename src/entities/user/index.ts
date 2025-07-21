@@ -1,4 +1,7 @@
 import { useUserStore } from "@/entities/user/model/useUserStore.ts";
+
+import { userInfoValidationSchema } from "@/entities/user/lib/userInfoValidationSchema.ts";
+
 import type { FormFieldsType } from "@/entities/user/types/FormFieldsType.ts";
 import type { UserDataType } from "@/entities/user/types/UserDataType.ts";
 import type { ResponseType } from "@/entities/user/types/ResponseType.ts";
@@ -25,6 +28,7 @@ export type {
 
 export {
   useUserStore,
+  userInfoValidationSchema,
   registerValidationSchema,
   signInValidationSchema,
   UserPageWithSidebarLayout,
