@@ -166,7 +166,7 @@ watch(() => route.query, (newValue) => {
   <!-- dialog user page -->
   <PopupComponent
     :show="popup === 'user-page'"
-    :width="'w-full'"
+    :width="'w-[350px]'"
     :height="'h-full'"
     full
     :title="isEditInfo ? t('user_page.dialog_title_edit') : t('user_page.dialog_title')"

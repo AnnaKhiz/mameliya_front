@@ -26,7 +26,8 @@ const changeDialogState = (value: string) => {
       <div
         v-if="props.show"
         :class="[
-          full ? 'fixed bottom-0 right-0 bg-black/40 w-1/4 h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
+          width && full ? width : '',
+          full ? 'fixed bottom-0 right-0 bg-black/40 w-full h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
           collapse ? 'w-16' : ''
         ]"
       >
@@ -38,7 +39,7 @@ const changeDialogState = (value: string) => {
             props.style ? props.style : 'bg-brown-dark rounded-md text-white'
           ]"
         >
-          <div v-if="!collapse" class="flex justify-center items-center w-full gap-10">
+          <div v-if="!collapse" class="flex justify-center items-center w-full gap-0">
             <h2
               class="self-center font-bold text-md w-full p-1 text-center uppercase"
               :class="full ? 'text-brown-dark' : 'text-white'"

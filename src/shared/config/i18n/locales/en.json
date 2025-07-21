@@ -72,6 +72,7 @@
 		"user_with_email_exist": "User with such email is already exist",
 		"register_successful": "Sign up is successful",
 		"wrong_email_or_password": "Wrong email or password",
+		"wrong_password": "Неправильный пароль",
 		"updates_not_saved": "Updates not saved",
 		"confirm_delete": "Delete confirmation",
 		"successfully saved": "Сохранено успешно",
@@ -83,7 +84,8 @@
 		"min_6_symbols": "Minimum 6 symbols",
 		"password_required": "Password required",
 		"password_confirm_required": "Password confirm required",
-		"different_passwords": "Passwords are different"
+		"different_passwords": "Passwords are different",
+		"age_not_less": "Age should be not less than 16"
 	},
 	"language": {
 		"en": "English",
@@ -291,6 +293,9 @@
 		"enter_age": "Enter your age...",
 		"confirm_password_change": "Confirm password change",
 		"enter_current_password": "Enter current password",
-		"enter_new_password": "Enter new password"
+		"enter_new_password": "Enter new password",
+		"no_data": "Not specified",
+		"updating_error": "Updating error",
+		"update_successfully": "Updated successfully"
 	}
 }
