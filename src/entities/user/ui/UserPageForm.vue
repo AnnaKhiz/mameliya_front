@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 import { AppInputText } from "@/shared/ui/form";
+import { useUserStore } from "@/entities/user";
+import {storeToRefs} from "pinia";
+const { user } = storeToRefs(useUserStore());
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import { type FormUserPageType, userInfoValidationSchema } from "@/entities/user";
@@ -39,6 +42,19 @@ const submitForm = async () => {
     console.log('Ошибки:', errors.value)
   }
 }
+
+onMounted(() => {
+  if (user.value) {
+    const { first_name, last_name, age, email } = user.value;
+    formUserPage.value = {
+      ...formUserPage.value,
+      first_name,
+      last_name,
+      age,
+      email
+    }
+  }
+})
 </script>
 
 <template>
