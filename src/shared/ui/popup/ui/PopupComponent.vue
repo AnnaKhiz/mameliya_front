@@ -27,7 +27,7 @@ const changeDialogState = (value: string) => {
         v-if="props.show"
         :class="[
           width && full ? width : '',
-          full ? 'fixed bottom-0 right-0 bg-black/40 w-full h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
+          full ? 'fixed bottom-0 right-0 bg-black/40 h-full flex justify-center items-center' : 'fixed bottom-3.5 right-3.5',
           collapse ? 'w-16' : ''
         ]"
       >

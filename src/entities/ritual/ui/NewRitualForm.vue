@@ -157,7 +157,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
         />
       </div>
       <p class="text-xs" :class="isError ? 'text-red-800' : 'text-green-900' ">{{ messageFormValidation }}</p>
-      <AppButton label="Save" class="w-fit block" @click.prevent="submitForm"/>
+      <AppButton :label="t('general.save')" class="w-fit block" @click.prevent="submitForm"/>
     </form>
   </div>
 

@@ -43,7 +43,7 @@ const sliderList = computed(() => ([
 </script>
 
 <template>
-  <main class="flex justify-center items-center bg-gradient-main flex-1 self-stretch">
+  <main class="flex justify-center items-center bg-gradient-main flex-1 self-stretch h-full">
     <Swiper
       :slides-per-view="1"
       :loop="true"
