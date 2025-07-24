@@ -293,6 +293,15 @@ const router = createRouter({
                   meta: {
                     requiresAuth: true,
                   },
+                },
+                {
+                  path: 'faq-rituals',
+                  name: 'user-faq-rituals',
+                  props: true,
+                  component: () => import('@/pages/faq/ui/FAQRitualsInfo.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
                 }
               ]
             },
