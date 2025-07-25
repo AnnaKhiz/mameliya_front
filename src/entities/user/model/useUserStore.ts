@@ -118,19 +118,6 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
-  const getGravatarRequest = async (): Promise<any> => {
-    let result: Record<string, boolean> | null = null;
-    isLoading.value = true;
-    try {
-      result = await fetchData('user/data/get/gravatar');
-      isLoading.value = false;
-
-    } catch(error) {
-      console.error('Error [Get gravatar]: ', error);
-    }
-    return result;
-  }
-
   return {
     user,
     isAuthenticated,
@@ -142,6 +129,5 @@ export const useUserStore = defineStore('user', () => {
     checkUserSession,
     updateUser,
     checkUserPassword,
-    getGravatarRequest
   }
 })

@@ -4,7 +4,7 @@ import {AppInputPassword, AppInputText, AppInputNumber} from "@/shared/ui/form";
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
 const { user, isLoading } = storeToRefs(useUserStore());
-const { updateUser, checkUserPassword, getGravatarRequest } = useUserStore();
+const { updateUser, checkUserPassword } = useUserStore();
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import { type FormUserPageType, userInfoValidationSchema } from "@/entities/user";
