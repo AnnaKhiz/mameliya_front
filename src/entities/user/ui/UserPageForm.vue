@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
+import { onMounted, ref} from 'vue';
 import {AppInputPassword, AppInputText, AppInputNumber} from "@/shared/ui/form";
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
 const { user, isLoading } = storeToRefs(useUserStore());
-const { updateUser, checkUserPassword } = useUserStore();
+const { updateUser, checkUserPassword, getGravatarRequest } = useUserStore();
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import { type FormUserPageType, userInfoValidationSchema } from "@/entities/user";
@@ -23,7 +23,6 @@ const formUserPage = ref<FormUserPageType & { passwordCheck?: string }>({
   age: 0
 })
 const emits = defineEmits(['update:edit']);
-
 
 const validateForm = async () => {
   try {
@@ -90,7 +89,6 @@ const submitForm = async () => {
     }
 
   });
-  console.log('updatedUser', updatedUser)
   const result = await updateUser(updatedUser);
 
   if (!result?.result) {
@@ -114,6 +112,8 @@ onMounted(() => {
     }
   }
 })
+
+
 </script>
 
 <template>

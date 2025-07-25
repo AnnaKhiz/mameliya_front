@@ -98,7 +98,6 @@ export const useUserStore = defineStore('user', () => {
         user.value = result.data;
       }
 
-
     } catch(error) {
       console.error('Error [Check auth user]: ', error);
     }
@@ -117,7 +116,19 @@ export const useUserStore = defineStore('user', () => {
       console.error('Error [Check auth user]: ', error);
     }
     return result;
+  }
 
+  const getGravatarRequest = async (): Promise<any> => {
+    let result: Record<string, boolean> | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/data/get/gravatar');
+      isLoading.value = false;
+
+    } catch(error) {
+      console.error('Error [Get gravatar]: ', error);
+    }
+    return result;
   }
 
   return {
@@ -130,6 +141,7 @@ export const useUserStore = defineStore('user', () => {
     updateIsAuthenticated,
     checkUserSession,
     updateUser,
-    checkUserPassword
+    checkUserPassword,
+    getGravatarRequest
   }
 })
