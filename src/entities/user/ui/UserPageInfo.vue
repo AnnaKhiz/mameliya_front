@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 import {AppButton} from "@/shared/ui/button";
 import {useI18n} from "vue-i18n";
 import {ListItem} from "@/shared/ui/list-item";
+import { PlusCircleIcon } from "@heroicons/vue/16/solid";
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
 const { user } = storeToRefs(useUserStore());
@@ -18,6 +19,7 @@ const getUserGravatar = () => {
   userAvatar.value = `https://www.gravatar.com/avatar/${hash}?s=200&d=identicon`;
 }
 
+
 onMounted(() => {
   getUserGravatar();
 })
@@ -25,8 +27,8 @@ onMounted(() => {
 
 <template>
   <div class="w-full h-full flex flex-col gap-4 text-brown-dark px-2">
-    <div class="w-36 h-36 bg-brown-light rounded-xl mb-4">
-      <img :src="userAvatar" alt="user avatar" class="rounded-xl">
+    <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative">
+      <img :src="userAvatar" alt="user avatar" class="rounded-2xl ">
     </div>
     <ListItem
       :title="t('user_page.user_name')"
