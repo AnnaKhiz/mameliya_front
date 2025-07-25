@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
+import { onMounted, ref} from 'vue';
 import {AppInputPassword, AppInputText, AppInputNumber} from "@/shared/ui/form";
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
@@ -12,18 +12,19 @@ import {AppButton} from "@/shared/ui/button";
 import ModalComponent from "@/shared/ui/modal";
 import type {DialogEventsType} from "@/entities/calendar";
 import LoaderComponent from "@/features/loader";
-
+import {PlusCircleIcon, MinusCircleIcon } from "@heroicons/vue/16/solid";
+// @ts-ignore
+import md5 from 'blueimp-md5';
 const dialog = ref<DialogEventsType>('none');
 const isPasswordChange = ref<boolean>(false);
 const messageNotify = ref<string>('');
 const messageError = ref<string>('');
 const errors = ref<{ [key: string]: string }>();
-const formUserPage = ref<FormUserPageType & { passwordCheck?: string }>({
+const formUserPage = ref<FormUserPageType & { passwordCheck?: string, photo?: Record<string, any> | null }>({
   email: '',
   age: 0
 })
 const emits = defineEmits(['update:edit']);
-
 
 const validateForm = async () => {
   try {
@@ -90,7 +91,8 @@ const submitForm = async () => {
     }
 
   });
-  console.log('updatedUser', updatedUser)
+
+
   const result = await updateUser(updatedUser);
 
   if (!result?.result) {
@@ -114,11 +116,53 @@ onMounted(() => {
     }
   }
 })
+const userAvatar = ref<string>('');
+const getUserGravatar = () => {
+  const cleanEmail = user.value?.email.trim().toLowerCase();
+  const hash = md5(cleanEmail);
+  userAvatar.value = `https://www.gravatar.com/avatar/${hash}?s=200&d=identicon`;
+}
+
+const handleFileChange = (event) => {
+  console.log(event.target.files)
+  formUserPage.value.photo = event.target.files[0]
+}
+
+onMounted(() => {
+  getUserGravatar();
+})
+
+const updateAvatar = async () => {
+  if (!formUserPage.value?.photo) {
+    messageError.value = 'Photo did not check';
+    return;
+  }
+  messageError.value = '';
+  const formData = new FormData();
+  formData.append('photo', formUserPage.value?.photo);
+}
+
+const removePhoto = () => {
+  formUserPage.value.photo = null;
+}
+
 </script>
 
 <template>
   <div class="w-full h-full">
     <form v-if="!isLoading" action="" class="px-3 flex flex-col gap-4 h-full">
+      <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative flex justify-between items-start">
+        <img :src="userAvatar" alt="user avatar" class="rounded-2xl ">
+        <PlusCircleIcon class="w-9 fill-amber-50 absolute bottom-0 right-0" />
+        <MinusCircleIcon v-if="formUserPage?.photo" class="w-9 fill-amber-50 absolute bottom-0 left-0" @click.stop="removePhoto" />
+        <form action="" enctype="multipart/form-data" class="w-10 absolute bottom-0 right-0 opacity-0">
+          <input type="file" @change="handleFileChange" name="photo" />
+        </form>
+        <div v-if="formUserPage?.photo" class="pl-4">
+          <p class="mb-4">{{ formUserPage?.photo?.name || ''}}</p>
+          <AppButton label="Обновить аватар" thin-style="px-3 py-2 rounded-xl" @click.prevent="updateAvatar" />
+        </div>
+      </div>
       <AppInputText
         v-model="formUserPage.first_name"
         :title="t('user_page.user_name')"

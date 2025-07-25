@@ -98,7 +98,6 @@ export const useUserStore = defineStore('user', () => {
         user.value = result.data;
       }
 
-
     } catch(error) {
       console.error('Error [Check auth user]: ', error);
     }
@@ -117,7 +116,6 @@ export const useUserStore = defineStore('user', () => {
       console.error('Error [Check auth user]: ', error);
     }
     return result;
-
   }
 
   return {
@@ -130,6 +128,6 @@ export const useUserStore = defineStore('user', () => {
     updateIsAuthenticated,
     checkUserSession,
     updateUser,
-    checkUserPassword
+    checkUserPassword,
   }
 })
