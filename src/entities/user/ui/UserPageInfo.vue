@@ -27,8 +27,8 @@ onMounted(() => {
 
 <template>
   <div class="w-full h-full flex flex-col gap-4 text-brown-dark px-2">
-    <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative">
-      <img :src="userAvatar" alt="user avatar" class="rounded-2xl ">
+    <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative object-cover">
+      <img :src="user?.photo || userAvatar" alt="user avatar" class="rounded-2xl w-full h-full">
     </div>
     <ListItem
       :title="t('user_page.user_name')"

@@ -5,4 +5,5 @@ export type UserDataType = {
   age: number | null;
   userId: string;
   email: string;
+  photo?: string;
 }
