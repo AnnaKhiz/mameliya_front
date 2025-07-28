@@ -83,17 +83,15 @@ const submitForm = async () => {
     if (!isPasswordCorrect) return;
   }
 
+  const formData = new FormData();
 
-  let updatedUser: Partial<FormUserPageType> = {};
   (Object.entries(formUserPage.value) as [keyof FormUserPageType, any][]).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-      updatedUser[key] = value;
+      formData.append(`${key}`, value)
     }
-
   });
 
-
-  const result = await updateUser(updatedUser);
+  const result = await updateUser(formData);
 
   if (!result?.result) {
     messageError.value = t('user_page.updating_error');
@@ -134,7 +132,7 @@ onMounted(() => {
 
 const updateAvatar = async () => {
   if (!formUserPage.value?.photo) {
-    messageError.value = 'Photo did not check';
+    messageError.value = 'Photo did not select';
     return;
   }
   messageError.value = '';
@@ -150,19 +148,18 @@ const removePhoto = () => {
 
 <template>
   <div class="w-full h-full">
-    <form v-if="!isLoading" action="" class="px-3 flex flex-col gap-4 h-full">
-      <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative flex justify-between items-start">
-        <img :src="userAvatar" alt="user avatar" class="rounded-2xl ">
-        <PlusCircleIcon class="w-9 fill-amber-50 absolute bottom-0 right-0" />
-        <MinusCircleIcon v-if="formUserPage?.photo" class="w-9 fill-amber-50 absolute bottom-0 left-0" @click.stop="removePhoto" />
-        <form action="" enctype="multipart/form-data" class="w-10 absolute bottom-0 right-0 opacity-0">
-          <input type="file" @change="handleFileChange" name="photo" />
-        </form>
-        <div v-if="formUserPage?.photo" class="pl-4">
-          <p class="mb-4">{{ formUserPage?.photo?.name || ''}}</p>
-          <AppButton label="Обновить аватар" thin-style="px-3 py-2 rounded-xl" @click.prevent="updateAvatar" />
-        </div>
+    <form v-if="!isLoading" enctype="multipart/form-data" action="" class="px-3 flex flex-col gap-4 h-full">
+      <div class="w-36 h-36 bg-brown-light rounded-2xl mb-4 cursor-pointer relative flex justify-between items-start object-cover">
+        <img :src="user?.photo || userAvatar" alt="user avatar" class="rounded-2xl w-full h-full">
+        <PlusCircleIcon class="w-9 fill-brown-dark absolute bottom-0 right-0" />
+        <MinusCircleIcon v-if="formUserPage?.photo" class="w-9 fill-brown-medium absolute bottom-0 left-0" @click.stop="removePhoto" />
+        <input type="file" @change="handleFileChange" name="photo" class="w-10 absolute bottom-0 right-0 opacity-0" />
       </div>
+
+      <div v-if="formUserPage?.photo" class="pl-4 w-full">
+        <p class="mb-4 w-full">{{ formUserPage?.photo?.name || ''}}</p>
+      </div>
+
       <AppInputText
         v-model="formUserPage.first_name"
         :title="t('user_page.user_name')"
