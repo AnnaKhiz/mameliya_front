@@ -1,39 +1,40 @@
-# .
+### This is my pet-project by my own design.
+The project includes frontend and [backend](https://github.com/AnnaKhiz/mameliya_backend) parts.
 
-This template should help get you started developing with Vue 3 in Vite.
+The project is in progress and description will grow according to developing application.
 
-## Recommended IDE Setup
+### Used technologies:
+**Frontend**
+- Vue.js (Composition API)
+- TypeScript
+- Pinia
+- Vue-Router
+- Integrated Google Calendar (Vue-cal)
+- Integrated Gemini API (AI chat)
+- Gravatar (loading avatar from if exist)
+- TailwindCSS
+- YUP
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+**Backend:**
+- Node.js (Express.js)
+- SQLite + knex
+- JWT token
+- Multer
+- Bcrypt
+- Firebase Cloud Storage (for saving and uploading user's avatar)
+- uuid
+- sharp (for converting images)
 
-## Type Support for `.vue` Imports in TS
+## How to install and run the project
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Use this command from the root of frontend folder
+**FRONTEND PART**
+**npm install**
+**npm run dev**
 
-## Customize configuration
+Use this command from the root of backend folder
+**BACKEND PART**
+**npm install**
+**npm run server**
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Project must be started at the address: http://localhost:5173/
