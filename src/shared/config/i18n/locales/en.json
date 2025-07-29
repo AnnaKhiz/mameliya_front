@@ -233,6 +233,9 @@
 			"children_calendar_description": "A separate calendar for keeping track of events related to children – schedules for clubs, courses, or extracurricular activities, taking vitamins or medications, doctor appointments, or other important reminders.",
 			"general_calendar": "General calendar",
 			"general_calendar_description": "This calendar will display all events from the Beauty Procedures calendar, the Family calendar, and the Children’s calendar, as well as any other events that don’t belong to these specific categories."
+		},
+		"diary": {
+			"title": "Diary"
 		}
 	},
 	"family": {
