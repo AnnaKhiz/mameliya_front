@@ -24,10 +24,18 @@ const form = ref<DiaryFormType>({
   <p class="mb-1">{{ t('mama.diary.description_1') }}</p>
   <p class="mb-5">{{ t('mama.diary.description_2') }}</p>
   <form class="flex flex-col justify-between items-start gap-3 mb-6 w-full ">
-    <AppInputText v-model="form.title" :title="t('mama.diary.add_title')" class=" w-full" styles="dark-mode" :placeholder="t('mama.diary.add_title_placeholder')"/>
-
-    <h2 class="font-semibold text-md">{{ t('mama.diary.add_text') }}</h2>
-    <TextEditor v-model="form.text" class="w-full mb-2" />
+    <AppInputText
+      v-model="form.title"
+      :title="t('mama.diary.add_title')"
+      class="w-full"
+      styles="dark-mode"
+      :placeholder="t('mama.diary.add_title_placeholder')"
+    />
+    <TextEditor
+      v-model="form.text"
+      class="w-full mb-2"
+      :title="t('mama.diary.add_text')"
+    />
     <p class="">{{ notifyMessage }}</p>
     <AppButton :label="t('general.send')" />
   </form>
