@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { fetchData } from "@/shared/api";
+import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
 import {
   type MamaResponseType,
   type ResponseMamaType,
   type DiaryFormType,
   type ResponseDiaryType,
-  type DiaryObjectType
 } from "@/entities/mama";
 import type { MoodStateType } from "@/entities/mood";
 
@@ -56,12 +56,28 @@ export const useMamaStore = defineStore('mama', () => {
     return result;
   }
 
+  const getDiaryPostsList = async (): Promise<any> => {
+    let result: ResponseDiaryType | null = null;
+    try {
+      result = await fetchData('user/mama/diary');
+
+      if (result?.data && mama.value) {
+        mama.value.diary = result?.data;
+      }
+
+    } catch (error) {
+      console.error('Error [Change mood]: ', error);
+    }
+    return result;
+  }
+
 
 
   return {
     mama,
     changeMamaMood,
     getMamaInfo,
-    addDiaryPost
+    addDiaryPost,
+    getDiaryPostsList
   }
 })

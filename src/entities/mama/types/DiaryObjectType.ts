@@ -1,5 +1,7 @@
 export type DiaryObjectType = {
-  title: string | null;
-  description: string | null;
-  created_at: Date | string | null;
+  id: string;
+  title: string;
+  description: string;
+  created_at: number;
+  creator: string;
 }

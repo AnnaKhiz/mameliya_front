@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import {computed, onBeforeUnmount, ref} from 'vue';
+import { onBeforeUnmount, ref} from 'vue';
 import { useI18n } from "vue-i18n";
 import { TextEditor } from "@/shared/ui/text-editor";
 import { AppButton } from "@/shared/ui/button";
 import { AppInputText } from "@/shared/ui/form";
 import type { DiaryFormType } from "@/entities/mama";
 import { useMamaStore } from "@/entities/mama";
-import {type MoodDetailsType, MoodHistoryItem, useMoodStore} from "@/entities/mood";
-import {storeToRefs} from "pinia";
-const { addDiaryPost } = useMamaStore();
 
-const { usersMoodList } = storeToRefs(useMoodStore());
-const { getMoodInfoList } = useMoodStore()
-const sortedUsersMoodList = computed(():MoodDetailsType[] => (usersMoodList.value?.sort((a, b) => b.date - a.date)) ?? [])
+import { DiaryList } from "@/pages/mama";
+const { addDiaryPost, getDiaryPostsList } = useMamaStore();
 
 const { t } = useI18n();
 const notifyMessage = ref<string>('');
@@ -46,7 +42,7 @@ const checkEmptyFields = () => {
 
 const toggleShowList = async () => {
   isShowFull.value = !isShowFull.value;
-  await getMoodInfoList()
+  await getDiaryPostsList()
 }
 
 const sendNewPost = async () => {
@@ -55,6 +51,7 @@ const sendNewPost = async () => {
 }
 
 onBeforeUnmount(() => clearTimeout(timeoutId));
+
 </script>
 
 <template>
@@ -66,14 +63,14 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
         @click="toggleShowList"
         class="text-brown-dark font-semibold mb-4 text-xl cursor-pointer hover:underline hover:text-brown-medium transition-colors duration-500"
       >
-        {{ t('mama.diary.show_list') }}
+        {{ t('mama.diary.hide_list') }}
       </h2>
       <h2
         v-else
         @click="toggleShowList"
         class="text-brown-dark font-semibold mb-4 text-xl cursor-pointer hover:underline hover:text-brown-medium transition-colors duration-500"
       >
-        {{ t('mama.diary.hide_list') }}
+        {{ t('mama.diary.show_list') }}
       </h2>
     </div>
 
@@ -101,14 +98,12 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
       <AppButton :label="t('general.send')" @click.prevent="sendNewPost" />
     </form>
   </div>
-  <div v-else class="h-screen overflow-auto" id="diary">
-    <div
-      v-for="item in sortedUsersMoodList"
-      :key="item.id"
-      class="mb-2"
-    >
-      <MoodHistoryItem :item="item" />
-    </div>
+  <div
+    v-else
+    class="h-screen overflow-auto w-full"
+    id="diary"
+  >
+    <DiaryList />
   </div>
 
 </template>
@@ -126,5 +121,6 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
 ::-webkit-scrollbar-thumb {
   background: white;
 }
+
 </style>
 
