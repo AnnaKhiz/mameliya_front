@@ -4,19 +4,22 @@ import { useI18n } from "vue-i18n";
 import { TextEditor } from "@/shared/ui/text-editor";
 import { AppButton } from "@/shared/ui/button";
 import { AppInputText } from "@/shared/ui/form";
+import type { DiaryFormType } from "@/entities/mama";
+import { useMamaStore } from "@/entities/mama";
+const { addDiaryPost } = useMamaStore()
 
 const { t } = useI18n();
 const notifyMessage = ref<string>('');
 
-type DiaryFormType = {
-  text: string;
-  title: string;
-}
-
 const form = ref<DiaryFormType>({
-  text: '',
+  description: '',
   title: ''
 });
+
+const sendNewPost = async () => {
+  console.log(form.value)
+  await addDiaryPost(form.value)
+}
 </script>
 
 <template>
@@ -32,12 +35,12 @@ const form = ref<DiaryFormType>({
       :placeholder="t('mama.diary.add_title_placeholder')"
     />
     <TextEditor
-      v-model="form.text"
+      v-model="form.description"
       class="w-full mb-2"
       :title="t('mama.diary.add_text')"
     />
     <p class="">{{ notifyMessage }}</p>
-    <AppButton :label="t('general.send')" />
+    <AppButton :label="t('general.send')" @click.prevent="sendNewPost" />
   </form>
 </template>
 
