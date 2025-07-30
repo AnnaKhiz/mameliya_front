@@ -148,14 +148,14 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
           </template>
         </AppInputText>
       </div>
-      <div>
-        <h2 class="mb-1">{{ t('rituals.ritual_description') }}</h2>
-        <TextEditor
-          v-model="newRitualForm.description"
-          class="rounded"
-          :class="descriptionValid ? 'error-style' : ''"
-        />
-      </div>
+
+      <TextEditor
+        v-model="newRitualForm.description"
+        :title="t('rituals.ritual_description')"
+        class="rounded"
+        :class="descriptionValid ? 'error-style' : ''"
+      />
+
       <p class="text-xs" :class="isError ? 'text-red-800' : 'text-green-900' ">{{ messageFormValidation }}</p>
       <AppButton :label="t('general.save')" class="w-fit block" @click.prevent="submitForm"/>
     </form>

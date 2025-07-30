@@ -1,22 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+type Props = {
+  title?: string;
+}
 
+defineProps<Props>();
 
 const content = defineModel<string>();
 </script>
 
 <template>
-  <div class="bg-white min-h-60 quill-wrapper">
-    <QuillEditor
-      v-model:content="content"
-      content-type="html"
-    />
+  <div>
+    <h2 v-if="title" class="mb-1 text-brown-dark">{{ title }}</h2>
+    <div class="bg-white min-h-60 quill-wrapper">
+      <QuillEditor
+        v-model:content="content"
+        content-type="html"
+      />
+    </div>
   </div>
+
 </template>
 
 <style scoped>
 .quill-wrapper :deep(.ql-editor) {
   max-height: 250px;
   min-height: 250px;
+}
+:deep(.ql-container.ql-snow) {
+  border: none;
+  border-radius: 12px;
 }
 </style>
