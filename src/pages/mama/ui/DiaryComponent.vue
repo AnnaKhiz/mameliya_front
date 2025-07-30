@@ -3,13 +3,16 @@ import { ref} from 'vue';
 import { useI18n } from "vue-i18n";
 import { DiaryAddEditNote, DiaryList } from "@/pages/mama";
 import { useMamaStore } from "@/entities/mama";
+import LoaderComponent from "@/features/loader";
+import {storeToRefs} from "pinia";
 const { getDiaryPostsList } = useMamaStore();
+const { isLoading } = storeToRefs(useMamaStore());
 const { t } = useI18n();
 const isShowFull = ref<boolean>(false);
 
 const toggleShowList = async () => {
   isShowFull.value = !isShowFull.value;
-  await getDiaryPostsList()
+  await getDiaryPostsList();
 }
 
 </script>
@@ -33,10 +36,9 @@ const toggleShowList = async () => {
         {{ t('mama.diary.show_list') }}
       </h2>
     </div>
-
   </div>
 
-  <div v-if="!isShowFull">
+  <div v-if="!isShowFull" class="w-full">
     <p class="mb-1">{{ t('mama.diary.description_1') }}</p>
     <p class="mb-5">{{ t('mama.diary.description_2') }}</p>
     <DiaryAddEditNote />
@@ -46,7 +48,8 @@ const toggleShowList = async () => {
     class="h-screen overflow-auto w-full"
     id="diary"
   >
-    <DiaryList />
+    <DiaryList v-if="!isLoading" />
+    <LoaderComponent v-else />
   </div>
 
 </template>

@@ -44,7 +44,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
 </script>
 
 <template>
-  <form class="flex flex-col justify-between items-start gap-3 mb-6 w-full ">
+  <form class="flex flex-col justify-center items-center gap-3 mb-6 ">
     <AppInputText
       v-model="form.title"
       :title="t('mama.diary.add_title')"

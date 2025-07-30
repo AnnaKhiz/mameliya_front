@@ -12,15 +12,18 @@ import type { MoodStateType } from "@/entities/mood";
 
 export const useMamaStore = defineStore('mama', () => {
   const mama = ref<MamaResponseType | null>(null);
+  const isLoading = ref<boolean>(false);
 
   const getMamaInfo = async (): Promise<any> => {
     let result: ResponseMamaType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/mama/info');
 
       if (result?.data) {
         mama.value = result?.data;
       }
+      isLoading.value = false;
 
     } catch (error) {
       console.error('Error [Get mama info]: ', error);
@@ -29,12 +32,14 @@ export const useMamaStore = defineStore('mama', () => {
   }
   const changeMamaMood = async (body: { mood: MoodStateType }): Promise<any> => {
     let result: ResponseMamaType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/mama/mood', 'POST', {}, body);
 
       if (result?.data) {
         mama.value = result?.data;
       }
+      isLoading.value = false;
 
     } catch (error) {
       console.error('Error [Change mood]: ', error);
@@ -43,12 +48,14 @@ export const useMamaStore = defineStore('mama', () => {
   }
   const addDiaryPost = async (body: DiaryFormType ): Promise<any> => {
     let result: ResponseDiaryType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/mama/diary/add', 'POST', {}, body);
 
       if (result?.data && mama.value) {
         mama.value.diary = result?.data;
       }
+      isLoading.value = false;
 
     } catch (error) {
       console.error('Error [Change mood]: ', error);
@@ -58,12 +65,31 @@ export const useMamaStore = defineStore('mama', () => {
 
   const getDiaryPostsList = async (): Promise<any> => {
     let result: ResponseDiaryType | null = null;
+    isLoading.value = true;
     try {
       result = await fetchData('user/mama/diary');
+      isLoading.value = false;
+      if (result?.data && mama.value) {
+        mama.value.diary = result?.data;
+      }
+
+
+    } catch (error) {
+      console.error('Error [Change mood]: ', error);
+    }
+    return result;
+  }
+
+  const removeDiaryPost = async (id: string): Promise<any> => {
+    let result: ResponseDiaryType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/mama/diary/remove/:id', 'DELETE', { id });
 
       if (result?.data && mama.value) {
         mama.value.diary = result?.data;
       }
+      isLoading.value = false;
 
     } catch (error) {
       console.error('Error [Change mood]: ', error);
@@ -75,9 +101,11 @@ export const useMamaStore = defineStore('mama', () => {
 
   return {
     mama,
+    isLoading,
     changeMamaMood,
     getMamaInfo,
     addDiaryPost,
-    getDiaryPostsList
+    getDiaryPostsList,
+    removeDiaryPost,
   }
 })

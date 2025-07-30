@@ -5,7 +5,12 @@ import ModalComponent from "@/shared/ui/modal";
 import { parseDateToLocaleString } from "@/shared/lib/parseDateToLocaleString.ts";
 import {type DialogDiaryTypes, DiaryItemDetails} from "@/pages/mama";
 import {AppButton} from "@/shared/ui/button";
+import { useMamaStore } from "@/entities/mama";
+const { removeDiaryPost } = useMamaStore();
+const { isLoading } = storeToRefs(useMamaStore());
 import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
+import LoaderComponent from "@/features/loader";
 const { t } = useI18n();
 
 const dialog = ref<DialogDiaryTypes>('none');
@@ -15,15 +20,20 @@ type Props = {
 
 defineProps<Props>();
 
-const openDetails = () => {
-  dialog.value = 'details';
+const changeDialogState = (value: DialogDiaryTypes) => {
+  dialog.value = value;
+}
+
+const removePost = async (id: string) => {
+  await removeDiaryPost(id);
+  changeDialogState('none');
 }
 </script>
 
 <template>
   <div
     class="flex justify-between items-start gap-4 text-brown-dark bg-brown-light/15 hover:bg-brown-medium/15 hover:shadow-xl transition-all duration-500 hover:cursor-pointer rounded-md shadow-md p-2 "
-    @click="openDetails"
+    @click="changeDialogState('details')"
   >
     <div class="flex justify-start items-center gap-4">
 
@@ -39,7 +49,7 @@ const openDetails = () => {
     </div>
   </div>
 
-  <!--  dialog add calendar -->
+  <!--  dialog diary item details -->
   <ModalComponent
     :show="dialog === 'details'"
     full
@@ -53,12 +63,13 @@ const openDetails = () => {
 
     <template #actions>
      <div class="flex justify-center items-center gap-4">
-       <AppButton :label="t('general.close')" @click="dialog = 'none'"/>
+       <AppButton :label="t('general.close')" @click="changeDialogState('none')"/>
        <AppButton :label="t('general.edit')" />
-       <AppButton :label="t('general.delete')" />
+       <AppButton :label="t('general.delete')" @click="removePost(item.id)" />
      </div>
     </template>
   </ModalComponent>
+
 </template>
 
 <style scoped>
