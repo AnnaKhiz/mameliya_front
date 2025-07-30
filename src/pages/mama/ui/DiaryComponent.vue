@@ -1,19 +1,72 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import {useI18n} from "vue-i18n";
-import {TextEditor} from "@/shared/ui/text-editor";
-
+import { ref} from 'vue';
+import { useI18n } from "vue-i18n";
+import { DiaryAddEditNote, DiaryList } from "@/pages/mama";
+import { useMamaStore } from "@/entities/mama";
+import LoaderComponent from "@/features/loader";
+import {storeToRefs} from "pinia";
+const { getDiaryPostsList } = useMamaStore();
+const { isLoading } = storeToRefs(useMamaStore());
 const { t } = useI18n();
-const text = ref<string>('');
+const isShowFull = ref<boolean>(false);
+
+const toggleShowList = async () => {
+  isShowFull.value = !isShowFull.value;
+  await getDiaryPostsList();
+}
+
 </script>
 
 <template>
-  <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.diary.title') }}</h2>
-  <div class="text-brown-dark flex flex-col justify-between items-start gap-3 mb-6 w-full ">
-    <TextEditor v-model="text" class="w-full min-h-60" />
+  <div class="flex justify-between items-center w-full ">
+    <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('mama.diary.title') }}</h2>
+    <div >
+      <h2
+        v-if="isShowFull"
+        @click="toggleShowList"
+        class="text-brown-dark font-semibold mb-4 text-xl cursor-pointer hover:underline hover:text-brown-medium transition-colors duration-500"
+      >
+        {{ t('mama.diary.hide_list') }}
+      </h2>
+      <h2
+        v-else
+        @click="toggleShowList"
+        class="text-brown-dark font-semibold mb-4 text-xl cursor-pointer hover:underline hover:text-brown-medium transition-colors duration-500"
+      >
+        {{ t('mama.diary.show_list') }}
+      </h2>
+    </div>
   </div>
+
+  <div v-if="!isShowFull" class="w-full">
+    <p class="mb-1">{{ t('mama.diary.description_1') }}</p>
+    <p class="mb-5">{{ t('mama.diary.description_2') }}</p>
+    <DiaryAddEditNote />
+  </div>
+  <div
+    v-else
+    class="h-screen overflow-auto w-full"
+    id="diary"
+  >
+    <DiaryList v-if="!isLoading" />
+    <LoaderComponent v-else />
+  </div>
+
 </template>
 
 <style scoped>
+#diary::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  width: 2px;
+  background: #735c52;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;
+}
 
 </style>
+

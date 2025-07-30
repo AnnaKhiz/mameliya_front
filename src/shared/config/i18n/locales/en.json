@@ -76,7 +76,7 @@
 		"wrong_password": "Неправильный пароль",
 		"updates_not_saved": "Updates not saved",
 		"confirm_delete": "Delete confirmation",
-		"successfully saved": "Сохранено успешно",
+		"successfully_saved": "Сохранено успешно",
 		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!"
 	},
 	"validation": {
@@ -235,7 +235,14 @@
 			"general_calendar_description": "This calendar will display all events from the Beauty Procedures calendar, the Family calendar, and the Children’s calendar, as well as any other events that don’t belong to these specific categories."
 		},
 		"diary": {
-			"title": "Diary"
+			"title": "Diary",
+			"add_title": "Title",
+			"add_title_placeholder": "Enter title...",
+			"add_text": "Text",
+			"description_1": "This section is created for you as a place where you can write down your thoughts, secrets, and wishes.",
+			"description_2": "This is your personal diary, so feel free to write down your thoughts and feelings here.",
+			"show_list": "Show diary posts",
+			"hide_list": "Hide diary posts"
 		}
 	},
 	"family": {

@@ -2,6 +2,7 @@
 import {type MoodDetailsType, type MoodStateType, useMoodStore} from "@/entities/mood";
 import {storeToRefs} from "pinia";
 import {useI18n} from "vue-i18n";
+import { parseDateToLocaleString } from "@/shared/lib/parseDateToLocaleString.ts";
 const { moodStatesList } = storeToRefs(useMoodStore());
 const { t } = useI18n();
 type Props = {
@@ -13,10 +14,6 @@ const parseMoodValues = (value: MoodStateType) => {
   return [icon, `${t(`mama.mood_${value}`)}`]
 }
 
-const parseDateToLocaleString = (value: number) => {
-  const parsedDate = new Date(value).toLocaleString();
-  return parsedDate.split(',');
-}
 </script>
 
 <template>

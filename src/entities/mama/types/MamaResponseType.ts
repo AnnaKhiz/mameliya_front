@@ -1,3 +1,6 @@
+
+import type {DiaryObjectType} from "@/entities/mama/types/DiaryObjectType.ts";
+
 export type MamaResponseType =  {
   id: number;
   mood: string;
@@ -5,4 +8,5 @@ export type MamaResponseType =  {
   isTimerUsed: boolean;
   timer: number;
   userId: string;
+  diary?: DiaryObjectType[];
 }
