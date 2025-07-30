@@ -240,7 +240,9 @@
 			"add_title_placeholder": "Enter title...",
 			"add_text": "Text",
 			"description_1": "This section is created for you as a place where you can write down your thoughts, secrets, and wishes.",
-			"description_2": "This is your personal diary, so feel free to write down your thoughts and feelings here."
+			"description_2": "This is your personal diary, so feel free to write down your thoughts and feelings here.",
+			"show_list": "Show diary posts",
+			"hide_list": "Hide diary posts"
 		}
 	},
 	"family": {
