@@ -41,7 +41,7 @@ export const useMamaStore = defineStore('mama', () => {
     }
     return result;
   }
-  const addDiaryPost = async (body: { mood: DiaryFormType }): Promise<any> => {
+  const addDiaryPost = async (body: DiaryFormType ): Promise<any> => {
     let result: ResponseDiaryType | null = null;
     try {
       result = await fetchData('user/mama/diary/add', 'POST', {}, body);

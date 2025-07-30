@@ -76,7 +76,7 @@
 		"wrong_password": "Неправильный пароль",
 		"updates_not_saved": "Данные не сохранены",
 		"confirm_delete": "Подтверждение удаления",
-		"successfully saved": "Сохранено успешно",
+		"successfully_saved": "Сохранено успешно",
 		"confirm_clear_dialog": "Ты уверена, что хочешь открыть новый чат и очистить текущий? История чата не сохранится!"
 	},
 	"validation": {

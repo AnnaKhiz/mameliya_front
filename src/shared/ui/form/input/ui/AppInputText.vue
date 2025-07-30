@@ -19,7 +19,7 @@ const text = defineModel<string>();
       :placeholder="placeholder"
       :class="[
         error ? 'error-style' : '',
-        styles? styles : ''
+        styles ? styles : ''
         ]"
       class="w-full rounded placeholder:text-gray-400"
     >

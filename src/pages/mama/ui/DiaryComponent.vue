@@ -1,25 +1,48 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeUnmount, ref} from 'vue';
 import { useI18n } from "vue-i18n";
 import { TextEditor } from "@/shared/ui/text-editor";
 import { AppButton } from "@/shared/ui/button";
 import { AppInputText } from "@/shared/ui/form";
 import type { DiaryFormType } from "@/entities/mama";
 import { useMamaStore } from "@/entities/mama";
-const { addDiaryPost } = useMamaStore()
+const { addDiaryPost } = useMamaStore();
 
 const { t } = useI18n();
 const notifyMessage = ref<string>('');
+const isError = ref<boolean>(false);
+let timeoutId: ReturnType<typeof setTimeout>;
 
 const form = ref<DiaryFormType>({
-  description: '',
+  description: '<p><br></p>',
   title: ''
 });
 
+const checkEmptyFields = () => {
+  notifyMessage.value = '';
+  isError.value = false;
+  const { title, description } = form.value;
+
+  if (!title || !description || description === '<p><br></p>') {
+    notifyMessage.value = t('notify.empty_fields');
+    isError.value = true;
+    return false;
+  }
+  timeoutId = setTimeout(() => {
+    notifyMessage.value = '';
+  }, 1500);
+
+  notifyMessage.value = t('notify.successfully_saved');
+  isError.value = false;
+  return true;
+}
+
 const sendNewPost = async () => {
-  console.log(form.value)
+  if (!checkEmptyFields()) return;
   await addDiaryPost(form.value)
 }
+
+onBeforeUnmount(() => clearTimeout(timeoutId));
 </script>
 
 <template>
@@ -33,13 +56,15 @@ const sendNewPost = async () => {
       class="w-full"
       styles="dark-mode"
       :placeholder="t('mama.diary.add_title_placeholder')"
+      :error="!form.title && isError"
     />
     <TextEditor
       v-model="form.description"
       class="w-full mb-2"
       :title="t('mama.diary.add_text')"
+      :error="!form.description || form.description === '<p><br></p>' && isError"
     />
-    <p class="">{{ notifyMessage }}</p>
+    <p :class="isError ? 'text-red-600 text-sm' : 'text-green-900 text-sm'">{{ notifyMessage }}</p>
     <AppButton :label="t('general.send')" @click.prevent="sendNewPost" />
   </form>
 </template>

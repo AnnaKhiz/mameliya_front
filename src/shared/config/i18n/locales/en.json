@@ -76,7 +76,7 @@
 		"wrong_password": "Неправильный пароль",
 		"updates_not_saved": "Updates not saved",
 		"confirm_delete": "Delete confirmation",
-		"successfully saved": "Сохранено успешно",
+		"successfully_saved": "Сохранено успешно",
 		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!"
 	},
 	"validation": {

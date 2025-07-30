@@ -153,7 +153,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
         v-model="newRitualForm.description"
         :title="t('rituals.ritual_description')"
         class="rounded"
-        :class="descriptionValid ? 'error-style' : ''"
+        :error="descriptionValid"
       />
 
       <p class="text-xs" :class="isError ? 'text-red-800' : 'text-green-900' ">{{ messageFormValidation }}</p>
