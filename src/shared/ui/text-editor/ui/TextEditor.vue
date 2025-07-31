@@ -27,8 +27,10 @@ const content = defineModel<string>();
   max-height: 250px;
   min-height: 250px;
 }
-:deep(.ql-container.ql-snow) {
-  border: none;
-  border-radius: 12px;
-}
+
 </style>
+
+//:deep(.ql-container.ql-snow) {
+//  border: none;
+//  border-radius: 12px;
+//}

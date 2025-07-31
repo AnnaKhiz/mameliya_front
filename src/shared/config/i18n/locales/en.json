@@ -78,7 +78,10 @@
 		"updates_not_saved": "Updates not saved",
 		"confirm_delete": "Delete confirmation",
 		"successfully_saved": "Сохранено успешно",
-		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!"
+		"confirm_clear_dialog": "Are you sure that you want open new dialog and clear chat history? History weill not be saved!",
+		"confirm_open_diary": "Verify your identity",
+		"repeat_password": "Enter your password",
+		"repeat_password_description": "To access this section, you need to verify your identity. Please enter the password you provided during registration to confirm this action."
 	},
 	"validation": {
 		"wrong_email_format": "Wrong email format",

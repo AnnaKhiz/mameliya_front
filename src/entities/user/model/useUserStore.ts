@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
   const isAuthenticated = ref<boolean>(false);
   const isLoading = ref<boolean>(false);
   const language = ref<"en" | "ru">("en");
-
+  const isConfirmed = ref<boolean>(false);
   const updateIsAuthenticated = (value: boolean) => {
     isAuthenticated.value = value;
   }
@@ -128,10 +128,15 @@ export const useUserStore = defineStore('user', () => {
   }, { immediate: true });
 
 
+  const updateIsConfirmed = (value: boolean) => {
+    isConfirmed.value = value;
+  }
+
   return {
     user,
     isAuthenticated,
     isLoading,
+    isConfirmed,
     language,
     signUpUser,
     signInUser,
@@ -140,5 +145,6 @@ export const useUserStore = defineStore('user', () => {
     checkUserSession,
     updateUser,
     checkUserPassword,
+    updateIsConfirmed
   }
 })

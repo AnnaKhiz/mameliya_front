@@ -3,14 +3,12 @@ import { ref } from "vue";
 import type { DiaryObjectType } from "@/entities/mama";
 import ModalComponent from "@/shared/ui/modal";
 import { parseDateToLocaleString } from "@/shared/lib/parseDateToLocaleString.ts";
-import {type DialogDiaryTypes, DiaryItemDetails} from "@/pages/mama";
+import {type DialogDiaryTypes, DiaryAddEditNote, DiaryItemDetails} from "@/pages/mama";
 import {AppButton} from "@/shared/ui/button";
 import { useMamaStore } from "@/entities/mama";
 const { removeDiaryPost } = useMamaStore();
-const { isLoading } = storeToRefs(useMamaStore());
 import {useI18n} from "vue-i18n";
 import {storeToRefs} from "pinia";
-import LoaderComponent from "@/features/loader";
 const { t } = useI18n();
 
 const dialog = ref<DialogDiaryTypes>('none');
@@ -27,6 +25,10 @@ const changeDialogState = (value: DialogDiaryTypes) => {
 const removePost = async (id: string) => {
   await removeDiaryPost(id);
   changeDialogState('none');
+}
+
+const editPost = async (id: string) => {
+  changeDialogState('edit');
 }
 </script>
 
@@ -64,12 +66,33 @@ const removePost = async (id: string) => {
     <template #actions>
      <div class="flex justify-center items-center gap-4">
        <AppButton :label="t('general.close')" @click="changeDialogState('none')"/>
-       <AppButton :label="t('general.edit')" />
+       <AppButton :label="t('general.edit')" @click="editPost(item.id)"/>
        <AppButton :label="t('general.delete')" @click="removePost(item.id)" />
      </div>
     </template>
   </ModalComponent>
 
+  <!--  dialog diary item edit -->
+  <ModalComponent
+    :show="dialog === 'edit'"
+    full
+    :title="item.title"
+    :width="'w-1/2'"
+    @update:dialog-visibility="dialog = $event"
+  >
+    <template #default>
+      <DiaryAddEditNote
+        is-edit
+        :item="item"
+        @update:dialog="changeDialogState($event)"
+      >
+        <template #form-actions>
+          <AppButton :label="t('general.close')" @click.prevent="changeDialogState('none')"/>
+        </template>
+      </DiaryAddEditNote>
+
+    </template>
+  </ModalComponent>
 </template>
 
 <style scoped>

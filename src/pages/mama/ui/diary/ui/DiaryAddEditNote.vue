@@ -2,16 +2,24 @@
 import { AppInputText } from "@/shared/ui/form";
 import { TextEditor } from "@/shared/ui/text-editor";
 import { AppButton } from "@/shared/ui/button";
-import { onBeforeUnmount, ref } from "vue";
-import { type DiaryFormType, useMamaStore } from "@/entities/mama";
+import {onBeforeUnmount, onMounted, ref} from "vue";
+import {type DiaryFormType, type DiaryObjectType, useMamaStore} from "@/entities/mama";
 import { useI18n } from "vue-i18n";
 
-const { addDiaryPost } = useMamaStore();
+const { addDiaryPost, updateDiaryPost } = useMamaStore();
 const { t } = useI18n();
 const notifyMessage = ref<string>('');
 const isError = ref<boolean>(false);
 let timeoutId: ReturnType<typeof setTimeout>;
 
+type Props = {
+  isEdit?: boolean;
+  customStyles?: string;
+  item?: DiaryObjectType;
+}
+
+const props = defineProps<Props>();
+const emits = defineEmits(['update:dialog']);
 const form = ref<DiaryFormType>({
   description: '<p><br></p>',
   title: ''
@@ -37,14 +45,34 @@ const checkEmptyFields = () => {
 
 const sendNewPost = async () => {
   if (!checkEmptyFields()) return;
-  await addDiaryPost(form.value)
+  await addDiaryPost(form.value);
 }
 
+const saveEditedPost = async () => {
+  if (!checkEmptyFields()) return;
+
+  if (!props.item) return;
+  await updateDiaryPost(form.value, props.item.id);
+  emits('update:dialog', 'none');
+
+}
+
+onMounted(async () => {
+  if (props.item) {
+    form.value = {
+      title: props.item.title,
+      description: props.item.description
+    }
+  }
+})
 onBeforeUnmount(() => clearTimeout(timeoutId));
 </script>
 
 <template>
-  <form class="flex flex-col justify-center items-center gap-3 mb-6 ">
+  <form
+    class="flex flex-col justify-center items-center gap-3 mb-6"
+    :class="isEdit ? 'w-full' : ''"
+  >
     <AppInputText
       v-model="form.title"
       :title="t('mama.diary.add_title')"
@@ -60,6 +88,12 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
       :error="!form.description || form.description === '<p><br></p>' && isError"
     />
     <p :class="isError ? 'text-red-600 text-sm' : 'text-green-900 text-sm'">{{ notifyMessage }}</p>
-    <AppButton :label="t('general.send')" @click.prevent="sendNewPost" />
+    <div class="flex justify-center items-center gap-4">
+      <AppButton
+        :label="isEdit ? t('general.save') : t('general.send')"
+        @click.prevent="isEdit ? saveEditedPost() : sendNewPost()"
+      />
+      <slot name="form-actions" />
+    </div>
   </form>
 </template>
