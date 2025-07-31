@@ -18,7 +18,9 @@ const props = defineProps<Props>();
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 import TagComponent from "@/shared/ui/tag";
-const { getRitualsBySection, getFavoriteRituals, resetIsChecked } = useRitualStore();
+import {AppButton} from "@/shared/ui/button";
+import {TranslateButton} from "@/shared/ui/translate-button";
+const { getRitualsBySection, getFavoriteRituals, resetIsChecked, updateCheckedRitual } = useRitualStore();
 const { ritualsList, checkedFavorites, isAddNewForm, checkedRitual } = storeToRefs(useRitualStore());
 
 watch(() => ritualsList.value, (newValue) => {
@@ -43,6 +45,8 @@ onMounted(async () => {
     await getRitualsBySection(props.checkedMenu);
   }
 })
+
+
 
 </script>
 
@@ -70,6 +74,12 @@ onMounted(async () => {
         <h2 class="pt-5 px-5 font-bold text-lg">{{ checkedRitual.title }}</h2>
 
         <div class="p-5 " v-html="checkedRitual.description"></div>
+        <TranslateButton
+          :lang="checkedRitual.lang"
+          :title="checkedRitual.title"
+          :html="checkedRitual.description"
+          @update:description="updateCheckedRitual($event)"
+        />
       </div>
 
       <div v-else-if="isAddNewForm && props.checkedMenu === 'my_rituals'" class="w-full h-full">

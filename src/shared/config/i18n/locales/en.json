@@ -18,7 +18,8 @@
 		"successfully_sent": "Successfully sent",
 		"error": "Error",
 		"min": "min",
-		"duplicate": "Duplicate item. This item already exist in list!"
+		"duplicate": "Duplicate item. This item already exist in list!",
+		"translate": "Translate"
 	},
 	"aside": {
 		"mama": {
