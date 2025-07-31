@@ -40,6 +40,7 @@ const submitPassword = async () => {
   }
 
   error.value = '';
+  password.value = '';
   updateIsConfirmed(true);
 
   changeDialogState('none');
