@@ -1,5 +1,5 @@
 import {defineStore, storeToRefs} from "pinia";
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {fetchData} from "@/shared/api";
 import type {RitualDetailsItemType, RitualSectionType} from "@/entities/ritual";
 import { useUserStore } from "@/entities/user";
@@ -150,6 +150,18 @@ export const useRitualStore = defineStore('rituals', () => {
     return list.filter((e: RitualDetailsItemType) => (e.creator === 'Admin' || e.creator === userStore.user?.userId));
   }
 
+  const updateCheckedRitual = ({ title, description} : { title: string, description: string} ): void => {
+    if (checkedRitual.value) {
+      checkedRitual.value = {
+        ...checkedRitual.value,
+        description,
+        title
+      };
+    }
+
+  }
+
+
   return {
     ritualsList,
     isChecked,
@@ -171,6 +183,7 @@ export const useRitualStore = defineStore('rituals', () => {
     getFavoriteRituals,
     removeFromMyRituals,
     clearResponseError,
-    resetIsChecked
+    resetIsChecked,
+    updateCheckedRitual
   }
 })

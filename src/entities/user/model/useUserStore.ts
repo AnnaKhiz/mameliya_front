@@ -1,19 +1,19 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import {computed, ref, watch} from "vue";
 import { fetchData } from "@/shared/api";
 import type {
   FormFieldsType,
   UserDataType,
   ResponseType
 } from "@/entities/user";
-
+import { i18n } from '@/shared/config/i18n';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<UserDataType | null>(null);
   const isAuthenticated = ref<boolean>(false);
   const isLoading = ref<boolean>(false);
+  const language = ref<"en" | "ru">("en");
   const isConfirmed = ref<boolean>(false);
-
   const updateIsAuthenticated = (value: boolean) => {
     isAuthenticated.value = value;
   }
@@ -26,6 +26,7 @@ export const useUserStore = defineStore('user', () => {
       isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
+        language.value = result?.data.lang;
       }
       isAuthenticated.value = true;
 
@@ -44,6 +45,7 @@ export const useUserStore = defineStore('user', () => {
       isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
+        language.value = result?.data.lang;
       }
       isAuthenticated.value = true;
     } catch(error) {
@@ -61,6 +63,7 @@ export const useUserStore = defineStore('user', () => {
       if (result) {
         if (result?.data) {
           user.value = result.data;
+          language.value = result?.data.lang;
         }
 
         isAuthenticated.value = result.result;
@@ -97,6 +100,7 @@ export const useUserStore = defineStore('user', () => {
 
       if (result?.data) {
         user.value = result.data;
+        language.value = result?.data.lang;
       }
 
     } catch(error) {
@@ -119,6 +123,11 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  watch(() => language.value, (newLang: "en" | "ru") => {
+    i18n.global.locale.value = newLang;
+  }, { immediate: true });
+
+
   const updateIsConfirmed = (value: boolean) => {
     isConfirmed.value = value;
   }
@@ -128,6 +137,7 @@ export const useUserStore = defineStore('user', () => {
     isAuthenticated,
     isLoading,
     isConfirmed,
+    language,
     signUpUser,
     signInUser,
     logOutUser,

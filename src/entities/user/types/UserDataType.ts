@@ -6,4 +6,5 @@ export type UserDataType = {
   userId: string;
   email: string;
   photo?: string;
+  lang: "en" | "ru";
 }
