@@ -19,3 +19,4 @@ app
   .use(router)
   .use(FloatingVue)
   .mount('#app')
+
