@@ -75,6 +75,7 @@ onMounted(async () => {
 
         <div class="p-5 " v-html="checkedRitual.description"></div>
         <TranslateButton
+          :lang="checkedRitual.lang"
           :title="checkedRitual.title"
           :html="checkedRitual.description"
           @update:description="updateCheckedRitual($event)"

@@ -8,4 +8,5 @@ export type RitualDetailsItemType = {
   creator: string;
   cosmetic_name?: string[];
   checked: boolean;
+  lang: "ru" | "en";
 }
