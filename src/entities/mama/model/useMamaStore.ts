@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { fetchData } from "@/shared/api";
-import { parseDateToString } from "@/shared/lib/parseDateToString.ts";
+
 import {
   type MamaResponseType,
   type ResponseMamaType,
@@ -58,7 +58,7 @@ export const useMamaStore = defineStore('mama', () => {
       isLoading.value = false;
 
     } catch (error) {
-      console.error('Error [Change mood]: ', error);
+      console.error('Error [Add diary post]: ', error);
     }
     return result;
   }
@@ -73,9 +73,8 @@ export const useMamaStore = defineStore('mama', () => {
         mama.value.diary = result?.data;
       }
 
-
     } catch (error) {
-      console.error('Error [Change mood]: ', error);
+      console.error('Error [Get diary post]: ', error);
     }
     return result;
   }
@@ -92,7 +91,24 @@ export const useMamaStore = defineStore('mama', () => {
       isLoading.value = false;
 
     } catch (error) {
-      console.error('Error [Change mood]: ', error);
+      console.error('Error [Remove diary post]: ', error);
+    }
+    return result;
+  }
+
+  const updateDiaryPost = async (body: DiaryFormType, id: string): Promise<any> => {
+    let result: ResponseDiaryType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/mama/diary/update/:id', 'PATCH', { id }, body);
+
+      if (result?.data && mama.value) {
+        mama.value.diary = result?.data;
+      }
+      isLoading.value = false;
+
+    } catch (error) {
+      console.error('Error [Update diary post]: ', error);
     }
     return result;
   }
@@ -107,5 +123,6 @@ export const useMamaStore = defineStore('mama', () => {
     addDiaryPost,
     getDiaryPostsList,
     removeDiaryPost,
+    updateDiaryPost
   }
 })

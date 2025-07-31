@@ -16,8 +16,9 @@ type Props = {
   styles?: string;
   placeholderText?: string;
   title?: string;
+  error?: string;
 }
-const props = defineProps<Props>();
+defineProps<Props>();
 const isHidden = ref<boolean>(true);
 const emits = defineEmits(['inputClick']);
 
@@ -29,13 +30,16 @@ const inputModel = defineModel<string>();
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <h2 v-if="title" class="mb-1 text-brown-dark">{{ title }}</h2>
     <div class="relative">
       <input
         v-model="inputModel"
         class="w-full mb-1 placeholder-gray-300"
-        :class="styles ? styles : ''"
+        :class="[
+          styles ? styles : '',
+          error ? 'error-style' : ''
+        ]"
         :type="isHidden ? 'password' : 'text'"
         :placeholder="placeholderText ? placeholderText : t('auth.password_placeholder')"
         @click="emits('inputClick', true)"

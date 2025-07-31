@@ -1,1 +1,1 @@
-export type DialogDiaryTypes = 'details' | 'none' | 'edit';
+export type DialogDiaryTypes = 'details' | 'none' | 'edit' | 'confirm';

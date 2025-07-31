@@ -6,7 +6,7 @@ import {onBeforeUnmount, onMounted, ref} from "vue";
 import {type DiaryFormType, type DiaryObjectType, useMamaStore} from "@/entities/mama";
 import { useI18n } from "vue-i18n";
 
-const { addDiaryPost } = useMamaStore();
+const { addDiaryPost, updateDiaryPost } = useMamaStore();
 const { t } = useI18n();
 const notifyMessage = ref<string>('');
 const isError = ref<boolean>(false);
@@ -50,8 +50,11 @@ const sendNewPost = async () => {
 
 const saveEditedPost = async () => {
   if (!checkEmptyFields()) return;
+
+  if (!props.item) return;
+  await updateDiaryPost(form.value, props.item.id);
   emits('update:dialog', 'none');
-  // await addDiaryPost(form.value)
+
 }
 
 onMounted(async () => {

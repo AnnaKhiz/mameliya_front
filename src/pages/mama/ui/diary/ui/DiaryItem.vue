@@ -7,10 +7,8 @@ import {type DialogDiaryTypes, DiaryAddEditNote, DiaryItemDetails} from "@/pages
 import {AppButton} from "@/shared/ui/button";
 import { useMamaStore } from "@/entities/mama";
 const { removeDiaryPost } = useMamaStore();
-const { isLoading } = storeToRefs(useMamaStore());
 import {useI18n} from "vue-i18n";
 import {storeToRefs} from "pinia";
-import LoaderComponent from "@/features/loader";
 const { t } = useI18n();
 
 const dialog = ref<DialogDiaryTypes>('none');
