@@ -41,7 +41,7 @@ const toggleShowList = async () => {
   <div v-if="!isShowFull" class="w-full">
     <p class="mb-1">{{ t('mama.diary.description_1') }}</p>
     <p class="mb-5">{{ t('mama.diary.description_2') }}</p>
-    <DiaryAddEditNote />
+    <DiaryAddEditNote class="w-2/3 m-auto" />
   </div>
   <div
     v-else
