@@ -18,12 +18,12 @@ import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 import TagComponent from "@/shared/ui/tag";
 import {TranslateButton} from "@/shared/ui/translate-button";
-const { getRitualsBySection, getFavoriteRituals, resetIsChecked, updateCheckedRitual } = useRitualStore();
+const { getRitualsBySection, getFavoriteRituals, resetIsChecked, updateCheckedRitual, setCheckedFavorites } = useRitualStore();
 const { ritualsList, checkedFavorites, isAddNewForm, checkedRitual } = storeToRefs(useRitualStore());
 
 watch(() => ritualsList.value, (newValue) => {
   if (newValue) {
-    checkedFavorites.value = newValue.filter(e => e.checked);
+    setCheckedFavorites(newValue.filter(e => e.checked));
   }
 }, { deep: true });
 

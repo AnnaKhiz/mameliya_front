@@ -161,6 +161,10 @@ export const useRitualStore = defineStore('rituals', () => {
 
   }
 
+  const setCheckedFavorites = (value: Record<string, any>) => {
+    checkedFavorites.value = value;
+  }
+
 
   return {
     ritualsList,
@@ -184,6 +188,7 @@ export const useRitualStore = defineStore('rituals', () => {
     removeFromMyRituals,
     clearResponseError,
     resetIsChecked,
-    updateCheckedRitual
+    updateCheckedRitual,
+    setCheckedFavorites
   }
 })

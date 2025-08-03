@@ -22,7 +22,9 @@ const messageError = ref<string>('');
 const errors = ref<{ [key: string]: string }>();
 const formUserPage = ref<FormUserPageType & { passwordCheck?: string, photo?: Record<string, any> | null }>({
   email: '',
-  age: 0
+  age: 0,
+  first_name: '',
+  last_name: '',
 })
 const emits = defineEmits(['update:edit']);
 
@@ -107,9 +109,9 @@ onMounted(() => {
     const { first_name, last_name, age, email } = user.value;
     formUserPage.value = {
       ...formUserPage.value,
-      first_name,
-      last_name,
-      age,
+      first_name: first_name || '',
+      last_name: last_name || '',
+      age: age || 0,
       email
     }
   }
@@ -121,9 +123,11 @@ const getUserGravatar = () => {
   userAvatar.value = `https://www.gravatar.com/avatar/${hash}?s=200&d=identicon`;
 }
 
-const handleFileChange = (event) => {
-  console.log(event.target.files)
-  formUserPage.value.photo = event.target.files[0]
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length) {
+    formUserPage.value.photo = target.files[0];
+  }
 }
 
 onMounted(() => {
@@ -137,7 +141,11 @@ const updateAvatar = async () => {
   }
   messageError.value = '';
   const formData = new FormData();
-  formData.append('photo', formUserPage.value?.photo);
+
+  if (formUserPage.value?.photo instanceof File) {
+    formData.append('photo', formUserPage.value?.photo);
+  }
+
 }
 
 const removePhoto = () => {
@@ -178,7 +186,7 @@ const removePhoto = () => {
           :title="t('user_page.user_age')"
           :placeholder="t('user_page.enter_age')"
           :styles="'dark-mode'"
-          :error="errors?.age"
+          :error="!!errors?.age"
           class="mb-1"
         />
         <p class="text-sm text-red-600">{{ errors?.age }}</p>
@@ -189,7 +197,7 @@ const removePhoto = () => {
           :title="t('user_page.user_email')"
           :placeholder="t('user_page.enter_email')"
           :styles="'dark-mode'"
-          :error="errors && errors.email"
+          :error="!!(errors && errors.email)"
           class="mb-1"
         />
         <p class="text-sm text-red-600">{{ errors?.email }}</p>

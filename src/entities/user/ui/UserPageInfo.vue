@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import {AppButton} from "@/shared/ui/button";
 import {useI18n} from "vue-i18n";
 import {ListItem} from "@/shared/ui/list-item";
-import { PlusCircleIcon } from "@heroicons/vue/16/solid";
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
 const { user } = storeToRefs(useUserStore());
@@ -44,7 +43,7 @@ onMounted(() => {
     />
     <ListItem
       :title="t('user_page.user_email')"
-      :content="user?.email"
+      :content="user?.email || ''"
     />
     <AppButton class="mt-auto mb-5" :label="t('general.edit')" @click.prevent="emits('update:edit', true)" />
   </div>
