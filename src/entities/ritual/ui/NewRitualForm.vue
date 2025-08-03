@@ -45,7 +45,7 @@ const submitForm = async () => {
   if (!result.result) return;
 
   isError.value = false;
-  messageFormValidation.value = t('notify.successfully saved');
+  messageFormValidation.value = t('notify.successfully_saved');
 
   timeoutId = setTimeout(() => {
     messageFormValidation.value = '';

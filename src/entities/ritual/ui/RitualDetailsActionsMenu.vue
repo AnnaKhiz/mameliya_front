@@ -80,7 +80,7 @@ watch(() => responseError.value, (newValue) => {
         v-tooltip="allChecked ? t('rituals.uncheck_all') : t('rituals.check_all')"
       />
       <StarIcon
-        v-if="anyChecked || isAddIcon"
+        v-if="anyChecked"
         class="w-8 p-1 outline-none fill-brown-medium hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         @click="isAddIcon ? showConfirmDelete() : saveToMyRituals()"
         v-tooltip="isAddIcon ? t('rituals.remove_from_my_rituals') : t('rituals.add_to_my_rituals')"
