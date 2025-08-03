@@ -19,7 +19,8 @@
 		"error": "Error",
 		"min": "min",
 		"duplicate": "Duplicate item. This item already exist in list!",
-		"translate": "Translate"
+		"translate": "Translate",
+		"reverse_translate": "Cancel translate"
 	},
 	"aside": {
 		"mama": {
