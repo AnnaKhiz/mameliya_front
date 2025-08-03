@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import {AppButton} from "@/shared/ui/button";
+import { AppButton } from "@/shared/ui/button";
 import { ref } from 'vue';
-import {fetchData} from "@/shared/api";
-import { useUserStore } from "@/entities/user";
-import {storeToRefs} from "pinia";
-import {useI18n} from "vue-i18n";
+import { fetchData } from "@/shared/api";
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 type Props = {
@@ -20,16 +18,9 @@ const isTranslated = ref<boolean>(false);
 const translateText = async ( direction: string = 'forward') => {
   isTranslated.value = !isTranslated.value;
 
-  let langResult = '';
-
-  if (direction === 'forward') {
-    console.log(direction)
-    langResult = props.lang === 'ru' ? 'en-US' : 'ru';
-  } else {
-    console.log(direction)
-    langResult = props.lang;
-  }
-  console.log(langResult)
+  const langResult = (direction === 'forward')
+    ? (props.lang === 'ru' ? 'en-US' : 'ru')
+    : props.lang;
 
   const body = {
     title: props.title,
@@ -39,23 +30,26 @@ const translateText = async ( direction: string = 'forward') => {
     tagHandling: 'html'
   }
 
-  console.log('body', body)
-
   const response = await fetchData('user/translate', 'POST', {}, body)
 
-  console.log(response)
   if (!response.result) {
     return
   }
 
-  emits('update:description', response.data)
+  emits('update:description', response.data);
 
 }
-
-
-
 </script>
+
 <template>
-  <AppButton v-if="!isTranslated" :label="t('general.translate')"  @click.prevent="translateText()"/>
-  <AppButton v-else :label="'Отменить перевод'"  @click.prevent="translateText('reverse')"/>
+  <AppButton
+    v-if="!isTranslated"
+    :label="t('general.translate')"
+    @click.prevent="translateText()"
+  />
+  <AppButton
+    v-else
+    :label="t('general.reverse_translate')"
+    @click.prevent="translateText('reverse')"
+  />
 </template>

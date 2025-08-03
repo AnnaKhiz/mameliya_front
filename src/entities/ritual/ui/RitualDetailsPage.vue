@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, watch} from 'vue';
 
-
 import {
   NewRitualForm,
   RitualDetailsActionsMenu,
@@ -18,7 +17,6 @@ const props = defineProps<Props>();
 import { useRitualStore } from "@/entities/ritual/model/useRitualStore.ts";
 import {storeToRefs} from "pinia";
 import TagComponent from "@/shared/ui/tag";
-import {AppButton} from "@/shared/ui/button";
 import {TranslateButton} from "@/shared/ui/translate-button";
 const { getRitualsBySection, getFavoriteRituals, resetIsChecked, updateCheckedRitual } = useRitualStore();
 const { ritualsList, checkedFavorites, isAddNewForm, checkedRitual } = storeToRefs(useRitualStore());
