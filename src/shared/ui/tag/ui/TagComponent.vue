@@ -11,7 +11,7 @@ const props = defineProps<Props>();
 const emits = defineEmits(['update:newRitualForm']);
 const removeCosmeticItem = (index: number) => {
   const formData = {...props.newRitualForm};
-  formData.cosmetic_name.splice(index, 1);
+  formData.cosmetic_name?.splice(index, 1);
   emits('update:newRitualForm', formData.cosmetic_name);
 }
 </script>

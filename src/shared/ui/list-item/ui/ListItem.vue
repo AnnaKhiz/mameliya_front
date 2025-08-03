@@ -2,7 +2,7 @@
 
 type Props = {
   title: string;
-  content: string;
+  content: string | number;
   style?: string;
 }
 

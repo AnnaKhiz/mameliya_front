@@ -2,7 +2,6 @@
 
 import { TextEditor } from "@/shared/ui/text-editor";
 import { AppButton } from "@/shared/ui/button";
-import { XMarkIcon } from "@heroicons/vue/16/solid";
 import {computed, onBeforeUnmount, ref} from "vue";
 import type { DialogEventsType } from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
@@ -32,7 +31,7 @@ const newRitualForm = ref<NewRitualFormType>({
 });
 const isFormValid = () => {
   const { title, description, section_key } = newRitualForm.value;
-  return !(!title || !description || !section_key.length);
+  return !(!title || !description || !section_key?.length);
 }
 const submitForm = async () => {
   if (!isFormValid()) {
@@ -64,7 +63,7 @@ const resetForm = () => {
   isError.value = false;
 }
 const checkDuplicates = () => {
-  const duplicates = newRitualForm.value.cosmetic_name.some(e => e.toLowerCase() === cosmeticItem.value.toLowerCase());
+  const duplicates = newRitualForm.value.cosmetic_name?.some(e => e.toLowerCase() === cosmeticItem.value.toLowerCase());
 
   if (duplicates) {
     dialog.value = 'notify';
@@ -74,7 +73,7 @@ const checkDuplicates = () => {
   return true;
 }
 const checkQuantity = () => {
-  if (newRitualForm.value.cosmetic_name.length === 5) {
+  if (newRitualForm.value.cosmetic_name?.length === 5) {
     dialog.value = 'notify';
     messageNotify.value = t('rituals.add_max_5_items');
     return;
@@ -98,7 +97,7 @@ const checkItemBeforeSubmit = () => {
 const addCosmeticItem = () => {
   if (!checkItemBeforeSubmit()) return;
 
-  newRitualForm.value.cosmetic_name.push(cosmeticItem.value);
+  newRitualForm.value.cosmetic_name?.push(cosmeticItem.value);
   cosmeticItem.value = '';
 }
 
@@ -128,7 +127,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
           :title="t('rituals.select_section')"
           :disabled-field="t('rituals.select_ritual_section')"
           :list="sectionsList"
-          :error="isError && !newRitualForm.section_key.length"
+          :error="isError && !newRitualForm.section_key?.length"
         />
       </div>
       <div>

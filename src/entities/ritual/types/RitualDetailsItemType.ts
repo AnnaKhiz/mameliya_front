@@ -1,5 +1,3 @@
-import type { RitualSectionType } from "@/entities/ritual";
-
 export type RitualDetailsItemType = {
   id: number;
   title: string;

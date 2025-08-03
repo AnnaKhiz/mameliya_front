@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type Props = {
   title?: string;
-  error?: string;
+  error?: boolean;
 }
 
 defineProps<Props>();
