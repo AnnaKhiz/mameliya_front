@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', () => {
       isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
-        language.value = result?.data.lang;
+        language.value = result?.data.lang || "en";
       }
       isAuthenticated.value = true;
 
@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', () => {
       isLoading.value = false;
       if (result?.data) {
         user.value = result?.data;
-        language.value = result?.data.lang;
+        language.value = result?.data.lang || "en";
       }
       isAuthenticated.value = true;
     } catch(error) {
@@ -63,7 +63,7 @@ export const useUserStore = defineStore('user', () => {
       if (result) {
         if (result?.data) {
           user.value = result.data;
-          language.value = result?.data.lang;
+          language.value = result?.data.lang || "en";
         }
 
         isAuthenticated.value = result.result;
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('user', () => {
 
       if (result?.data) {
         user.value = result.data;
-        language.value = result?.data.lang;
+        language.value = result?.data.lang || "en";
       }
 
     } catch(error) {
