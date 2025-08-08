@@ -2,10 +2,16 @@
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+
+type Props = {
+  noTitle: boolean;
+}
+
+defineProps<Props>();
 </script>
 
 <template>
-  <div>
+  <div v-if="!noTitle">
     <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('aside.faq.faq_timer') }}</h2>
   </div>
   <div class="w-full flex flex-col items-start justify-start gap-3 px-5 pb-5 whitespace-pre-line">
