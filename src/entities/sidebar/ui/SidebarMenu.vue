@@ -187,6 +187,11 @@ const asideList = computed(():AsideMenuType[] => ([
         title: t('aside.faq.faq_rituals'),
         value: 'faq-rituals',
       },
+      {
+        id: 3,
+        title: t('aside.faq.faq_timer'),
+        value: 'faq-timer',
+      },
     ]
   }
 ]))

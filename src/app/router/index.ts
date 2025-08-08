@@ -302,6 +302,15 @@ const router = createRouter({
                   meta: {
                     requiresAuth: true,
                   },
+                },
+                {
+                  path: 'faq-timer',
+                  name: 'user-faq-timer',
+                  props: true,
+                  component: () => import('@/pages/faq/ui/FAQTimerInfo.vue'),
+                  meta: {
+                    requiresAuth: true,
+                  },
                 }
               ]
             },

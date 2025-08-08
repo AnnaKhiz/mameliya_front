@@ -66,7 +66,8 @@
 		"faq": {
 			"title": "FAQ",
 			"faq_calendar": "How to use calendar?",
-			"faq_rituals": "How to use \"Daily rituals\""
+			"faq_rituals": "How to use \"Daily rituals\"",
+			"faq_timer": "How to use \"Time for myself\""
 		}
 	},
 	"notify": {
