@@ -249,6 +249,15 @@
 			"description_2": "This is your personal diary, so feel free to write down your thoughts and feelings here.",
 			"show_list": "Show diary posts",
 			"hide_list": "Hide diary posts"
+		},
+		"timer": {
+			"about": "\"Time for myself\" is a section that will help you remember the importance of making time for yourself.\nEven just five minutes a day — spend it alone, doing something that helps you recharge and restore harmony between your body and mind.",
+			"time_limits": "You can decide for yourself how much time you want to dedicate to yourself today.\nThe program sets limits from 5 to 60 minutes per day.\nThe default timer is set to 5 minutes, but you can save your preferred timer duration in your profile under \"Profile – Edit\".",
+			"notifications": "You will receive reminders to take time for yourself, which will appear in the top panel of the website under the \"Notifications\" section.",
+			"hot_to_use": "Usage guide:",
+			"go_to_mama_section": "Go to the \"Mama – Time for myself\" section and select your desired time limit from the dropdown menu.",
+			"start_timer": "Start the timer, and you’ll see the countdown begin.",
+			"pause_timer": "You can pause the timer and resume it at a convenient time.\nPlease note that the timer resets every day, so you can only resume the countdown until the end of the current day.\nThe next day, the timer will reset, and you’ll be able to start it again with your preferred time."
 		}
 	},
 	"family": {
