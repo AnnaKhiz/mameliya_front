@@ -15,7 +15,7 @@ import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
 import {useI18n} from "vue-i18n";
 import {useRouter, useRoute} from "vue-router";
 import { useUserStore } from "@/entities/user";
-const { logOutUser } = useUserStore();
+const { logOutUser, changeNotificationStatus } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
 import {CalendarComponent} from "@/entities/calendar";
@@ -110,8 +110,8 @@ onBeforeUnmount(() => {
 
 const activeNotifications = computed(() => notifyList.value.some(e => !e.is_read));
 
-const handleIsReadNotification = async () => {
-
+const handleIsReadNotification = async (id: string) => {
+  await changeNotificationStatus(id);
 }
 </script>
 
@@ -170,7 +170,8 @@ const handleIsReadNotification = async () => {
               <div
                 v-for="item in notifyList"
                 :key="item.id"
-                class="p-2 mb-4 bg-brown-medium rounded-md hover:cursor-pointer hover:bg-brown-medium/50 transition duration-500"
+                class="p-2 mb-4 rounded-md transition duration-500"
+                :class="item.is_read ? 'text-gray-400 bg-brown-medium/60 hover:bg-brown-medium/50' : 'bg-brown-medium hover:bg-brown-medium/50 hover:cursor-pointer'"
               >
                 <p class="mb-2">
                   {{ item.message }}
@@ -178,7 +179,7 @@ const handleIsReadNotification = async () => {
 
                 <span
                   class="text-gray-400 text-sm"
-                  @click.prevent="handleIsReadNotification"
+                  @click.prevent="handleIsReadNotification(item.id)"
                 >
                   {{ item.is_read ? t('user_page.is_read') : t('user_page.not_read') }}
                 </span>
