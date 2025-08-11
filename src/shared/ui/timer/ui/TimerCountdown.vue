@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { PauseIcon, PlayIcon } from "@heroicons/vue/16/solid";
+import {vTooltip} from "floating-vue";
 import { useI18n } from "vue-i18n";
 import {computed, ref, watch} from "vue";
 const { t } = useI18n();
@@ -107,11 +108,13 @@ watch(() => props.secondsDefault, (val: number) => seconds.value = val, { immedi
       <span class="font-semibold text-brown-dark text-xl">{{ timerValue }}</span>
       <PlayIcon
         v-if="!isTimerPaused"
+        v-tooltip="t('general.start')"
         @click="countdown"
         class="w-6 fill-brown-dark cursor-pointer hover:animate-pulse"
       />
       <PauseIcon
         v-else
+        v-tooltip="t('general.pause')"
         @click="countdown"
         class="w-6 fill-brown-dark cursor-pointer hover:animate-pulse"
       />
