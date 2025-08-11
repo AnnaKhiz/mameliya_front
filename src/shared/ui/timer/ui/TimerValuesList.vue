@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import {computed, ref, watch} from "vue";
 import { useI18n } from "vue-i18n";
+import {useMamaStore} from "@/entities/mama";
+import {storeToRefs} from "pinia";
 const { t } = useI18n();
-
+const { mama } = storeToRefs(useMamaStore());
+const { updateTimerValue } = useMamaStore();
 type Props = {
-  isTimerPaused: boolean;
+  isTimerPaused?: boolean;
 }
 
 const props = defineProps<Props>();
-const emits = defineEmits(['updateCheckedValue', 'updateTimerChecked']);
-const timerChecked = defineModel<number>();
+const timerChecked = ref<number>(5);
 
 const timerList = computed(() => {
   const maxTimer = 60;
@@ -26,10 +28,16 @@ const timerList = computed(() => {
 
   return finalList;
 })
-const handleChange = (event: Event) => {
+const handleChange = async (event: Event) => {
   const element = event.target as HTMLSelectElement;
-  emits('updateCheckedValue', +element?.value);
+  await updateTimerValue({ total_time: +element?.value})
 }
+
+watch(() => mama.value?.timer, (newValue) => {
+  if (newValue) {
+    timerChecked.value = mama.value?.timer?.total_time;
+  }
+})
 </script>
 
 <template>

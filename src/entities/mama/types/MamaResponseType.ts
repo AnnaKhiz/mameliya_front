@@ -6,7 +6,7 @@ export type MamaResponseType =  {
   mood: string;
   hasRituals: boolean;
   isTimerUsed: boolean;
-  timer: number;
+  timer: Record<string, any>;
   userId: string;
   diary?: DiaryObjectType[];
 }

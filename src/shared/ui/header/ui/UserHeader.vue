@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {onMounted, onBeforeUnmount, ref, watch, computed} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import {
   CalendarDaysIcon,
-  ChartPieIcon,
+  BellIcon,
   ChatBubbleLeftRightIcon,
   HomeIcon
 } from "@heroicons/vue/16/solid";
@@ -15,10 +15,10 @@ import HeaderLayout from "@/shared/ui/header/ui/HeaderLayout.vue";
 import {useI18n} from "vue-i18n";
 import {useRouter, useRoute} from "vue-router";
 import { useUserStore } from "@/entities/user";
-const { logOutUser } = useUserStore();
+const { logOutUser, changeNotificationStatus } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {CalendarComponent, type DialogEventsType} from "@/entities/calendar";
+import {CalendarComponent} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 import {AssistantComponent} from "@/entities/assistant";
@@ -26,7 +26,7 @@ import {PopupComponent, type PopupDialogsType} from "@/shared/ui/popup";
 import {useAssistantStore} from "@/entities/assistant/model/useAssistantStore.ts";
 import {UserPage} from "@/pages/user-page";
 const { removeChatHistory } = useAssistantStore();
-const { user } = storeToRefs(useUserStore());
+const { user, notifyList } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
 
 const { t } = useI18n();
@@ -35,8 +35,11 @@ const route = useRoute();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const popup = ref<PopupDialogsType>('none');
+const notification = ref<HTMLElement | null>(null);
+const bellIcon = ref<HTMLElement | null>(null);
 
 const isEditInfo = ref<boolean>(false);
+const isNotifications = ref<boolean>(false);
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -69,8 +72,26 @@ const openAIChat = async () => {
   changePopupState('ai-chat');
 }
 
+const openNotifications = async () => {
+  isNotifications.value = !isNotifications.value;
+}
+
 const handleIsEditInfo = (event: boolean) => {
   isEditInfo.value = event;
+}
+function onClickOutside(event: MouseEvent) {
+  const target = event.target as Node | null;
+
+  if (
+    notification.value &&
+    bellIcon.value &&
+    target !== notification.value &&
+    target !== bellIcon.value &&
+    !notification.value.contains(target) &&
+    !bellIcon.value.contains(target)
+  ) {
+    isNotifications.value = false;
+  }
 }
 
 watch(() => route.query, (newValue) => {
@@ -79,6 +100,19 @@ watch(() => route.query, (newValue) => {
   }
 }, { immediate: true})
 
+onMounted(() => {
+  document.addEventListener('click', onClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onClickOutside)
+})
+
+const activeNotifications = computed(() => notifyList.value.some(e => !e.is_read));
+
+const handleIsReadNotification = async (id: string) => {
+  await changeNotificationStatus(id);
+}
 </script>
 
 <template>
@@ -112,13 +146,50 @@ watch(() => route.query, (newValue) => {
           @click="openGeneralCalendar"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
-
         <ChatBubbleLeftRightIcon
           v-if="user"
           v-tooltip="t('helper_ai.tooltip')"
           @click="openAIChat"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
+        <div class="relative">
+          <BellIcon
+            v-if="user"
+            ref="bellIcon"
+            v-tooltip="t('user_page.notifications')"
+            @click="openNotifications"
+            class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+          />
+          <div v-if="activeNotifications" class="w-2 h-2 bg-red-600 rounded-full absolute top-0 right-0" ></div>
+          <Transition >
+            <div
+              v-if="isNotifications"
+              ref="notification"
+              class="absolute top-10 right-0 text-white p-4 bg-brown-dark rounded-md h-80 w-64 z-10 overflow-auto"
+            >
+              <div
+                v-for="item in notifyList"
+                :key="item.id"
+                class="p-2 mb-4 rounded-md transition duration-500"
+                :class="item.is_read ? 'text-gray-400 bg-brown-medium/60 hover:bg-brown-medium/50' : 'bg-brown-medium hover:bg-brown-medium/50 hover:cursor-pointer'"
+              >
+                <p class="mb-2">
+                  {{ item.message }}
+                </p>
+
+                <span
+                  class="text-gray-400 text-sm"
+                  @click.prevent="handleIsReadNotification(item.id)"
+                >
+                  {{ item.is_read ? t('user_page.is_read') : t('user_page.not_read') }}
+                </span>
+              </div>
+
+            </div>
+          </Transition>
+
+        </div>
+
 
         <AppButton :label="t('general.about')" @click.prevent="goToPage('about')"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>

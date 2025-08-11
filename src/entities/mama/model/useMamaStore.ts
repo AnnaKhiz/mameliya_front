@@ -46,6 +46,8 @@ export const useMamaStore = defineStore('mama', () => {
     }
     return result;
   }
+
+  // DIARY
   const addDiaryPost = async (body: DiaryFormType ): Promise<any> => {
     let result: ResponseDiaryType | null = null;
     isLoading.value = true;
@@ -113,7 +115,30 @@ export const useMamaStore = defineStore('mama', () => {
     return result;
   }
 
+  // TIMER
 
+  type TimerDetailsType = {
+    total_time?: number;
+    paused_time?: number;
+    is_paused?: boolean;
+  }
+  const updateTimerValue = async (body: Record<string, any>) => {
+    console.log(body)
+    let result: ResponseDiaryType | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/mama/timer/update', 'PATCH', {}, body);
+
+      if (result?.data && mama.value) {
+        mama.value.timer = result?.data;
+      }
+      isLoading.value = false;
+
+    } catch (error) {
+      console.error('Error [Update timer value]: ', error);
+    }
+    return result;
+  }
 
   return {
     mama,
@@ -123,6 +148,7 @@ export const useMamaStore = defineStore('mama', () => {
     addDiaryPost,
     getDiaryPostsList,
     removeDiaryPost,
-    updateDiaryPost
+    updateDiaryPost,
+    updateTimerValue
   }
 })
