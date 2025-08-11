@@ -6,10 +6,11 @@ import { MainHeader, UserHeader } from '@/shared/ui/header';
 import { useUserStore } from "@/entities/user";
 import {storeToRefs} from "pinia";
 const { isAuthenticated } = storeToRefs(useUserStore());
-const { checkUserSession } = useUserStore();
+const { checkUserSession, getNotificationsList } = useUserStore();
 
 onMounted(async () => {
   await checkUserSession();
+  await getNotificationsList();
 })
 
 </script>

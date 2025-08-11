@@ -347,7 +347,9 @@
 		"no_data": "Не указано",
 		"updating_error": "Ошибка обновления",
 		"update_successfully": "Обновлено успешно",
-		"notifications": "Уведомления"
+		"notifications": "Уведомления",
+		"is_read": "Прочитано",
+		"not_read": "Непрочитано"
 	}
 }
 

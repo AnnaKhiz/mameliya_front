@@ -124,6 +124,19 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  const getNotificationsList = async () => {
+    let result: Record<string, any> | null = null;
+    isLoading.value = true;
+    try {
+      result = await fetchData('user/data/notifications');
+      isLoading.value = false;
+      notifyList.value = result?.data;
+    } catch(error) {
+      console.error('Error [Get notifications]: ', error);
+    }
+    return result;
+  }
+
   watch(() => language.value, (newLang: "en" | "ru") => {
     i18n.global.locale.value = newLang;
   }, { immediate: true });
@@ -147,6 +160,7 @@ export const useUserStore = defineStore('user', () => {
     checkUserSession,
     updateUser,
     checkUserPassword,
-    updateIsConfirmed
+    updateIsConfirmed,
+    getNotificationsList
   }
 })

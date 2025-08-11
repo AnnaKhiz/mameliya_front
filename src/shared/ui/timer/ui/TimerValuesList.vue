@@ -18,7 +18,7 @@ const timerChecked = ref<number>(5);
 const timerList = computed(() => {
   const maxTimer = 60;
   const finalList = [];
-  let i = 5;
+  let i = 1;
 
   do {
     finalList.push({

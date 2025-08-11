@@ -81,6 +81,7 @@ const resetTimer = () => {
     }
   }
 }
+
 const checkIsTimerFinished = computed(() => {
   const [min, sec] = timerValue.value?.split(': ').map(Number);
   return min != 0 || sec != 0;
@@ -97,7 +98,6 @@ const parseSecondsToMinutes = (value: number) => {
   seconds.value = value%60
   return `${String(minutes.value).padStart(2, '0')}: ${String(seconds.value).padStart(2, '0')}`;
 }
-
 
 </script>
 

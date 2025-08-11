@@ -346,6 +346,8 @@
 		"no_data": "Not specified",
 		"updating_error": "Updating error",
 		"update_successfully": "Updated successfully",
-		"notifications": "Notifications"
+		"notifications": "Notifications",
+		"is_read": "Read",
+		"not_read": "Not read"
 	}
 }

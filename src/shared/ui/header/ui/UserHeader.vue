@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, onBeforeUnmount, ref, watch} from "vue";
+import {onMounted, onBeforeUnmount, ref, watch, computed} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import {
   CalendarDaysIcon,
@@ -107,6 +107,12 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside)
 })
+
+const activeNotifications = computed(() => notifyList.value.some(e => !e.is_read));
+
+const handleIsReadNotification = async () => {
+
+}
 </script>
 
 <template>
@@ -154,14 +160,30 @@ onBeforeUnmount(() => {
             @click="openNotifications"
             class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
           />
-          <div v-if="notifyList.length" class="w-2 h-2 bg-red-600 rounded-full absolute top-0 right-0" ></div>
+          <div v-if="activeNotifications" class="w-2 h-2 bg-red-600 rounded-full absolute top-0 right-0" ></div>
           <Transition >
             <div
               v-if="isNotifications"
               ref="notification"
-              class="absolute top-10 right-0 text-white p-4 bg-brown-dark rounded-md h-80 w-64 z-10"
+              class="absolute top-10 right-0 text-white p-4 bg-brown-dark rounded-md h-80 w-64 z-10 overflow-auto"
             >
-              notifications
+              <div
+                v-for="item in notifyList"
+                :key="item.id"
+                class="p-2 mb-4 bg-brown-medium rounded-md hover:cursor-pointer hover:bg-brown-medium/50 transition duration-500"
+              >
+                <p class="mb-2">
+                  {{ item.message }}
+                </p>
+
+                <span
+                  class="text-gray-400 text-sm"
+                  @click.prevent="handleIsReadNotification"
+                >
+                  {{ item.is_read ? t('user_page.is_read') : t('user_page.not_read') }}
+                </span>
+              </div>
+
             </div>
           </Transition>
 
