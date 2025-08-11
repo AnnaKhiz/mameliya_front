@@ -26,7 +26,7 @@ import {PopupComponent, type PopupDialogsType} from "@/shared/ui/popup";
 import {useAssistantStore} from "@/entities/assistant/model/useAssistantStore.ts";
 import {UserPage} from "@/pages/user-page";
 const { removeChatHistory } = useAssistantStore();
-const { user } = storeToRefs(useUserStore());
+const { user, notifyList } = storeToRefs(useUserStore());
 const { mama } = storeToRefs(useMamaStore());
 
 const { t } = useI18n();
@@ -154,6 +154,7 @@ onBeforeUnmount(() => {
             @click="openNotifications"
             class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
           />
+          <div v-if="notifyList.length" class="w-2 h-2 bg-red-600 rounded-full absolute top-0 right-0" ></div>
           <Transition >
             <div
               v-if="isNotifications"

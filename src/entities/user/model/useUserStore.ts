@@ -10,6 +10,7 @@ import { i18n } from '@/shared/config/i18n';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<UserDataType | null>(null);
+  const notifyList = ref<Record<string, any>[] | []>([]);
   const isAuthenticated = ref<boolean>(false);
   const isLoading = ref<boolean>(false);
   const language = ref<"en" | "ru">("en");
@@ -138,6 +139,7 @@ export const useUserStore = defineStore('user', () => {
     isLoading,
     isConfirmed,
     language,
+    notifyList,
     signUpUser,
     signInUser,
     logOutUser,
