@@ -155,7 +155,8 @@
 		"click": "Нажмите",
 		"email_placeholder": "Введите email...",
 		"password_placeholder": "Введите пароль...",
-		"password_confirm_placeholder": "Введите пароль еще раз..."
+		"password_confirm_placeholder": "Введите пароль еще раз...",
+		"select_language": "Выберите язык интерфейса:"
 	},
 	"user": {
 		"mood": "Настроение",

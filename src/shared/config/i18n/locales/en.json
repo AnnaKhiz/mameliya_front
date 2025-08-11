@@ -155,7 +155,8 @@
 		"click": "Click",
 		"email_placeholder": "Enter email...",
 		"password_placeholder": "Enter password...",
-		"password_confirm_placeholder": "Enter confirm password..."
+		"password_confirm_placeholder": "Enter confirm password...",
+		"select_language": "Select interface language:"
 	},
 	"user": {
 		"mood": "Mood",
