@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { sectionsList } from "@/entities/ritual";
-
 type Props = {
+  list: Record<string, any>[];
   title?: string;
   error?: boolean;
-  disabledField: string;
-  list: Record<string, any>[];
+  disabledField?: string;
+  styles?: string;
+  multiple?: boolean
 }
 defineProps<Props>();
 
@@ -13,13 +13,16 @@ const section = defineModel<string[]>();
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <h2 v-if="title" class="mb-1">{{ title }}</h2>
     <select
       v-model="section"
-      multiple
-      class="w-full dark-mode"
-      :class="error ? 'error-style' : ''"
+      :multiple="multiple"
+      class="dark-mode"
+      :class="[
+        error ? 'error-style' : '',
+        styles ? styles : ''
+      ]"
     >
       <option v-if="disabledField" disabled value="">{{ disabledField }}</option>
       <option

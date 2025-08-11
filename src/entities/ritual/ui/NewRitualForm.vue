@@ -124,6 +124,7 @@ onBeforeUnmount(() => clearTimeout(timeoutId));
       <div>
         <AppSelect
           v-model="newRitualForm.section_key"
+          multiple
           :title="t('rituals.select_section')"
           :disabled-field="t('rituals.select_ritual_section')"
           :list="sectionsList"

@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import router from "@/app/router";
-import { AppButton } from "@/shared/ui/button";
-import { AppInputPassword } from "@/shared/ui/form";
-import { useUserStore } from "@/entities/user";
-import { useI18n } from 'vue-i18n';
-import {ref} from "vue";
-const { t } = useI18n();
-
-const { signUpUser } = useUserStore();
+import {AppButton} from "@/shared/ui/button";
+import {AppInputPassword, AppInputText, AppSelect} from "@/shared/ui/form";
 import {
   type FormFieldsType,
   type FormRegisterField,
-  registerValidationSchema
+  type LanguageType,
+  registerValidationSchema,
+  useUserStore
 } from "@/entities/user";
+import {useI18n} from 'vue-i18n';
+import {ref} from "vue";
 
+const { t } = useI18n();
+
+const { signUpUser } = useUserStore();
 
 type ErrorsType = {
   [K in FormRegisterField]?: string;
@@ -22,11 +23,18 @@ type ErrorsType = {
 
 const message = ref<string>('');
 const errors = ref<ErrorsType>({});
+const languageValues:LanguageType[] =[
+  { text: 'RU', value: 'ru' },
+  { text: 'EN', value: 'en' }]
+
+
 const formData = ref<FormFieldsType>({
   email: '',
   password: '',
   passwordConfirm: '',
+  lang: 'ru'
 });
+
 
 const validation = async () => {
   try {
@@ -53,11 +61,12 @@ const submitForm = async () => {
   errors.value = {};
   const isFormValid = await validation();
   if (!isFormValid) return;
-  const { email, password } = formData.value;
+  const { email, password, lang } = formData.value;
 
   const result = await signUpUser({
     email,
-    password
+    password,
+    lang
   });
 
   if (result && result.code === 400) {
@@ -79,49 +88,34 @@ const submitForm = async () => {
 
 <template>
   <form action="" class="flex flex-col gap-4 mb-10" novalidate>
-    <div>
-      <p>{{ t('auth.enter_email') }}</p>
-      <input
-        class="w-full mb-1"
-        type="email"
-        :placeholder="t('auth.email_placeholder')"
-        v-model="formData.email"
-      />
-      <span
-        v-if="errors.email"
-        class="text-red-600 text-2xs ml-2"
-      >
-                {{ errors.email }}
-              </span>
-    </div>
-    <div>
-      <AppInputPassword
-        v-model="formData.password"
-        :field="'password'"
-        :title="t('auth.enter_password')"
-        :placeholder-text="t('auth.password_placeholder')"
-      />
-      <span
-        v-if="errors.password"
-        class="text-red-600 text-2xs ml-2"
-      >
-                {{ errors.password }}
-              </span>
-    </div>
-    <div>
-      <AppInputPassword
-        v-model="formData.passwordConfirm"
-        :title="t('auth.enter_confirm_password')"
-        :field="'passwordConfirm'"
-        :placeholder-text="t('auth.password_confirm_placeholder')"
-      />
-      <span
-        v-if="errors.passwordConfirm"
-        class="text-red-600 text-2xs ml-2"
-      >
-                {{ errors.passwordConfirm }}
-              </span>
-    </div>
+    <AppInputText
+      v-model="formData.email"
+      :placeholder="t('auth.email_placeholder')"
+      :title="t('auth.enter_email')"
+      :error="errors.email"
+    />
+
+    <AppInputPassword
+      v-model="formData.password"
+      :field="'password'"
+      :title="t('auth.enter_password')"
+      :placeholder-text="t('auth.password_placeholder')"
+      :error="errors.password"
+    />
+
+    <AppInputPassword
+      v-model="formData.passwordConfirm"
+      :title="t('auth.enter_confirm_password')"
+      :field="'passwordConfirm'"
+      :placeholder-text="t('auth.password_confirm_placeholder')"
+      :error="errors.passwordConfirm"
+    />
+    <AppSelect
+      v-model="formData.lang"
+      :list="languageValues"
+      :title="t('auth.select_language')"
+      :style="'w-fit'"
+    />
     <AppButton :label="t('general.register')" class="w-full" @click.prevent="submitForm"/>
   </form>
   <p class="text-green-900 text-sm mb-4">{{ message}}</p>
