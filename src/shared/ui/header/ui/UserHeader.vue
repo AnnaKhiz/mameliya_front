@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {onMounted, onBeforeUnmount, ref, watch} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import {
   CalendarDaysIcon,
@@ -35,8 +35,11 @@ const route = useRoute();
 const isMoodPanel = ref<boolean>(false);
 const dialog = ref<HeaderDialogsType>('none');
 const popup = ref<PopupDialogsType>('none');
+const notification = ref<HTMLElement | null>(null);
+const bellIcon = ref<HTMLElement | null>(null);
 
 const isEditInfo = ref<boolean>(false);
+const isNotifications = ref<boolean>(false);
 const updateModal = (value: boolean) => {
   isMoodPanel.value = value;
 }
@@ -69,8 +72,26 @@ const openAIChat = async () => {
   changePopupState('ai-chat');
 }
 
+const openNotifications = async () => {
+  isNotifications.value = !isNotifications.value;
+}
+
 const handleIsEditInfo = (event: boolean) => {
   isEditInfo.value = event;
+}
+function onClickOutside(event: MouseEvent) {
+  const target = event.target as Node | null;
+
+  if (
+    notification.value &&
+    bellIcon.value &&
+    target !== notification.value &&
+    target !== bellIcon.value &&
+    !notification.value.contains(target) &&
+    !bellIcon.value.contains(target)
+  ) {
+    isNotifications.value = false;
+  }
 }
 
 watch(() => route.query, (newValue) => {
@@ -79,6 +100,13 @@ watch(() => route.query, (newValue) => {
   }
 }, { immediate: true})
 
+onMounted(() => {
+  document.addEventListener('click', onClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onClickOutside)
+})
 </script>
 
 <template>
@@ -112,19 +140,32 @@ watch(() => route.query, (newValue) => {
           @click="openGeneralCalendar"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
-
         <ChatBubbleLeftRightIcon
           v-if="user"
           v-tooltip="t('helper_ai.tooltip')"
           @click="openAIChat"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
+        <div class="relative">
+          <BellIcon
+            v-if="user"
+            ref="bellIcon"
+            v-tooltip="t('user_page.notifications')"
+            @click="openNotifications"
+            class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+          />
+          <Transition >
+            <div
+              v-if="isNotifications"
+              ref="notification"
+              class="absolute top-10 right-0 text-white p-4 bg-brown-dark rounded-md h-80 w-64 z-10"
+            >
+              notifications
+            </div>
+          </Transition>
 
-        <BellIcon
-          v-if="user"
-          v-tooltip="t('user_page.notifications')"
-          class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
-        />
+        </div>
+
 
         <AppButton :label="t('general.about')" @click.prevent="goToPage('about')"/>
         <AppButton :label="t('general.logout')" @click.prevent="handleLogOut"/>
