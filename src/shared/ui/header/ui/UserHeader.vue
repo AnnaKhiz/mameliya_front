@@ -3,7 +3,7 @@ import {ref, watch} from "vue";
 import type { HeaderDialogsType } from "@/shared/ui/header";
 import {
   CalendarDaysIcon,
-  ChartPieIcon,
+  BellIcon,
   ChatBubbleLeftRightIcon,
   HomeIcon
 } from "@heroicons/vue/16/solid";
@@ -18,7 +18,7 @@ import { useUserStore } from "@/entities/user";
 const { logOutUser } = useUserStore();
 import {storeToRefs} from "pinia";
 import { useMamaStore} from "@/entities/mama";
-import {CalendarComponent, type DialogEventsType} from "@/entities/calendar";
+import {CalendarComponent} from "@/entities/calendar";
 import ModalComponent from "@/shared/ui/modal";
 import { vTooltip } from "floating-vue";
 import {AssistantComponent} from "@/entities/assistant";
@@ -117,6 +117,12 @@ watch(() => route.query, (newValue) => {
           v-if="user"
           v-tooltip="t('helper_ai.tooltip')"
           @click="openAIChat"
+          class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
+        />
+
+        <BellIcon
+          v-if="user"
+          v-tooltip="t('user_page.notifications')"
           class="fill-brown-dark outline-none w-8 p-1 cursor-pointer hover:fill-brown-dark hover:bg-brown-light/40 hover:rounded hover:cursor-pointer transition duration-500"
         />
 

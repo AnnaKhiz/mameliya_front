@@ -346,7 +346,8 @@
 		"enter_new_password": "Введи новый пароль",
 		"no_data": "Не указано",
 		"updating_error": "Ошибка обновления",
-		"update_successfully": "Обновлено успешно"
+		"update_successfully": "Обновлено успешно",
+		"notifications": "Уведомления"
 	}
 }
 

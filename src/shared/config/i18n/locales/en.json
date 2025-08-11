@@ -345,6 +345,7 @@
 		"enter_new_password": "Enter new password",
 		"no_data": "Not specified",
 		"updating_error": "Updating error",
-		"update_successfully": "Updated successfully"
+		"update_successfully": "Updated successfully",
+		"notifications": "Notifications"
 	}
 }
