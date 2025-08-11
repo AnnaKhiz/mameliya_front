@@ -20,7 +20,9 @@
 		"min": "min",
 		"duplicate": "Duplicate item. This item already exist in list!",
 		"translate": "Translate",
-		"reverse_translate": "Cancel translate"
+		"reverse_translate": "Cancel translate",
+		"start": "Start timer",
+		"pause": "Pause timer"
 	},
 	"aside": {
 		"mama": {
