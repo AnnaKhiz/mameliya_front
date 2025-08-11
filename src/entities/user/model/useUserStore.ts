@@ -124,11 +124,12 @@ export const useUserStore = defineStore('user', () => {
     return result;
   }
 
+  // NOTIFICATIONS
   const getNotificationsList = async () => {
     let result: Record<string, any> | null = null;
     isLoading.value = true;
     try {
-      result = await fetchData('user/data/notifications');
+      result = await fetchData('user/notifications');
       isLoading.value = false;
       notifyList.value = result?.data;
     } catch(error) {
@@ -141,7 +142,7 @@ export const useUserStore = defineStore('user', () => {
     let result: Record<string, any> | null = null;
     isLoading.value = true;
     try {
-      result = await fetchData('user/data/notifications/update/:id', 'PATCH', { id });
+      result = await fetchData('user/notifications/update/:id', 'PATCH', { id });
       isLoading.value = false;
       notifyList.value = result?.data;
     } catch(error) {

@@ -11,14 +11,12 @@ type Props = {
 }
 
 const props = defineProps<Props>();
-const emits = defineEmits(['updateCheckedValue', 'updateTimerChecked']);
-// const timerChecked = defineModel<number>();
 const timerChecked = ref<number>(5);
 
 const timerList = computed(() => {
   const maxTimer = 60;
   const finalList = [];
-  let i = 1;
+  let i = 5;
 
   do {
     finalList.push({
@@ -33,7 +31,6 @@ const timerList = computed(() => {
 const handleChange = async (event: Event) => {
   const element = event.target as HTMLSelectElement;
   await updateTimerValue({ total_time: +element?.value})
-  // emits('updateCheckedValue', +element?.value);
 }
 
 watch(() => mama.value?.timer, (newValue) => {
