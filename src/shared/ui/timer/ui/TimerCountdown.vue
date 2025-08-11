@@ -3,17 +3,14 @@ import { PauseIcon, PlayIcon } from "@heroicons/vue/16/solid";
 import {vTooltip} from "floating-vue";
 import { useI18n } from "vue-i18n";
 import {computed, ref, watch} from "vue";
+import {storeToRefs} from "pinia";
+import {useMamaStore} from "@/entities/mama";
+
 const { t } = useI18n();
+const { mama } = storeToRefs(useMamaStore());
+const { updateTimerValue } = useMamaStore();
 type IntervalIDType = ReturnType<typeof setInterval>;
 let intervalID: IntervalIDType | null = null;
-
-type Props = {
-  minutesDefault: number;
-  secondsDefault: number;
-  timerChecked: number;
-  stoppedTimerValue: string;
-  timerValueDefault: string;
-}
 
 const isTimerPaused = ref<boolean>(false);
 let seconds = ref<number>(60);
@@ -22,25 +19,21 @@ const timer = ref<string>('');
 let timerValue = ref<string>('');
 const step = 1;
 
-const emits = defineEmits(['updateIsTimerPaused', 'updateStopTimer', 'updateTimerValue'])
-const props = defineProps<Props>();
 
-const countdown = () => {
+const countdown = async () => {
+
+
+  console.log('minutes.value', minutes.value)
+  console.log('seconds.value', seconds.value)
+  const generalTimeInSeconds = minutes.value * 60 + seconds.value;
+  console.log('generalTimeInSeconds', generalTimeInSeconds)
+
+
   isTimerPaused.value = !isTimerPaused.value;
-  emits('updateIsTimerPaused', isTimerPaused.value)
-  minutes.value = props.timerChecked - 1;
+
 
   if (!isTimerPaused.value) {
-    emits('updateStopTimer', timer.value);
-
-    const localStorageTimer = {
-      time: props.timerChecked,
-      isPaused: true,
-      pausedValue: timer.value || '',
-      date: Date.now(),
-    }
-
-    localStorage.setItem('mameliya_timer', JSON.stringify(localStorageTimer));
+    await updateTimerValue({ paused_time: generalTimeInSeconds, is_paused: true })
 
     if (intervalID) {
       clearInterval(intervalID);
@@ -48,8 +41,9 @@ const countdown = () => {
     return timer.value;
   }
 
-  const updatedTimerValue = props.stoppedTimerValue ? props.stoppedTimerValue : `${String(props.timerChecked).padStart(2, '0')}: 00`;
-  emits('updateTimerValue', updatedTimerValue);
+
+  const updatedTimerValue = mama.value?.timer.paused_time ? mama.value?.timer.paused_time : `${String(mama.value?.timer.total_time).padStart(2, '0')}: 00`;
+  console.log('updatedTimerValue', updatedTimerValue)
 
   if (checkIsTimerFinished.value && isTimerPaused.value) {
     intervalID = setInterval(updateTimerDisplay, 1000);
@@ -67,7 +61,6 @@ const updateTimerDisplay = () => {
 
     if (!checkIsTimerFinished.value) {
       timerValue.value = '00: 00';
-      emits('updateTimerValue', '00: 00');
       resetTimer();
       return;
     }
@@ -75,7 +68,6 @@ const updateTimerDisplay = () => {
     seconds.value -= step;
     timer.value = `${String(minutes.value).padStart(2, '0')}: ${String(seconds.value).padStart(2, '0')}`;
     timerValue.value = timer.value;
-    emits('updateTimerValue', timer.value)
     resetTimer();
   }
 }
@@ -83,7 +75,6 @@ const updateTimerDisplay = () => {
 const resetTimer = () => {
   if (!checkIsTimerFinished.value) {
     isTimerPaused.value = false;
-    emits('updateIsTimerPaused', false);
 
     if (intervalID) {
       clearInterval(intervalID);
@@ -95,9 +86,18 @@ const checkIsTimerFinished = computed(() => {
   return min != 0 || sec != 0;
 })
 
-watch(() => props.timerValueDefault, (val: string) => timerValue.value = val, { immediate: true });
-watch(() => props.minutesDefault, (val: number) => minutes.value = val, { immediate: true });
-watch(() => props.secondsDefault, (val: number) => seconds.value = val, { immediate: true });
+watch(() => mama.value?.timer, (newValue) => {
+  if (newValue) {
+    timerValue.value = parseSecondsToMinutes(mama.value?.timer.paused_time)
+  }
+})
+
+const parseSecondsToMinutes = (value: number) => {
+  minutes.value = Math.floor(value / 60);
+  seconds.value = value%60
+  return `${String(minutes.value).padStart(2, '0')}: ${String(seconds.value).padStart(2, '0')}`;
+}
+
 
 </script>
 
