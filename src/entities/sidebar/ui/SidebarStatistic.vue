@@ -9,11 +9,12 @@ import {RitualsStatistic} from "@/pages/rituals";
 const { t } = useI18n();
 const { mama } = storeToRefs(useMamaStore());
 const currentTimer = ref<number | string>();
-import { parseLocalStorage } from "@/shared/lib/parseLocalStorage.ts";
+// import { parseLocalStorage } from "@/shared/lib/parseTimerValues.ts";
 
 onMounted(() => {
-  const { timer } = parseLocalStorage();
-  currentTimer.value = timer;
+  // const { timer } = parseLocalStorage();
+  // console.log('timer', timer)
+  currentTimer.value = mama.value?.timer.paused_time;
 })
 </script>
 
