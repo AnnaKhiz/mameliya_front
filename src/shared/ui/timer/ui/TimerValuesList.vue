@@ -6,13 +6,13 @@ import {storeToRefs} from "pinia";
 const { t } = useI18n();
 const { mama } = storeToRefs(useMamaStore());
 const { updateTimerValue } = useMamaStore();
+
+const timerChecked = ref<number>(5);
 type Props = {
   isTimerPaused?: boolean;
 }
 
 const props = defineProps<Props>();
-const timerChecked = ref<number>(5);
-
 const timerList = computed(() => {
   const maxTimer = 60;
   const finalList = [];
@@ -38,6 +38,8 @@ watch(() => mama.value?.timer, (newValue) => {
     timerChecked.value = mama.value?.timer?.total_time;
   }
 })
+
+const disabledSelect = computed(() => !!(!mama.value?.timer.is_paused && mama.value?.timer.is_used_today) || props.isTimerPaused);
 </script>
 
 <template>
@@ -47,7 +49,7 @@ watch(() => mama.value?.timer, (newValue) => {
       v-model.number="timerChecked"
       @change="handleChange"
       class="w-full mb-3"
-      :disabled="props.isTimerPaused"
+      :disabled="disabledSelect"
     >
       <option
         v-for="option in timerList"
