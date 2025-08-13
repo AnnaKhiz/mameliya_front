@@ -99,9 +99,8 @@ const checkTimerStoppedDate = (pausedTime: Date) => {
 
 watch(() => mama.value?.timer, (newValue) => {
   if (newValue) {
-    timerValue.value = parseSecondsToMinutes(mama.value?.timer.paused_time)
+    timerValue.value = parseSecondsToMinutes(mama.value?.timer.paused_time);
   }
-
 }, { immediate: true })
 
 watch(() => checkIsTimerFinished.value, async (newValue) => {

@@ -21,9 +21,6 @@ watch(() => mama.value?.timer, (newValue) => {
   }
 })
 
-onMounted(async() => {
-  await getMamaInfo();
-})
 
 </script>
 
