@@ -13,6 +13,8 @@ export default {
         'green-dark': '#90d159',
         'green-medium': '#99cd6a',
         'green-light': '#b6e094',
+        'green-warm':'#7b8551',
+        'light-green-warm': '#f7efda',
         'green-light-opacity-5': 'rgba(182,224,148,0.5)',
         'green-bg': 'rgba(233,230,176,0.44)',
         'brown-dark': '#523629',
