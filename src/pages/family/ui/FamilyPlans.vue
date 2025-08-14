@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
 import ProgressBar from "@/shared/ui/progressbar";
+import WeekRangePicker from "@/shared/ui/week-range-picker";
 
 const { t } = useI18n();
 </script>
 
 <template>
   <div class="w-full h-full grow-1">
-    <div class="flex justify-between items-start">
-      <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('aside.family.plans') }}:</h2>
+    <h2 class="text-brown-dark font-semibold mb-4 text-xl">{{ t('aside.family.plans') }}:</h2>
 
-    </div>
-    <ProgressBar :done-percentage="30" />
+    <ProgressBar :done-percentage="30" class="mb-4" />
+
+    <WeekRangePicker />
   </div>
 </template>
 
