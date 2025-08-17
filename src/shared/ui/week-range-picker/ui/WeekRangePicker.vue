@@ -1,58 +1,8 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
-
+import { useI18n } from "vue-i18n";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/16/solid";
-const yearMonthList = [
-  {
-    month: 1,
-    name: 'January'
-  },
-  {
-    month: 2,
-    name: 'February'
-  },
-  {
-    month: 3,
-    name: 'March'
-  },
-  {
-    month: 4,
-    name: 'April'
-  },
-  {
-    month: 5,
-    name: 'May'
-  },
-  {
-    month: 6,
-    name: 'June'
-  },
-  {
-    month: 7,
-    name: 'July'
-  },
-  {
-    month: 8,
-    name: 'August'
-  },
-  {
-    month: 9,
-    name: 'September'
-  },
-  {
-    month: 10,
-    name: 'October'
-  },
-  {
-    month: 11,
-    name: 'November'
-  },
-  {
-    month: 12,
-    name: 'December'
-  }
-]
-
+const { t } = useI18n();
 const today = new Date();
 const currentDate = ref(new Date());
 
@@ -76,8 +26,14 @@ const endOfWeek = computed(() => {
   return end;
 });
 
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
+const formatDate = (date: Date) => {
+  const fullDate = date.toLocaleDateString("en-EN", { day: "numeric", month: "long" });
+  const dateArray = fullDate.split(' ');
+  const day = dateArray[1];
+  const month = t(`month.${dateArray[0].toLowerCase()}`);
+
+  return `${day} ${month.toUpperCase()}`
+}
 
 const canGoPrevWeek = computed(() => {
   const prevWeek = new Date(currentDate.value);
