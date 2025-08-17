@@ -2,6 +2,7 @@
 import {useI18n} from "vue-i18n";
 import ProgressBar from "@/shared/ui/progressbar";
 import WeekRangePicker from "@/shared/ui/week-range-picker";
+import {WeekDaysGrid} from "@/shared/ui/week-days-grid";
 
 const { t } = useI18n();
 </script>
@@ -12,7 +13,9 @@ const { t } = useI18n();
 
     <ProgressBar :done-percentage="30" class="mb-4" />
 
-    <WeekRangePicker />
+    <WeekRangePicker class="mb-6" />
+
+    <WeekDaysGrid />
   </div>
 </template>
 
