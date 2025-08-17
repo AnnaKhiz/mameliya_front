@@ -4,16 +4,19 @@ import type { WeekGridItemType, WeekValuesListType } from "@/shared/ui/week-days
 type Props = {
   item: WeekGridItemType;
   hovered: WeekValuesListType;
+  isGrid: boolean;
+  checkedMenu: WeekValuesListType;
 }
 defineProps<Props>();
 </script>
 
 <template>
-  <div class="w-full h-full relative hover:shadow-2xl cursor-pointer">
+  <div v-if="isGrid" class="w-full h-full relative hover:shadow-2xl cursor-pointer">
     <img
       :src="item.image"
       :alt="`${item.value} image`"
-      class="w-full h-full object-cover hover:brightness-50 transition duration-700 rounded-lg">
+      class="w-full h-full object-cover hover:brightness-50 transition duration-700 rounded-lg"
+    />
     <Transition :duration="700">
       <h2
         v-if="hovered === item.value"
@@ -22,6 +25,14 @@ defineProps<Props>();
         {{ item.title }}
       </h2>
     </Transition>
+  </div>
+  <div v-else class="bg-white/50 w-full" >
+    <h2
+      class="w-full font-bold text-xl px-4 py-3 hover:bg-brown-medium/40 hover:cursor-pointer transition duration-700"
+      :class="item.value === checkedMenu ? 'text-white pl-2 bg-brown-medium' : 'text-brown-dark'"
+    >
+      {{ item.title }}
+    </h2>
   </div>
 </template>
 

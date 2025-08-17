@@ -13,21 +13,12 @@ const handleCheckedMenu = (value: RitualSectionType) => {
   checkedMenu.value = value;
 }
 
-const goBack = () => {
-  handleCheckedMenu('none');
-  router.push({ name: 'user-daily_rituals'});
-}
+
 
 </script>
 
 <template>
   <div class="flex items-center justify-between w-full mb-5">
-    <ChevronLeftIcon
-      v-if="checkedMenu !== 'none'"
-      @click="goBack"
-      class="w-8 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
-      v-tooltip="t('general.back')"
-    />
     <RitualsList
       :menu="checkedMenu === 'none'"
       :checked-menu="checkedMenu"

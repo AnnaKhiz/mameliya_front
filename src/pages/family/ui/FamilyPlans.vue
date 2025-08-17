@@ -2,9 +2,86 @@
 import {useI18n} from "vue-i18n";
 import ProgressBar from "@/shared/ui/progressbar";
 import WeekRangePicker from "@/shared/ui/week-range-picker";
-import {WeekDaysGrid} from "@/shared/ui/week-days-grid";
+import {
+  WeekDaysList,
+  type WeekGridItemType,
+  type WeekValuesListType
+} from "@/shared/ui/week-days-grid";
+import {computed, ref} from "vue";
+
+import {ChevronLeftIcon} from "@heroicons/vue/16/solid";
+import router from "@/app/router";
+import mondayImg from "@/shared/assets/images/monday.webp";
+import tuesdayImg from "@/shared/assets/images/tuesday.webp";
+import wednesdayImg from "@/shared/assets/images/wednesday.webp";
+import thursdayImg from "@/shared/assets/images/thursday.webp";
+import fridayImg from "@/shared/assets/images/friday.webp";
+import saturdayImg from "@/shared/assets/images/saturday.webp";
+import sundayImg from "@/shared/assets/images/sunday.webp";
+import ActionButtons from "@/shared/ui/week-days-grid/ui/ActionButtons.vue";
 
 const { t } = useI18n();
+const checkedMenu = ref<WeekValuesListType>('none');
+const weekDaysList = computed(():WeekGridItemType[] => ([
+  {
+    id: 1,
+    title: t('week.monday'),
+    value: 'monday',
+    image: mondayImg,
+    isWeekend: false,
+  },
+  {
+    id: 2,
+    title: t('week.tuesday'),
+    value: 'tuesday',
+    image: tuesdayImg,
+    isWeekend: false,
+  },
+  {
+    id: 3,
+    title: t('week.wednesday'),
+    value: 'wednesday',
+    image: wednesdayImg,
+    isWeekend: false,
+  },
+  {
+    id: 4,
+    title: t('week.thursday'),
+    value: 'thursday',
+    image: thursdayImg,
+    isWeekend: false,
+  },
+  {
+    id: 5,
+    title: t('week.friday'),
+    value: 'friday',
+    image: fridayImg,
+    isWeekend: false,
+  },
+  {
+    id: 6,
+    title: t('week.saturday'),
+    value: 'saturday',
+    image: saturdayImg,
+    isWeekend: true,
+  },
+  {
+    id: 7,
+    title: t('week.sunday'),
+    value: 'sunday',
+    image: sundayImg,
+    isWeekend: true,
+  },
+]));
+
+const handleCheckedMenu = (value: WeekValuesListType) => {
+  checkedMenu.value = value;
+}
+const goBack = () => {
+  handleCheckedMenu('none');
+  router.push({ name: 'user-family_plans'});
+}
+
 </script>
 
 <template>
@@ -13,9 +90,32 @@ const { t } = useI18n();
 
     <ProgressBar :done-percentage="30" class="mb-4" />
 
-    <WeekRangePicker class="mb-6" />
+    <div class="flex justify-between items-center mb-6 ">
+      <ChevronLeftIcon
+        v-if="checkedMenu !== 'none'"
+        @click="goBack"
+        class="w-10 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
+        v-tooltip="t('general.back')"
+      />
+      <WeekRangePicker class="m-auto"  />
 
-    <WeekDaysGrid />
+      <ActionButtons v-if="checkedMenu !== 'none'" />
+    </div>
+
+    <div class="flex justify-start items-start h-full">
+      <WeekDaysList
+        @update:checked-menu="handleCheckedMenu"
+        :checked-menu="checkedMenu"
+        :week-days-list="weekDaysList"
+        :is-grid="checkedMenu === 'none'"
+        :class="checkedMenu !== 'none' ? 'w-1/5 h-full' : ''"
+      />
+      <div v-if="checkedMenu !== 'none'" class="border border-brown-dark w-full p-2">
+        content
+      </div>
+    </div>
+
+
   </div>
 </template>
 

@@ -23,7 +23,9 @@
 		"reverse_translate": "Cancel translate",
 		"start": "Start timer",
 		"pause": "Pause timer",
-		"done": "Done percentage"
+		"done": "Done percentage",
+		"filter": "Filter",
+		"sort": "Sort"
 	},
 	"month": {
 		"january": "January",
