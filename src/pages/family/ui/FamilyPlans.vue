@@ -9,7 +9,7 @@ import {
 } from "@/shared/ui/week-days-grid";
 import {computed, ref} from "vue";
 
-import {ChevronLeftIcon} from "@heroicons/vue/16/solid";
+import {ChevronLeftIcon, FolderPlusIcon } from "@heroicons/vue/16/solid";
 import router from "@/app/router";
 import mondayImg from "@/shared/assets/images/monday.webp";
 import tuesdayImg from "@/shared/assets/images/tuesday.webp";
@@ -91,18 +91,25 @@ const goBack = () => {
     <ProgressBar :done-percentage="30" class="mb-4" />
 
     <div class="flex justify-between items-center mb-6 ">
-      <ChevronLeftIcon
-        v-if="checkedMenu !== 'none'"
-        @click="goBack"
-        class="w-10 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
-        v-tooltip="t('general.back')"
-      />
+      <div v-if="checkedMenu !== 'none'" class="flex justify-start items-center">
+        <ChevronLeftIcon
+          @click="goBack"
+          class="w-10 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
+          v-tooltip="t('general.back')"
+        />
+
+        <FolderPlusIcon
+          class="w-8 fill-brown-dark cursor-pointer hover:fill-brown-medium outline-none"
+          v-tooltip="t('general.add')"
+        />
+      </div>
+
       <WeekRangePicker class="m-auto"  />
 
       <ActionButtons v-if="checkedMenu !== 'none'" />
     </div>
 
-    <div class="flex justify-start items-start h-full">
+    <div class="flex justify-start items-start h-full gap-2">
       <WeekDaysList
         @update:checked-menu="handleCheckedMenu"
         :checked-menu="checkedMenu"
@@ -110,7 +117,10 @@ const goBack = () => {
         :is-grid="checkedMenu === 'none'"
         :class="checkedMenu !== 'none' ? 'w-1/5 h-full' : ''"
       />
-      <div v-if="checkedMenu !== 'none'" class="border border-brown-dark w-full p-2">
+      <div
+        v-if="checkedMenu !== 'none'"
+        class="border border-brown-dark w-full p-2"
+      >
         content
       </div>
     </div>

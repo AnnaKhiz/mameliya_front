@@ -25,7 +25,8 @@
 		"pause": "Pause timer",
 		"done": "Done percentage",
 		"filter": "Filter",
-		"sort": "Sort"
+		"sort": "Sort",
+		"add": "Add"
 	},
 	"month": {
 		"january": "January",
