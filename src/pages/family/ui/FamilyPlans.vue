@@ -19,6 +19,7 @@ import fridayImg from "@/shared/assets/images/friday.webp";
 import saturdayImg from "@/shared/assets/images/saturday.webp";
 import sundayImg from "@/shared/assets/images/sunday.webp";
 import ActionButtons from "@/shared/ui/week-days-grid/ui/ActionButtons.vue";
+import {TabComponent} from "@/shared/ui/tabs";
 
 const { t } = useI18n();
 const checkedMenu = ref<WeekValuesListType>('none');
@@ -73,7 +74,6 @@ const weekDaysList = computed(():WeekGridItemType[] => ([
     isWeekend: true,
   },
 ]));
-
 const handleCheckedMenu = (value: WeekValuesListType) => {
   checkedMenu.value = value;
 }
@@ -117,14 +117,11 @@ const goBack = () => {
         :is-grid="checkedMenu === 'none'"
         :class="checkedMenu !== 'none' ? 'w-1/5 h-full' : ''"
       />
-      <div
+      <TabComponent
         v-if="checkedMenu !== 'none'"
-        class="border border-brown-dark w-full p-2"
-      >
-        content
-      </div>
+        class="w-full h-full"
+      />
     </div>
-
 
   </div>
 </template>

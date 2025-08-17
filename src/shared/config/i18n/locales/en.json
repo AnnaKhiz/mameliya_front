@@ -294,7 +294,12 @@
 		"family_calendar": "Family calendar",
 		"family_calendar_about": "Family Calendar is a shared calendar for planning and tracking family events such as birthdays, holidays, gatherings, trips, and important dates.",
 		"family_calendar_what_inside": "It helps the whole family stay informed about upcoming events and coordinate plans together.",
-
+		"all": "All",
+		"urgent": "Urgent",
+		"important": "Important",
+		"normal": "Normal",
+		"weekends": "Weekends",
+		"done": "Done"
 	},
 	"children": {
 		"children_calendar_about": "A children's calendar is a calendar where you can keep track of all events related to your kids — such as schedules for extracurricular activities or tutoring sessions, a timetable for taking vitamins or medications, friends' birthdays, and other important tasks that are easy to forget in the daily routine.",
